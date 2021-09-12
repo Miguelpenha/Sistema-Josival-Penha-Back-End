@@ -1,0 +1,474 @@
+<style>
+    .valor-copi {
+        cursor: pointer;
+        transition-timing-function: linear;
+        transition-duration: 0.1s;
+        color: #049DD9;
+    }
+
+    .valor-copi:hover {
+        opacity: 70%;
+    }
+
+    #pesquisar-alunos {
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1%;
+    }
+
+    #pesquisar-alunos>svg {
+        width: 9%;
+        color: #049DD9;
+        background-color: #ffffff;
+        padding: 2%;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+
+    #pesquisar-alunos>#q {
+        width: 90%;
+        border: 1px;
+        border-radius: 0;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    #pesquisar-alunos>#q:hover {
+        box-shadow: none;
+        outline: none;
+        border: none;
+    }
+
+    #pesquisar-alunos>#q::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+    }
+
+    .alunos {
+        width: 88%;
+        border-color: #049DD9;
+        background-color: #ffffff;
+        border-radius: 10px;
+        margin-left: 7.5%;
+    }
+
+    .alunos>thead, .alunos>tr, .alunos>tbody, .alunos>td {
+        border-color: #049DD9;
+    }
+
+    .alunos th, td {
+        padding: 2%;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #link-aluno-editar {
+        color: #0d6efd;
+    }
+
+    #link-aluno-editar:hover {
+        color: #0B5ED7;
+    }
+
+    #link-aluno-excluir {
+        color: #dc3545;
+    }
+
+    #link-aluno-excluir:hover {
+        color: #BB2D3B;
+    }
+
+    .td-alunos {
+        cursor: pointer;
+    }
+
+    .td-alunos:hover {
+        transition-timing-function: linear;
+        transition-duration: 0.2s;
+        background-color: #ECECEC;
+        border-radius: 10px;
+    }
+
+    .btn-expo {
+        background-color: #049DD9;
+        color: #ffffff;
+    }
+
+    .btn-expo:hover {
+        background-color: #048bc0;
+        color: #ffffff;
+    }
+
+    .aluno-model {
+        padding: 2%;
+        padding-top: 4%;
+    }
+
+    .aluno-model>.tit-md {
+        color: #049DD9;
+        text-align: center;
+        margin-bottom: 5%;
+    }
+
+    .aluno-model>ul {
+        list-style: none;
+    }
+
+    .campo {
+        color: #049DD9;
+    }
+
+    .td-alunos>img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 50%;
+        transition-timing-function: linear;
+        transition-duration: 0.1s;
+    }
+
+    .td-alunos>img:hover {
+        border-radius: 25%;
+    }
+
+    #aluno-exclu-todos-modal {
+        
+    }
+
+    .aluno-exclu-todos-modal {
+        width: 150%;
+        padding: 3%;
+        right: 23%;
+    }
+</style>
+{{#if voltar}}
+    <btn-voltar voltar="{{voltar}}"></btn-voltar>
+{{else}}
+    <btn-voltar voltar="/"></btn-voltar>   
+{{/if}}
+<input type="hidden" name="quant" id="quant" value="{{alunos.length}}">
+<script>
+    setInterval(() => socket.emit('veri-alunos-alunos', $('#quant').val()), 500)
+
+    socket.on('veri-alunos-alunos-res', recarregar => {
+        if (recarregar) {
+            window.location.reload()
+        }
+    })
+</script>
+{{#if alunos}}
+    <nav id="pesquisar-alunos" class="row">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+        <input type="search" id="q" class="form-control" name="q" list="alunosQ">
+    </nav>
+    <table class="table table-bordered alunos">
+        <thead>
+            <tr>
+                <td colspan="7">
+                    <a class="btn-pd-exclu" style="width: 25%;display: inline-block;padding: 1%;padding-right: 2%;" data-bs-toggle="modal" data-bs-target="#aluno-exclu-todos-modal" id="btn-exclu-alunos-sele">
+                        Excluir alunos selecionados
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                    </a>
+                    <a href="/alunos/exportar" class="btn-pd btn-expo" style="display: inline-block;">
+                        Exportar dados
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
+                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+                        </svg>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="col">
+                    <input class="form-check-input form-check-input-todos" id="form-check-input-todos" type="checkbox" onclick="marcarTodos()">
+                </th>
+                <th scope="col">Foto</th>
+                <th scope="col">Nome do aluno</th>
+                <th scope="col">Responsável</th>
+                <th scope="col">Turma</th>
+                <th stope="col">Nascimento</th>
+                <th stope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each alunos}}
+                <a id="{{this.id}}"></a>
+                <tr class="aluno" id="{{this.id}}-campo">
+                    <td class="td-alunos">
+                        <input class="form-check-input form-check-input-aluno" type="checkbox" id="{{this.id}}-check">
+                    </td>
+                    <input type="hidden" name="id" value="{{this.id}}" id="id">
+                    <td class="td-alunos" data-bs-toggle="modal" data-bs-target="#aluno-modal-{{this.id}}">
+                        <img src="{{this.foto.url}}" alt="">
+                    </td>
+                    <td class="td-alunos" data-bs-toggle="modal" data-bs-target="#aluno-modal-{{this.id}}">
+                        <span style="margin: 0;padding: 0;">
+                            {{this.nome}}
+                        </span>
+                    </td>
+                    <td class="td-alunos" data-bs-toggle="modal" data-bs-target="#aluno-modal-{{this.id}}">
+                        <span style="margin: 0;padding: 0;">
+                            {{this.responsavel1}}
+                        </span>
+                    </td>
+                    <td class="td-alunos" data-bs-toggle="modal" data-bs-target="#aluno-modal-{{this.id}}">
+                        <span style="margin: 0;padding: 0;">
+                            {{this.turma}}
+                        </span>
+                    </td>
+                    <td class="td-alunos" data-bs-toggle="modal" data-bs-target="#aluno-modal-{{this.id}}">
+                        <span style="margin: 0;padding: 0;">
+                            {{this.nascimento}}
+                        </span>
+                    </td>
+                    <td>
+                        <form action="/alunos/editar/{{this.id}}" method="POST" id="form-aluno-editar-{{this.id}}" style="display: inline-block;float: left;margin-left: 20%;">
+                            <a style="cursor: pointer;" id="link-aluno-editar" onclick="enviar('#form-aluno-editar-{{this.id}}')" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                </svg>
+                            </a>
+                        </form>
+                        <form action="/alunos/excluir/{{this.id}}" method="POST" id="form-aluno-exclu-{{this.id}}" style="display: inline-block;float: right;margin-right: 20%;">
+                            <a style="cursor: pointer;" id="link-aluno-excluir" onclick="enviar('#form-aluno-exclu-{{this.id}}')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                            </a>
+                        </form>
+                    </td>
+                </tr>
+                <div class="modal fade" id="aluno-modal-{{this.id}}" tabindex="-1" aria-labelledby="aluno-modal-{{this.id}}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content aluno-model">
+                            <h4 class="valor-copi tit-md" onclick="copiar('{{this.nome}}')" style="width: fit-content;display: block;margin-left: auto;margin-right: auto;">{{this.nome}}</h4>
+                            <ul>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Sexo: <span class="valor-copi" onclick="copiar('{{this.sexo}}')" style="margin: 0;padding: 0;">{{this.sexo}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Nascimento: <span class="valor-copi" onclick="copiar('{{this.nascimento}}')" style="margin: 0;padding: 0;">{{this.nascimento}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        CPF: <span class="valor-copi" onclick="copiar('{{this.cpf}}')" style="margin: 0;padding: 0;">{{this.cpf}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Responsável 1: <span class="valor-copi" onclick="copiar('{{this.responsavel1}}')" style="margin: 0;padding: 0;">{{this.responsavel1}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Responsável 2: <span class="valor-copi" onclick="copiar('{{this.responsavel2}}')" style="margin: 0;padding: 0;">{{this.responsavel2}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Telefone: <span class="valor-copi" onclick="copiar('{{this.telefone}}')" style="margin: 0;padding: 0;">{{this.telefone}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        E-mail: <span class="valor-copi" onclick="copiar('{{this.email}}')" style="margin: 0;padding: 0;">{{this.email}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Data de matrícula: <span class="valor-copi" onclick="copiar('{{this.telefone}}')" style="margin: 0;padding: 0;">{{this.telefone}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Turma: <span class="valor-copi" onclick="copiar('{{this.turma}}')" style="margin: 0;padding: 0;">{{this.turma}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Professora: <span class="valor-copi" onclick="copiar('{{this.professora}}')" style="margin: 0;padding: 0;">{{this.professora}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Situação: <span class="valor-copi" onclick="copiar('{{this.situacao}}')" style="margin: 0;padding: 0;">{{this.situacao}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Observação: <span class="valor-copi" onclick="copiar('{{this.observacao}}')" style="margin: 0;padding: 0;">{{this.observacao}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Data de cadastro: <span class="valor-copi" onclick="copiar('{{this.criacao.data}} as {{this.criacao.hora}}')" style="margin: 0;padding: 0;">{{this.criacao.data}} as {{this.criacao.hora}}</span>
+                                    </h5>
+                                </li>
+                                <h3 class="campo" style="text-align: center;">Foto</h3>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Nome do arquivo: <span class="valor-copi" onclick="copiar('{{this.foto.nome}}')" style="margin: 0;padding: 0;">{{this.foto.nome}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Tamanho do arquivo: <span class="valor-copi" onclick="copiar('{{this.foto.tamanho}}')" style="margin: 0;padding: 0;">{{this.foto.tamanho}} MB</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Tipo do arquivo: <span class="valor-copi" onclick="copiar('{{this.foto.tipo}}')" style="margin: 0;padding: 0;">{{this.foto.tipo}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Url da foto: <a class="valor-copi" style="margin: 0;padding: 0;" href="{{this.foto.url}}" target="_blank" title="{{this.foto.nome}}">{{this.foto.url}}</a>
+                                    </h5>
+                                </li>
+                                <h3 class="campo" style="text-align: center;">Endereço</h3>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        CEP: <span class="valor-copi" onclick="copiar('{{this.endereco.cep}}')" style="margin: 0;padding: 0;">{{this.endereco.cep}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Número da casa: <span class="valor-copi" onclick="copiar('{{this.endereco.numero}}')" style="margin: 0;padding: 0;">{{this.endereco.numero}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Complemento: <span class="valor-copi" onclick="copiar('{{this.endereco.complemento}}')" style="margin: 0;padding: 0;">{{this.endereco.complemento}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Bairro: <span class="valor-copi" onclick="copiar('{{this.endereco.bairro}}')" style="margin: 0;padding: 0;">{{this.endereco.bairro}}</span>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <h5 class="campo" style="margin: 0;padding: 0;">
+                                        Rua: <span class="valor-copi" onclick="copiar('{{this.endereco.rua}}')" style="margin: 0;padding: 0;">{{this.endereco.rua}}</span>
+                                    </h5>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="aluno-exclu-todos-modal" tabindex="-1" aria-labelledby="aluno-modal-{{this.id}}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content aluno-exclu-todos-modal">
+                            <div class="alert alert-danger" role="alert">Tem certeza que deseja excluir permanentemente os alunos selecionados?</div>
+                            <div class="row">
+                                <form method="POST" id="form-aluno-exclu-todos">
+                                    <a class="btn-pd-exclu" style="width: 40%;display: inline-block;float: right;" onclick="excluSele()">
+                                        Excluir alunos selecionados
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        </svg>
+                                    </a>
+                                </form>
+                                <a class="btn-pd-edit" style="width: 40%;display: inline-block;float: left;" data-bs-dismiss="modal">
+                                    Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </tbody>
+    </table>
+    <script>
+        const pesquisa = $('#q')
+        setInterval(() => {
+            if (pesquisa.val().length == 0) {
+                $('.aluno').toArray().forEach(aluno => $(`#${aluno.id}`).show())
+            }
+            function veriCheks() {
+                let tem = false
+                const checks = window.document.getElementsByClassName('form-check-input-aluno')
+                for (let cont = 0;cont < checks.length;cont++) {
+                    const check = checks[cont]
+                    if (check.checked == true) {
+                        tem = true
+                    }
+                }
+                return tem
+            }
+            if (veriCheks() === true) {
+                $('#btn-exclu-alunos-sele').css({pointerEvents: 'all', backgroundColor: '#dc3545'})
+            } else {
+                $('#btn-exclu-alunos-sele').css({pointerEvents: 'none', backgroundColor: '#E87C87'})
+            }
+        }, 1)
+        pesquisa.keyup(() => {
+            socket.emit('veri-alunos-alunos-pesquisa', pesquisa.val())
+        })
+        socket.on('veri-alunos-alunos-pesquisa-res', alunosBrutas => {
+            if (alunosBrutas) {
+                $('.aluno').toArray().map((aluno, index) => {
+                    const { alunos, ultimo } = alunosBrutas
+                    if (alunos.includes(String(aluno.id).replace('-campo', ''))) {
+                        if (index === ultimo) {
+                            $(`#${aluno.id.replace('-campo', '')}-link-nav`).show()
+                            $(`#${aluno.id.replace('-campo', '')}-link-nav>li`).attr('class', 'ultimo')
+                            $(`#${aluno.id}`).show()
+                        } else {
+                            $(`#${aluno.id.replace('-campo', '')}-link-nav`).show()
+                            $(`#${aluno.id.replace('-campo', '')}-link-nav>li`).attr('class', '')
+                            $(`#${aluno.id}`).show()
+                        }
+                    } else {
+                        $(`#${aluno.id.replace('-campo', '')}-link-nav`).hide()
+                        $(`#${aluno.id}`).hide()
+                    }
+                })
+            }
+        })
+        function marcarTodos() {
+            const checkO = window.document.getElementById('form-check-input-todos').checked
+            const checks = window.document.getElementsByClassName('form-check-input-aluno')
+            for (let cont = 0;cont < checks.length;cont++) {
+                const check = checks[cont]
+                if ($(`#${check.id}`).is(":visible")) {
+                    if (checkO != check.checked) {
+                        check.click()
+                    }
+                }
+            }
+        }
+        function excluSele() {
+            let tem = ''
+            const checks = window.document.getElementsByClassName('form-check-input-aluno')
+            for (let cont = 0;cont < checks.length;cont++) {
+                const check = checks[cont]
+                if (check.checked == true) {
+                    tem += String(check.id).replace('-check', ',')
+                }
+            }
+            tem = tem.substring(0, tem.length-1)
+            $('#form-aluno-exclu-todos').prop('action', `/alunos/excluir-todos/${tem}`)
+            enviar('#form-aluno-exclu-todos')
+        }
+    </script>
+{{else}}
+    <h1 class="tit" style="margin-bottom: 2%;">Não há alunos cadastrados</h1>
+{{/if}}
+<a href="/alunos/cadastrar" class="btn-pd" style="margin-bottom: 10%;">
+    Cadastrar aluno
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-circle icone-esquerda-btn" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+    </svg>
+</a>

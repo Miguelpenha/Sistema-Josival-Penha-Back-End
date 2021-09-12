@@ -1,0 +1,4 @@
+node_modules
+public/alunos/fotos/*
+!public/alunos/fotos/.gitkeep
+.env

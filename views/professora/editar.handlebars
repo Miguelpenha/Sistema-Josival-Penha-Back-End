@@ -1,0 +1,209 @@
+<style>
+    #form {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        background-color: #ffffff;
+        margin-top: 5%;
+        border-radius: 12px;
+    }
+
+    .campo-jt {
+        margin: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        
+    }
+
+    .campo-btn {
+        margin: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        padding-bottom: 5%;
+    }
+
+    .btn {
+        font-size: 1.5vw;
+        width: 100%;
+        background-color: #049DD9;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        border-radius: 12px;
+        margin-top: 3%;
+        transition-timing-function: linear;
+        transition-duration: 0.2s;
+    }
+
+    .btn:hover {
+        background-color: #049dd9d3;
+    }
+
+    .campo {
+        margin: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    input[type=text], input[type=tel] {
+        padding: 12px 20px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition-timing-function: linear;
+        transition-duration: 0.2s;
+    }
+
+    .form-label {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        color: #049DD9;
+    }
+
+    .tit {
+        color: #049DD9;
+        padding-top: 6%;
+        padding-bottom: 2%;
+        text-align: center;
+        font-size: 4vw;
+    }
+
+    .sep {
+        background-color: #049DD9;
+        padding-top: 0.3%;
+    }
+
+    .bi-arrow-left-circle {
+        color: #ffffff;
+        margin-left: 1%;
+        margin-top: 1%;
+    }
+
+    .btn-voltar-link {
+        transition-timing-function: linear;
+        transition-duration: 0.2s;
+    }
+
+    .btn-voltar-link:hover {
+        transition-timing-function: linear;
+        transition-duration: 0.2s;
+        opacity: 80%;
+    }
+
+    #erro-nome {
+        padding: 1.5%;
+        display: none;
+        margin-bottom: 0;
+    }
+
+    #erro-nome-txt {
+        margin-left: 1%;
+    }
+</style>
+</style>
+<input type="hidden" name="data" id="data" value="{{data}}">
+{{#if voltar}}
+    <btn-voltar voltar="{{voltar}}"></btn-voltar>
+{{else}}
+    <btn-voltar voltar="/professoras"></btn-voltar>
+{{/if}}
+<form action="/professoras/editar-veri" id="form" class="row" method="POST">
+    <input type="hidden" name="id" value="{{professora.id}}">
+    <div class="row">
+        <h1 class="tit">Edição da professora</h1>
+    </div>
+    <div class="row">
+        <hr class="sep">
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Nome</h4>
+        </div>
+        <div class="row campo">
+            <input type="hidden" name="nomeOrigem" value="{{professora.nome}}">
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome" value="{{professora.nome}}" required>
+            <div class="alert alert-danger" role="alert" id="erro-nome">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                </svg>
+                <span id="erro-nome-txt"></span>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 for="Nome da série" class="form-label">Sexo</h4>
+        </div>
+        <input type="hidden" name="sexoOrigem" value="{{professora.sexo}}">
+        <div class="row campo">
+            <select class="form-select" aria-label="Selecione o sexo da professora" required name="sexo" id="sexo">
+                <option selected value="{{professora.sexo}}">{{professora.sexo}}</option>
+                {{#each sexos}}
+                    <option value="{{this}}">{{this}}</option>
+                {{else}}
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row campo-btn">
+        <button class="btn btn-primary" id="btn">Confirmar</button>
+    </div>
+    <br>
+</form>
+<br>
+<br>
+<br>
+<br>
+<br>
+<script>
+    const nome = $('#nome')
+    const erroNome = window.document.getElementById('erro-nome')
+    const erroNomeTxt = window.document.getElementById('erro-nome-txt')
+    $('#form').submit(ev => {
+        const serie = $('#serie')
+        const turno = $('#turno')
+        if (serie.val() === 'padrão') {
+            ev.preventDefault()
+            serie.focus()
+        } else if (turno.val() === 'padrão') {
+            ev.preventDefault()
+            turno.focus()
+        }
+        if (erroNome.style.display == 'block') {
+            nome.focus()
+            ev.preventDefault()
+        }
+    })
+    nome.keyup(() => {
+        if (nome.val().length > 0) {
+            socket.emit('professoraVeriCadas', nome.val())
+        }
+    })
+    socket.on('professoraVeriCadasRes', existe => {
+        if (existe) {
+            erroNome.style.display = 'block'
+            erroNomeTxt.innerText = 'Já existe uma professora com esse nome'
+        } else {
+            erroNome.style.display = 'none'
+            erroNomeTxt.innerText = ''
+        }
+    })
+</script>

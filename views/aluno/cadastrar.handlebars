@@ -1,0 +1,517 @@
+<style>
+    #form {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 60%;
+        background-color: #ffffff;
+        margin-top: 5%;
+        border-radius: 12px;
+    }
+
+    .campo-jt {
+        margin: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+    }
+
+    .campo-btn {
+        margin: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        padding-bottom: 5%;
+    }
+
+    .btn {
+        font-size: 1.5vw;
+        width: 100%;
+        background-color: #049DD9;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        border-radius: 12px;
+        margin-top: 3%;
+        transition-timing-function: linear;
+        transition-duration: 0.2s;
+    }
+
+    .btn:hover {
+        background-color: #049dd9d3;
+    }
+
+    .campo {
+        margin: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    input[type=text], input[type=tel], input[type=date] {
+        padding: 12px 20px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition-timing-function: linear;
+        transition-duration: 0.2s;
+    }
+
+    .form-label {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        color: #049DD9;
+    }
+
+    .tit {
+        color: #049DD9;
+        padding-top: 6%;
+        padding-bottom: 2%;
+        text-align: center;
+        font-size: 4vw;
+    }
+
+    .sep {
+        background-color: #049DD9;
+        padding-top: 0.3%;
+    }
+
+    #erro-nome {
+        padding: 1.5%;
+        display: none;
+        margin-bottom: 0;
+    }
+
+    #erro-nome-txt {
+        margin-left: 1%;
+    }
+
+    #erro-cep {
+        padding: 1.5%;
+        display: none;
+        margin-bottom: 0;
+    }
+
+    #erro-cep-txt {
+        margin-left: 1%;
+    }
+
+    .tit-campos {
+        color: #049DD9;
+        text-align: center;
+    }
+
+    .nav-lateral {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        width: 15%;
+        position: fixed;
+        margin-top: 5%;
+        right: 0%;
+        margin-right: 2%;
+        border-radius: 12px;
+    }
+
+    .nav-lateral>ul {
+        margin: 0%;
+        padding: 0%;
+    }
+    
+    .nav-lateral>ul>a {
+        text-decoration: none;
+    }
+
+    .nav-lateral>ul>a:nth-child(1)>li, .nav-lateral>ul>a:nth-child(2)>li {
+        padding: 5%;
+        text-align: center;
+        border-bottom: 2px solid #C1E7F6;
+        color: #049DD9;
+    }
+
+    .nav-lateral>ul>a:nth-child(3)>li {
+        padding: 5%;
+        text-align: center;
+        color: #049DD9;
+    }
+
+    .nav-lateral>ul>a>li:hover {
+        opacity: 70%;
+    }
+
+    .form-req {
+        color: #D93025;
+    }
+</style>
+</style>
+<input type="hidden" name="data" id="data" value="{{data}}">
+{{#if voltar}}
+    <btn-voltar voltar="{{voltar}}"></btn-voltar>
+{{else}}
+    <btn-voltar voltar="/alunos"></btn-voltar>
+{{/if}}
+<nav class="row nav-lateral">
+    <ul style="list-style: none;">
+        <a href="#dadosPessoais">
+            <li id="dadosPessoaisLi">
+                Dados pessoais
+            </li>
+        </a>
+        <a href="#endereco">
+            <li id="enderecoLi">
+                Endereço
+            </li>
+        </a>
+        <a href="#dadosMatricula">
+            <li id="dadosMatriculaLi">
+                Dados da matrícula
+            </li>
+        </a>
+    </ul>
+</nav>
+<form action="/alunos/cadastrar-veri" id="form" class="row" method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <h1 class="tit">Cadastro do aluno</h1>
+    </div>
+    <div class="row" style="width: 100%;margin: 0%;padding: 0%" id="dadosPessoais">
+        <hr class="sep">
+    </div>
+    <br>
+    <h2 class="tit-campos">Dados pessoais</h2>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 for="Nome do aluno" class="form-label">
+                Nome
+                <span class="form-req">*</span>
+            </h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome" required>
+            <div class="alert alert-danger" role="alert" id="erro-nome">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                </svg>
+                <span id="erro-nome-txt"></span>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 for="Nome da série" class="form-label">
+                Sexo
+                <span class="form-req">*</span>
+            </h4>
+        </div>
+        <div class="row campo">
+            <select class="form-select" aria-label="Selecione o sexo do aluno" required name="sexo" id="sexo">
+                <option selected value="padrão">Selecione o sexo</option>
+                <option value="feminino">Feminino</option>
+                <option value="Masculino">Masculino</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Data de nascimento</h4>
+        </div>
+        <div class="row campo">
+            <input type="date" class="form-control" id="nascimento" name="nascimento">
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">CPF</h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite o CPF">
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">
+                Nome do primeiro responsável
+                <span class="form-req">*</span>
+            </h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="responsavel1" name="responsavel1" placeholder="Digite o nome do primeiro responsável" required>
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Nome do segundo responsável</h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="responsavel2" name="responsavel2" placeholder="Digite o nome do segundo responsável">
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">
+                Telefone
+                <span class="form-req">*</span>
+            </h4>
+        </div>
+        <div class="row campo">
+            <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="Digite o telefone" required>
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">E-mail</h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="email" name="email" placeholder="Digite o e-mail">
+        </div>
+    </div>
+    <br>
+    <div class="row" style="width: 100%;margin: 0%;padding: 0%;" id="endereco">
+        <hr class="sep">
+    </div>
+    <h2 class="tit-campos">Endereço</h2>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">CEP</h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="cep" name="cep" placeholder="Digite o CEP">
+            <div class="alert alert-warning" role="alert" id="erro-cep">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                </svg>
+                <span id="erro-cep-txt"></span>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Cidade</h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Digite a cidade">
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Bairro</h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Digite o bairro">
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Rua</h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="rua" name="rua" placeholder="Digite a cidade">
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Número da casa</h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="numero" name="numero" placeholder="Digite o número da casa">
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Complemento da casa</h4>
+        </div>
+        <div class="row campo">
+            <input type="text" class="form-control" id="complemento" name="complemento" placeholder="Digite o complemento da casa">
+        </div>
+    </div>
+    <br>
+    <div class="row" style="width: 100%;margin: 0%;padding: 0%;" id="dadosMatricula">
+        <hr class="sep">
+    </div>
+    <h2 class="tit-campos">Dados de matrícula</h2>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Data da matrícula</h4>
+        </div>
+        <div class="row campo">
+            <input type="date" class="form-control" id="matricula" name="matricula">
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">
+                Turma
+                <span class="form-req">*</span>
+            </h4>
+        </div>
+        <div class="row campo">
+            <select class="form-select" aria-label="Selecione a turma" required name="turma" id="turma">
+                <option selected value="padrão">Selecione a turma</option>
+                {{#each turmas}}
+                    <option value="{{this.nome}}">{{this.nome}}</option>
+                {{else}}
+
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">
+                Situação
+                <span class="form-req">*</span>
+            </h4>
+        </div>
+        <div class="row campo">
+            <select class="form-select" aria-label="Selecione a situação" name="situacao" id="situacao" required>
+                <option value="ativo" selected>Ativo</option>
+                <option value="cancelado">Cancelado</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Observação</h4>
+        </div>
+        <div class="row campo">
+            <textarea class="form-control" style="resize: none;" spellcheck="true" id="observacao" name="observacao" placeholder="Digite a Observação"></textarea>
+        </div>
+    </div>
+    <br>
+    <div class="row campo-jt">
+        <div class="row label">
+            <h4 class="form-label">Foto</h4>
+        </div>
+        <div class="row campo">
+            <input type="file" class="form-control" id="foto" name="foto" accept="image/png, image/jpeg, image/bmp, image/webp, image/svg+xml, application/pdf">
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row campo-btn">
+        <button class="btn btn-primary" id="btn">Confirmar</button>
+    </div>
+    <br>
+</form>
+<br>
+<br>
+<br>
+<br>
+<br>
+<script>
+    const nome = $('#nome')
+    const erroNome = window.document.getElementById('erro-nome')
+    const erroNomeTxt = window.document.getElementById('erro-nome-txt')
+    //$('#matricula').val($('#data').val())
+    $('#cpf').mask('000.000.000-00', {reverse: true})
+    let behavior = function (val) {
+        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000':'(00) 0000-00009'
+    },
+    options = {
+        onKeyPress: function (val, e, field, options) {
+            field.mask(behavior.apply({}, arguments), options)
+        }
+    }
+    $('#telefone').mask(behavior, options)
+    $('#cep').mask('00.000-000')
+    setInterval(() => {
+        if ($('#nome').val().length >= 1 && $('#sexo').val() != 'padrão' && $('#responsavel1').val().length >= 1 && $('#telefone').val().length >= 1) {
+            $('#dadosPessoaisLi').html('Dados pessoais<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#3FD83E" class="bi bi-check2" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>')
+            $('#dadosPessoaisLi').css({color: '#3FD83E'})
+            $('#enderecoLi').html('Endereço<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#3FD83E" class="bi bi-check2" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>')
+            $('#enderecoLi').css({color: '#3FD83E'})
+        } else {
+            $('#dadosPessoaisLi').html('Dados pessoais')
+            $('#dadosPessoaisLi').css({color: '#049DD9'})
+            $('#enderecoLi').html('Endereço')
+            $('#enderecoLi').css({color: '#049DD9'})
+        }
+        if ($('#turma').val() != 'padrão' && $('#situacao').val() != 'padrão') {
+            $('#dadosMatriculaLi').html('Dados da matrícula<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#3FD83E" class="bi bi-check2" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>')
+            $('#dadosMatriculaLi').css({color: '#3FD83E'})
+        } else {
+            $('#dadosMatriculaLi').html('Dados da matrícula')
+            $('#dadosMatriculaLi').css({color: '#049DD9'})
+        }
+    }, 1)
+    $('#form').submit(ev => {
+        const opcao1 = $('#turma')
+        const opcao2 = $('#sexo')
+        if (opcao1.val() === 'padrão') {
+            ev.preventDefault()
+            opcao1.focus()
+        } else if (opcao2.val() === 'padrão') {
+            ev.preventDefault()
+            opcao2.focus()
+        }
+        if (erroNome.style.display == 'block') {
+            nome.focus()
+            ev.preventDefault()
+        }
+    })
+    nome.keyup(() => {
+        if (nome.val().length > 0) {
+            socket.emit('alunoNameVeri', nome.val())
+        }
+    })
+    const cep = $('#cep')
+    cep.keyup(() => {
+        if (cep.val().length == 0) {
+            const erroNome = $('#erro-cep')
+            const erroNomeTxt = $('#erro-cep-txt')
+            erroNome.css({display: 'none'})
+            erroNomeTxt.text('')
+        } else {
+            socket.emit('veri-cep-alunos-cadas', String(cep.val()))
+        }
+    })
+    socket.on('veri-cep-alunos-cadas-res', endereco => {
+        const erroNome = $('#erro-cep')
+        const erroNomeTxt = $('#erro-cep-txt')
+        if (endereco) {
+            erroNome.css({display: 'none'})
+            erroNomeTxt.text('')
+            $('#bairro').val(endereco.bairro)
+            $('#cidade').val(endereco.cidade)
+            $('#rua').val(endereco.rua)
+        } else {
+            erroNome.css({display: 'block'})
+            erroNomeTxt.text('Esse CEP pode não ser válido')
+        }
+    })
+    socket.on('alunoVeri', existe => {
+        if (existe) {
+            erroNome.style.display = 'block'
+            erroNomeTxt.innerText = 'Já existe um aluno com esse nome'
+        } else {
+            erroNome.style.display = 'none'
+            erroNomeTxt.innerText = ''
+        }
+    })
+</script>

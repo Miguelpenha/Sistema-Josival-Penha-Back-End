@@ -1,0 +1,59 @@
+{
+  "name": "Sistema-Josival-Penha-API",
+  "version": "1.0.0",
+  "description": "Sistema Josival Penha",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "testar": "artillery quick --count 20 -n 200 http://localhost:3000"
+  },
+  "keywords": [],
+  "author": "Miguel Penha <miguel.penha1@gmail.com> (https://portfolio-sand-xi.vercel.app/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Miguelpenha/Escola-Node-Js/issues",
+    "email": "miguel.penha1@gmail.com"
+  },
+  "homepage": "https://github.com/Miguelpenha/Escola-Node-Js#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Miguelpenha/Escola-Node-Js.git"
+  },
+  "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.5",
+    "@pm2/pm2-version-check": "^1.0.4",
+    "@sendgrid/mail": "^7.4.6",
+    "aws-sdk": "^2.963.0",
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "cep-promise": "^4.1.1",
+    "chalk": "^4.1.2",
+    "cli-table": "^0.3.6",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^4.4.1",
+    "cors": "^2.8.5",
+    "dinero.js": "^1.9.0",
+    "dotenv": "^10.0.0",
+    "exceljs": "^4.2.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2",
+    "express-session": "^1.17.2",
+    "handlebars": "^4.7.7",
+    "html-pdf": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.13",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
+    "node-cron": "^3.0.0",
+    "nodemailer": "^6.6.2",
+    "nodemon": "^2.0.7",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pm2": "^5.1.1",
+    "shelljs": "^0.8.4",
+    "socket.io": "^4.1.2",
+    "swagger-ui-express": "^4.1.6"
+  }
+}
