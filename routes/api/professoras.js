@@ -1,8 +1,9 @@
 // Importações
     const express = require('express')
     const professoras = express.Router()
-    const { compare } = require('bcryptjs')
+    const { compare, hash } = require('bcryptjs')
     const { sign, verify, decode } = require('jsonwebtoken')
+    const data = require('../../utils/data')
     // Middlewares
         
     // Models
@@ -12,6 +13,42 @@
 // Grupo de rotas
 
 // Rotas solo
+    professoras.get('/', async (req, res) => {
+        if (req.query.quant) {
+            const professoras = await professorasModels.find({}).select('id')
+
+            res.json({quant: professoras.length})
+        } else {
+            const professoras = await professorasModels.find({})
+
+            res.json(professoras)
+        }
+    })
+
+    professoras.post('/cadastrar', async (req, res) => {
+        const professora = await professorasModels.findOne({nome: String(req.body.nome)})
+        if (professora) {
+            req.statusCode(400).json({message: 'Já existe uma professora cadastrada com esse nome'})
+        } else {
+            const { nome, sexo, login } = req.body
+            let { senha } = req.body
+            senha = await hash(senha, 10)
+            professorasModels.create({
+                nome,
+                sexo,
+                login,
+                senha,
+                criacao: {
+                    data: data(),
+                    hora: data.hora(),
+                    sistema: data.completa()
+                }
+            }).then(() => {
+                res.json({message: 'Professora cadastrada com sucesso'})
+            })
+        }
+    })
+
     professoras.post('/login', async (req, res) => {
         const { login, senha } = req.body
         let professora = (await professorasModels.find({})).filter(professora => professora.login == login)
