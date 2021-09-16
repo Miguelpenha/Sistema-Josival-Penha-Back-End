@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-const categoriasGastos = require('../../../utils/categoriasGastos')
-const data = require('../../../utils/data')
 
 const schema = new mongoose.Schema({
     nome: String,
