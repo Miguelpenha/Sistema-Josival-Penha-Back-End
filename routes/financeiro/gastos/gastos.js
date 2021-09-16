@@ -26,13 +26,25 @@
 // Rotas solo
     gastos.get('/', async (req, res) => {
         const gastos = await gastosModels.find({}).sort({precoBruto: 'desc'})
+        let total = 0
         gastos.map((gasto, index) => {
             if (gastos.length-1 == index) {
                 gasto.ultimo = true
             }
+            let categoriasProntas = ''
+            gasto.categorias.map((categoria, index) => {
+                if (index == 0) {
+                    categoriasProntas = categoriasProntas + categoria
+                } else {
+                    categoriasProntas = categoriasProntas + ', ' + categoria
+                }
+            })
+            gasto.categoriasProntas = categoriasProntas
+            total += gasto.precoBruto
             return gasto
         })
-        res.render('financeiro/gastos/gastos/gastos', {gastos: gastos, voltar: req.voltar})
+        total = dinero({ amount: total, currency: 'BRL' }).toFormat()
+        res.render('financeiro/gastos/gastos/gastos', {gastos: gastos, voltar: req.voltar, total})
     })
 
     gastos.get('/cadastrar', async (req, res) => {
@@ -60,6 +72,7 @@
             precoBruto: preco,
             categorias: categorias,
             data: dataGasto,
+            dataSistema: data.converter.dataParaDate(dataGasto),
             investimento: investimento,
             criacao: {
                 data: data(),
@@ -152,6 +165,7 @@
                 precoBruto: preco,
                 categorias: categorias,
                 data: dataGasto,
+                dataSistema: data.converter.dataParaDate(dataGasto),
                 investimento
             }, err => {
                 if (err) {

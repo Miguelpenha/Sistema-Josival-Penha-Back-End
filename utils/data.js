@@ -35,5 +35,10 @@ module.exports.converter = {
         const dataSepa = String(dataBruta).split('-')
         const data = `${dataSepa[1]}/${dataSepa[2]}/${dataSepa[0]}`
         return new Date(data)
+    },
+    dataParaDate: dataBruta => {
+        const dataSepa = String(dataBruta).split('/')
+        const data = `${dataSepa[2]}-${dataSepa[1]}-${dataSepa[0]}`
+        return new Date(data)
     }
 }

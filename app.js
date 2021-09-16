@@ -273,7 +273,8 @@
                 const nome = String(nomes[cont])
                 if (nome.toUpperCase().includes(pesquisa.toUpperCase().trim())) {
                     try {
-                        gastosAchados.push((await gastosModels.findOne({nome: nome}).select('nome'))._id)
+                        let gasto = await gastosModels.findOne({nome: nome}).select('nome precoBruto')
+                        gastosAchados.push(gasto._id)
                     } catch {
 
                     }

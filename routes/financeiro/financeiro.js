@@ -11,7 +11,7 @@
     // Routes
         const gastosRouter = require('./gastos/gastos')
 // Grupo de rotas
-    financeiro.get('/gastos', gastosRouter)
+    financeiro.use('/gastos', gastosRouter)
 // Rotas solo
     financeiro.get('/', async (req, res) => {
         const gastos = await gastosModels.find({})
