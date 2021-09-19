@@ -4,19 +4,21 @@
     // Middlewares
         
     // Models
+
+    // Routes
+        const professorasRouter = require('./professoras')
+        const administrativoRouter = require('./administrativo')
+        const alunosRouter = require('./alunos')
+        const turmasRouter = require('./turmas')
+        const financeiroRouter = require('./financeiro')
 // Config
-    // Middlewares
-        
-// Routes
-    const professorasRouter = require('./professoras')
-    const administrativoRouter = require('./administrativo')
-    const alunosRouter = require('./alunos')
-    const turmasRouter = require('./turmas')
+    // Middlewares      
 // Grupo de rotas
     api.use('/professoras', professorasRouter)
     api.use('/administrativo', administrativoRouter)
     api.use('/alunos', alunosRouter)
     api.use('/turmas', turmasRouter)
+    api.use('/financeiro', financeiroRouter)
 // Rotas solo
 
 // Exportações

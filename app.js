@@ -32,8 +32,8 @@
         const alunosModels = require('./models/aluno')
         const turmasModels = require('./models/turma')
         const professorasModels = require('./models/professora')
-        const gastosModels = require('./models/financeiro/gastos/gastos')
-        const categoriasGastosModels = require('./models/financeiro/gastos/categorias')
+        const gastosModels = require('./models/financeiro/despesas')
+        const categoriasGastosModels = require('./models/financeiro/despesas/categorias')
     // Config
         const urlMongo = require('./config/db').urlMongo
         const port = require('./config/port')

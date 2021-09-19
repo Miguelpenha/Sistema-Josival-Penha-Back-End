@@ -4,7 +4,7 @@
     // Middlewares
         const veriMiddleware = require('../../middlewares/middlewares')
     // Models
-        const gastosModels = require('../../models/financeiro/gastos/gastos')
+        const gastosModels = require('../../models/financeiro/despesas')
     // Middlewares
         financeiro.use(veriMiddleware.login)
         financeiro.use(veriMiddleware.voltar)

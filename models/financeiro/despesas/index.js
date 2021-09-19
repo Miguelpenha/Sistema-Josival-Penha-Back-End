@@ -8,13 +8,13 @@ const schema = new mongoose.Schema({
     data: String,
     dataSistema: Date,
     investimento: Boolean,
-    criacao: {
+    criação: {
         data: String,
         hora: String,
         sistema: Date
     }
 })
 
-const gastosModels = mongoose.model('gastos', schema)
+const despesasModels = mongoose.model('despesas', schema)
 
-module.exports = gastosModels
+module.exports = despesasModels
