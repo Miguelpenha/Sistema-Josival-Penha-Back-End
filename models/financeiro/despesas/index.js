@@ -5,6 +5,7 @@ const schema = new mongoose.Schema({
     preco: String,
     precoBruto: Number,
     categorias: [String],
+    fontes: [String],
     data: String,
     dataSistema: Date,
     investimento: Boolean,

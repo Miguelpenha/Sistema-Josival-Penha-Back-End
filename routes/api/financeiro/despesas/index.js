@@ -8,16 +8,18 @@
     // Models
         const despesasModels = require('../../../../models/financeiro/despesas')
         const categoriasDespesasModels = require('../../../../models/financeiro/despesas/categorias')
+        const fontesDespesasModels = require('../../../../models/financeiro/despesas/fontes')
     // Utils
         const dataUtil = require('../../../../utils/data')
     // Routes
         const categoriasDespesasRouter = require('./categorias')
-const categoriasGastosModels = require('../../../../models/financeiro/despesas/categorias')
+        const fontesDespesasRouter= require('./fontes')
 // Config
     // Dinero
         dinero.globalLocale = 'pt-br'
 // Grupos de rotas
     despesas.use('/categorias', categoriasDespesasRouter)
+    despesas.use('/fontes', fontesDespesasRouter)
 // Rotas solo
     despesas.get('/', async (req, res) => {
         if (req.query.quant) {
@@ -32,7 +34,7 @@ const categoriasGastosModels = require('../../../../models/financeiro/despesas/c
     })
 
     despesas.post('/', async (req, res) => {
-        const { nome, preco, categorias: categoriasBrutas, data: dataSistema, investimento, fixa, observação, criação } = req.body
+        const { nome, preco, categorias: categoriasBrutas, fontes: fontesBrutas, data: dataSistema, investimento, fixa, observação, criação } = req.body
 
         const despesa = await despesasModels.findOne({nome: nome})
         if (despesa) {
@@ -59,6 +61,22 @@ const categoriasGastosModels = require('../../../../models/financeiro/despesas/c
                     categorias.push(categoria)
                 }
             })
+
+            const fontesQuase = await Promise.all(
+                fontesBrutas.map(async fonteBruta => {
+                    const fonte = await fontesDespesasModels.findOne({nome: fonteBruta})
+                    if (fonte){ 
+                        return fonte.id
+                    }
+                })
+            )
+            const fontes = []
+            fontesQuase.map(fonte => {
+                if (fonte) {
+                    fontes.push(fonte)
+                }
+            })
+
             const data = dataUtil.completa(dataSistema).toLocaleDateString('pt-br')
             const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
             despesasModels.create({
@@ -66,6 +84,7 @@ const categoriasGastosModels = require('../../../../models/financeiro/despesas/c
                 preco: dinero({ amount: precoBruto, currency: 'BRL' }).toFormat(),
                 precoBruto,
                 categorias,
+                fontes,
                 data,
                 dataSistema,
                 investimento,
