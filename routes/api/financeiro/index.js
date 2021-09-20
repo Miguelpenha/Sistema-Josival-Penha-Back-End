@@ -6,11 +6,11 @@
     // Models
         
     // Routes
-        const gastosRouter = require('./gastos')
+        const despesasRouter = require('./despesas')
 // Confi
     // Middlewares
 // Grupo de rotas
-    financeiro.use('/gastos', gastosRouter)
+    financeiro.use('/despesas', despesasRouter)
 // Rotas solo
     
 // Exportações

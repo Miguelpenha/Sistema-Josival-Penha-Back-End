@@ -3,5 +3,7 @@ const categoriasGastosModels = require('../../models/financeiro/despesas/categor
 const data = require('../../utils/data')
 
 module.exports = function veriCategoriasGastos() {
-    
+    //console.log('asd')
 }
+
+module.exports.exec = true

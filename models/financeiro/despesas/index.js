@@ -8,6 +8,8 @@ const schema = new mongoose.Schema({
     data: String,
     dataSistema: Date,
     investimento: Boolean,
+    fixa: Boolean,
+    observação: String,
     criação: {
         data: String,
         hora: String,

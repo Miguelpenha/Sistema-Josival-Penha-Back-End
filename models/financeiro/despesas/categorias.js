@@ -3,10 +3,6 @@ const mongoose = require('mongoose')
 const schema = new mongoose.Schema({
     nome: String,
     cor: String,
-    permanent: {
-        type: Boolean,
-        default: false
-    },
     criacao: {
         data: String,
         hora: String,
@@ -14,6 +10,6 @@ const schema = new mongoose.Schema({
     }
 })
 
-const categoriasGastosModels = mongoose.model('categoriasGastos', schema)
+const categoriasGastosModels = mongoose.model('categorias_gastos', schema)
 
 module.exports = categoriasGastosModels
