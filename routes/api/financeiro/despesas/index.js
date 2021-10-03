@@ -34,19 +34,20 @@
     })
 
     despesas.post('/', async (req, res) => {
-        const { nome, preco, categorias: categoriasBrutas, fontes: fontesBrutas, data: dataSistema, investimento, fixa, observação, criação } = req.body
-
+        let { nome, preco, categorias: categoriasBrutas, fontes: fontesBrutas, data: dataSistema, investimento, fixa, observação, criação } = req.body
+        console.log(preco)
         const despesa = await despesasModels.findOne({nome: nome})
         if (despesa) {
             res.json({exists: true})
         } else {
-            const precoBruto = Number(
+            preco.includes(',') ? null : preco = `${preco},00`
+            let precoBruto = Number(
                 preco.replace('.', '')
                 .replace(',', '')
                 .replace('R$', '')
                 .trimStart()
             )
-
+            console.log(preco)
             const categoriasQuase = await Promise.all(
                 categoriasBrutas.map(async categoriaBruta => {
                     const categoria = await categoriasDespesasModels.findOne({nome: categoriaBruta})
