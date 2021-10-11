@@ -10,6 +10,6 @@ const schema = new mongoose.Schema({
     }
 })
 
-const categoriasDespesasModels = mongoose.model('categorias_gastos', schema)
+const categoriasDespesasModels = mongoose.model('categorias_despesas', schema)
 
 module.exports = categoriasDespesasModels
