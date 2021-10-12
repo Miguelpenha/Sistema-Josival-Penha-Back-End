@@ -33,6 +33,19 @@
         }
     })
 
+    receitas.get('/total', async (req, res) => {
+        const receitas = await receitasModels.find({})
+        let total = 0
+        receitas.map(receita => {
+            total += receita.precoBruto
+        })
+
+        res.json({
+            total: dinero({ amount: total, currency: 'BRL' }).toFormat(),
+            totalBruto: total
+        })
+    })
+
     receitas.post('/', async (req, res) => {
         let { nome, preco, categorias: categoriasBrutas, fontes: fontesBrutas, data: dataSistema, investimento, fixa, observação, criação } = req.body
         const receita = await receitasModels.findOne({nome: nome})
