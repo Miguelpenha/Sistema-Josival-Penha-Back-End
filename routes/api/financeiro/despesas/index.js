@@ -35,7 +35,6 @@
 
     despesas.post('/', async (req, res) => {
         let { nome, preco, categorias: categoriasBrutas, fontes: fontesBrutas, data: dataSistema, investimento, fixa, observação, criação } = req.body
-        console.log(preco)
         const despesa = await despesasModels.findOne({nome: nome})
         if (despesa) {
             res.json({exists: true})
@@ -47,7 +46,6 @@
                 .replace('R$', '')
                 .trimStart()
             )
-            console.log(preco)
             const categoriasQuase = await Promise.all(
                 categoriasBrutas.map(async categoriaBruta => {
                     const categoria = await categoriasDespesasModels.findOne({nome: categoriaBruta})
