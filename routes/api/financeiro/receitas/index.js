@@ -39,11 +39,10 @@
         receitas.map(receita => {
             total += receita.precoBruto
         })
-
-        res.json({
+        setTimeout(() => res.json({
             total: dinero({ amount: total, currency: 'BRL' }).toFormat(),
             totalBruto: total
-        })
+        }), 3000)
     })
 
     receitas.post('/', async (req, res) => {
