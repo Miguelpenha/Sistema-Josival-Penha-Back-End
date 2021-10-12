@@ -1,6 +1,7 @@
 // Importações
     const express = require('express')
     const financeiro = express.Router()
+    const dinero = require('dinero.js')
     // Middlewares
 
     // Models
@@ -10,20 +11,24 @@
         const despesasRouter = require('./despesas')
         const receitasRouter = require('./receitas')
 // Confi
-    // Middlewares
+    // Dinero
+        dinero.globalLocale = 'pt-br'
 // Grupo de rotas
     financeiro.use('/despesas', despesasRouter)
     financeiro.use('/receitas', receitasRouter)
 // Rotas solo
-    financeiro.get('/saldo', (req, res) => {
+    financeiro.get('/saldo', async (req, res) => {
         const receitas = await receitasModels.find({})
+        const despesas = await despesasModels.find({})
         let totalReceitas = 0
-        receitas.map(receita => {
-            totalReceitas += receita.precoBruto
-        })
+        let totalDespesas = 0
+        receitas.map(receita => totalReceitas += receita.precoBruto)
+        despesas.map(despesa => totalDespesas += despesa.precoBruto)
+        const saldo = totalReceitas - totalDespesas
+
         res.json({
-            total: dinero({ amount: total, currency: 'BRL' }).toFormat(),
-            totalBruto: total
+            saldo: dinero({ amount: saldo, currency: 'BRL' }).toFormat(),
+            saldoBruto: saldo
         })
     })
 // Exportações
