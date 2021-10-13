@@ -40,12 +40,10 @@
             total += receita.precoBruto
         })
         
-        setTimeout(() => {
-            res.json({
-                total: dinero({ amount: total, currency: 'BRL' }).toFormat(),
-                totalBruto: total
-            })
-        }, 3000)
+        res.json({
+            total: dinero({ amount: total, currency: 'BRL' }).toFormat(),
+            totalBruto: total
+        })
     })
 
     receitas.post('/', async (req, res) => {
