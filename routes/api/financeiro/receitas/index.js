@@ -49,6 +49,7 @@
     receitas.post('/', async (req, res) => {
         let { nome, preco, categorias: categoriasBrutas, fontes: fontesBrutas, data: dataSistema, investimento, fixa, observação, criação } = req.body
         const receita = await receitasModels.findOne({nome: nome})
+
         if (receita) {
             res.json({exists: true})
         } else {
