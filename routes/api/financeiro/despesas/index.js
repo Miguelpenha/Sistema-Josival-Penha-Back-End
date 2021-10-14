@@ -34,6 +34,7 @@
     })
 
     despesas.get('/total', async (req, res) => {
+        console.log(req.hostname)
         const despesas = await despesasModels.find({})
         let total = 0
         despesas.map(despesa => {
