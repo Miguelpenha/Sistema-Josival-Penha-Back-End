@@ -3,7 +3,8 @@
     const professoras = express.Router()
     const { compare, hash } = require('bcryptjs')
     const { sign, verify, decode } = require('jsonwebtoken')
-    const data = require('../../utils/data')
+    const dataUtil = require('../../utils/data')
+    const mongoose = require('mongoose')
     // Middlewares
         
     // Models
@@ -25,27 +26,40 @@
         }
     })
 
-    professoras.post('/cadastrar', async (req, res) => {
+    professoras.post('/', async (req, res) => {
         const professora = await professorasModels.findOne({nome: String(req.body.nome)})
         if (professora) {
             req.statusCode(400).json({message: 'Já existe uma professora cadastrada com esse nome'})
         } else {
             const { nome, sexo, login } = req.body
-            let { senha } = req.body
+            let { senha, criação } = req.body
+            const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
             senha = await hash(senha, 10)
             professorasModels.create({
                 nome,
                 sexo,
                 login,
                 senha,
-                criacao: {
-                    data: data(),
-                    hora: data.hora(),
-                    sistema: data.completa()
+                criação: {
+                    data: dataUtil.completa(criação).toLocaleDateString('pt-br'),
+                    hora: `${hora[0]}:${hora[1]}`,
+                    sistema: dataUtil.completa(criação)
                 }
-            }).then(() => {
-                res.json({message: 'Professora cadastrada com sucesso'})
-            })
+            }).then(() => res.json({created: true}))
+        }
+    })
+
+    professoras.delete('/:id', async (req, res) => {
+        if (mongoose.isValidObjectId(req.params.id)) {
+            const professora = await professorasModels.findById(req.params.id)
+            if (professora) {
+                professora.deleteOne()
+                res.json({deleted: true})
+            } else {
+                res.json({exists: false})
+            }
+        } else {
+            res.json({exists: false})
         }
     })
 

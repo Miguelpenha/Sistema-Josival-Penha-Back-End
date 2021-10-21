@@ -19,7 +19,7 @@ const schema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    criacao: {
+    criação: {
         data: String,
         hora: String,
         sistema: Date
