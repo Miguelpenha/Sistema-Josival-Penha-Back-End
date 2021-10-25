@@ -22,5 +22,9 @@
             res.json(turmas)
         }
     })
+    
+    turmas.post('/', async (req, res) => {
+        const { nome, serie, turno, professora, criação } = req.body
+    })
 // Exportações
     module.exports = turmas 

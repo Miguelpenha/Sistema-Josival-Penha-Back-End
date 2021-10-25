@@ -5,9 +5,7 @@ const schema = new mongoose.Schema({
     nome: String,
     serie: String,
     turno: String,
-    professora: {
-        type: String
-    },
+    professora: String,
     alunos: {
         type: Number,
         default: 0
