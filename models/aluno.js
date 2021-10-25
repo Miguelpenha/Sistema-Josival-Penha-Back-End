@@ -16,23 +16,23 @@ const schema = new mongoose.Schema({
         get: descriptografar,
         set: criptografar
     },
-    responsavel1: String,
-    responsavel2: String,
+    responsável1: String,
+    responsável2: String,
     telefone: String,
     email: String,
-    endereco: {
+    endereço: {
         cep: String,
         cidade: String,
         bairro: String,
         rua: String,
-        numero: String,
+        número: String,
         complemento: String
     },
-    matricula: String,
+    matrícula: String,
     turma: String,
     professora: String,
-    situacao: String,
-    observacao: String,
+    situação: String,
+    observação: String,
     foto: {
         nome: String,
         key: String,
@@ -40,7 +40,7 @@ const schema = new mongoose.Schema({
         tipo: String,
         url: String
     },
-    criacao: {
+    criação: {
         data: String,
         hora: String,
         sistema: Date
@@ -52,7 +52,7 @@ const schema = new mongoose.Schema({
 })
 
 schema.pre('save', async function() {
-    const turma = await turmasModels.findOne({nome: this.turma}).select('alunos')
+    const turma = await turmasModels.findById(this.turma).select('alunos')
     turma.alunos = Number(turma.alunos)+1
     turma.save()
     if (this.nascimento === 'undefined/undefined/') {
@@ -61,35 +61,35 @@ schema.pre('save', async function() {
     if (this.email.length === 0) {
         this.email = undefined
     }
-    if (this.endereco.cep.length === 0) {
-        this.endereco.cep = undefined
+    if (this.endereço.cep.length === 0) {
+        this.endereço.cep = undefined
     }
-    if (this.endereco.cidade.length === 0) {
-        this.endereco.cidade = undefined
+    if (this.endereço.cidade.length === 0) {
+        this.endereço.cidade = undefined
     }
-    if (this.endereco.bairro.length === 0) {
-        this.endereco.bairro = undefined
+    if (this.endereço.bairro.length === 0) {
+        this.endereço.bairro = undefined
     }
-    if (this.endereco.rua.length === 0) {
-        this.endereco.rua = undefined
+    if (this.endereço.rua.length === 0) {
+        this.endereço.rua = undefined
     }
-    if (this.endereco.numero.length === 0) {
-        this.endereco.numero = undefined
+    if (this.endereço.número.length === 0) {
+        this.endereço.número = undefined
     }
-    if (this.endereco.complemento.length === 0) {
-        this.endereco.complemento = undefined
+    if (this.endereço.complemento.length === 0) {
+        this.endereço.complemento = undefined
     }
-    if (this.matricula === 'undefined/undefined/') {
-        this.matricula = undefined
+    if (this.matrícula === 'undefined/undefined/') {
+        this.matrícula = undefined
     }
-    if (this.situacao.length === 0) {
-        this.situacao = undefined
+    if (this.situação.length === 0) {
+        this.situação = undefined
     }
-    if (this.observacao.length === 0) {
-        this.observacao = undefined
+    if (this.observação.length === 0) {
+        this.observação = undefined
     }
-    if (this.responsavel2.length === 0) {
-        this.responsavel2 = undefined
+    if (this.responsável2.length === 0) {
+        this.responsável2 = undefined
     }
     if (!this.foto.url) {
         this.foto.url = `${process.env.DOMINIO}/public/alunos/fotos/${this.foto.key}`
