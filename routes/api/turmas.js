@@ -5,6 +5,7 @@
         
     // Models
         const turmasModels = require('../../models/turma')
+        const professorasModels = require('../../models/professora')
 // Confi
     // Middlewares
 
@@ -25,6 +26,29 @@
     
     turmas.post('/', async (req, res) => {
         const { nome, serie, turno, professora, criação } = req.body
+
+        const turma = await turmasModels.findOne({nome})
+        if (turma) {
+            res.json({error: 'Já existe uma turma com esse nome'})
+        } else {
+            turmasModels.create({
+                nome,
+                serie,
+                turno,
+                professora,
+                criacao: {
+                    data: new Date(criação).toLocaleDateString(),
+                    hora: new Date(criação).toLocaleTimeString().split(':')[0]+':'+new Date(criação).toLocaleTimeString().split(':')[1],
+                    sistema: new Date(criação).toISOString()
+                }
+            }).then(async () => {
+                const professora = await professorasModels.findOne({nome: req.body.professora})
+                professora.turmas = professora.turmas+1
+                professora.save()
+                .then(() => res.json({created: true}))
+                .catch(() => res.json({error: 'Houve um erro ao criar a turma'}))
+            }).catch(() => res.json({error: 'Houve um erro ao criar a turma'}))
+        }
     })
 // Exportações
     module.exports = turmas 
