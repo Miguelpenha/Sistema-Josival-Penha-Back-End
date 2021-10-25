@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const turmasModels = require('./turma')
+const professorasModels = require('./professora')
 const aws = require('aws-sdk')
 const s3 = new aws.S3()
 const fs = require('fs')
@@ -135,13 +136,14 @@ schema.pre('deleteOne', {document: true}, async function(next) {
     next()
 })
 
-/*
+
 schema.pre('find', function() {
     this.map(async alunos => {
         if (alunos.length >= 1) {
             await Promise.all(
                 alunos.map(async aluno => {
                     aluno.turma = (await turmasModels.findById(aluno.turma)).nome
+                    aluno.professora = (await professorasModels.findById(aluno.professora)).nome
                     return aluno
                 })
             )
@@ -149,7 +151,7 @@ schema.pre('find', function() {
         return alunos
     })
 })
-*/
+
 
 const alunosModels = mongoose.model('alunos', schema)
 
