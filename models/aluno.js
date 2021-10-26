@@ -142,9 +142,13 @@ schema.pre('find', function() {
         if (alunos.length >= 1) {
             await Promise.all(
                 alunos.map(async aluno => {
-                    aluno.turma = (await turmasModels.findById(aluno.turma)).nome
-                    aluno.professora = (await professorasModels.findById(aluno.professora)).nome
-                    return aluno
+                    try {
+                        aluno.turma = (await turmasModels.findById(aluno.turma)).nome
+                        aluno.professora = (await professorasModels.findById(aluno.professora)).nome
+                        return aluno
+                    } catch {
+
+                    }
                 })
             )
         }
