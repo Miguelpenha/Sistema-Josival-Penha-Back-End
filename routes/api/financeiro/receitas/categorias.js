@@ -21,6 +21,11 @@
         res.json(categorias)
     })
 
+    categoriasReceitas.get('/:id', async (req, res) => {
+        const categoria = await categoriasReceitasModels.findById(req.params.id)
+        res.json(categoria)
+    })
+
     categoriasReceitas.post('/', async (req, res) => {
         const { nome, cor, criação } = req.body
 

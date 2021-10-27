@@ -21,6 +21,11 @@
         res.json(categorias)
     })
 
+    categoriasDespesas.get('/:id', async (req, res) => {
+        const categoria = await categoriasDespesasModels.findById(req.params.id)
+        res.json(categoria)
+    })
+
     categoriasDespesas.post('/', async (req, res) => {
         const { nome, cor, criação } = req.body
 
