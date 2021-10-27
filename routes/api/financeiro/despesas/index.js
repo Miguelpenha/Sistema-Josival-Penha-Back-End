@@ -27,19 +27,9 @@
                   
             res.json({quant: despesas.length})
         } else {
-            const despesasBrutas = await despesasModels.find({})
-
-            const despesas = Promise.all(
-                despesasBrutas.map(async despesa => {
-                    const categorias = Promise.all(despesa.categorias.map(async categoria => (await categoriasDespesasModels.findById(categoria)).nome))
-
-                    despesa.categorias = await categorias
-                    
-                    return despesa
-                })
-            )
+            const despesas = await despesasModels.find({})
             
-            res.json(await despesas)
+            res.json(despesas)
         }
     })
 
