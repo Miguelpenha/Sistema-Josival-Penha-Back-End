@@ -21,6 +21,11 @@
         res.json(fontes)
     })
 
+    fontes.get('/:id', async (req, res) => {
+        const fonte = await fontesReceitasModels.findById(req.params.id)
+        res.json(fonte)
+    })
+
     fontes.post('/', async (req, res) => {
         const { nome, cor, criação } = req.body
         
