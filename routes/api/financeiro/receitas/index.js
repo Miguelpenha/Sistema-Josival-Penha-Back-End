@@ -7,7 +7,7 @@
 
     // Models
         const receitasModels = require('../../../../models/financeiro/receitas')
-        const categoriasDespesasModels = require('../../../../models/financeiro/receitas/categorias')
+        const categoriasReceitasModels = require('../../../../models/financeiro/receitas/categorias')
         const fontesDespesasModels = require('../../../../models/financeiro/receitas/fontes')
     // Utils
         const dataUtil = require('../../../../utils/data')
@@ -27,9 +27,19 @@
                   
             res.json({quant: receitas.length})
         } else {
-            const receitas = await receitasModels.find({})
+            const receitasBrutas = await receitasModels.find({})
+
+            const receitas = Promise.all(
+                receitasBrutas.map(async receita => {
+                    const categorias = Promise.all(receita.categorias.map(async categoria => (await categoriasReceitasModels.findById(categoria)).nome))
+
+                    receita.categorias = await categorias
+                    
+                    return receita
+                })
+            )
             
-            res.json(receitas)
+            res.json(await receitas)
         }
     })
 
@@ -61,7 +71,7 @@
             )
             const categoriasQuase = await Promise.all(
                 categoriasBrutas.map(async categoriaBruta => {
-                    const categoria = await categoriasDespesasModels.findOne({nome: categoriaBruta})
+                    const categoria = await categoriasReceitasModels.findOne({nome: categoriaBruta})
                     if (categoria){ 
                         return categoria.id
                     }
