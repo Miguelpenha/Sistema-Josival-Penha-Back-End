@@ -5,6 +5,7 @@
     const multer = require('multer')
     const fs = require('fs')
     const path = require('path')
+    const PDFPrinter = require('pdfmake')
     const data = require('../../utils/data')
     // Configs
         const configMulter = require('../../config/multer/multer')
@@ -104,6 +105,107 @@
         } else {
             res.json({exists: false})
         }
+    })
+
+    alunos.get('/exportar', async (req, res) => {
+        const alunos = await alunosModels.find({})
+
+        const fonts = {
+            Helvetica: {
+                normal: 'Helvetica',
+                bold: 'Helvetica-Bold',
+                italics: 'Helvetica-Oblique',
+                bolditalics: 'Helvetica-BoldOblique'
+            }
+        }
+
+        const printer = new PDFPrinter(fonts)
+
+        const body = []
+
+        for await (let aluno of alunos) {
+            const rows = new Array()
+
+            rows.push(aluno.turma)
+            rows.push(aluno.professora)
+            rows.push(aluno.nome)
+            rows.push(aluno.telefone)
+            rows.push(aluno.email)
+
+            body.push(rows)
+        }
+        
+        const pdfDoc = printer.createPdfKitDocument({
+            defaultStyle: { font: 'Helvetica' },
+            content: [
+                {
+                    text: 'Instituto Educacional Josival Penha',
+                    margin: [0, 80, 0, 5],
+                    style: {
+                        bold: true,
+                        alignment: 'center',
+                        fontSize: 11
+                    }
+                },
+                {
+                    text: 'Cadastro Escolar n° P. 109.212 / INEP n° 26170981',
+                    margin: [0, 0, 0, 5],
+                    style: {
+                        alignment: 'center',
+                        fontSize: 11
+                    }
+                },
+                {
+                    text: 'Portaria SEE n° 888 D.O 18/02/2003',
+                    margin: [0, 0, 0, 5],
+                    style: {
+                        alignment: 'center',
+                        fontSize: 11
+                    }
+                },
+                {
+                    text: 'CNPJ: 11.654.198/0001-43',
+                    margin: [0, 0, 0, 5],
+                    style: {
+                        alignment: 'center',
+                        fontSize: 11
+                    }
+                },
+                {
+                    text: 'DECLARAÇÃO',
+                    margin: [0, 55, 0, 45],
+                    style: {
+                        bold: true,
+                        alignment: 'center',
+                        fontSize: 22
+                    }
+                },
+                {
+                    text: `Paulista, ${new Date().getDate()} de ${data.getMes(new Date().toLocaleDateString('pt-br').split('/')[1])} de ${new Date().getFullYear()}`,
+                    margin: [0, 55, 0, 0],
+                    style: {
+                        alignment: 'right',
+                        fontSize: 11
+                    }
+                },
+                {
+                    text: ``,
+                    margin: [0, 0, 0, 0],
+                    style: {
+                        alignment: 'justify',
+                        fontSize: 11
+                    }
+                }
+            ]
+        })
+
+        const chunks = []
+
+        pdfDoc.on('data', chunk => chunks.push(chunk))
+
+        pdfDoc.end()
+
+        pdfDoc.on('end', () => res.end(Buffer.concat(chunks)))
     })
 // Exportações
     module.exports = alunos
