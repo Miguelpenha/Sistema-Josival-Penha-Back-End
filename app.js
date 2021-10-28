@@ -27,7 +27,7 @@
         const turmasRouter = require('./routes/turmas')
         const professorasRouter = require('./routes/professoras')
         const financeiroRouter = require('./routes/financeiro/financeiro')
-        const apiRouter = require('./routes/api/api')
+        const apiRouter = require('./routes/api')
     // Models
         const alunosModels = require('./models/aluno')
         const turmasModels = require('./models/turma')
