@@ -108,8 +108,8 @@
         }
     })
 
-    alunos.get('/exportar/:id/:frequencia', async (req, res) => {
-        const { id, frequencia: frequência } = req.params
+    alunos.post('/exportar', async (req, res) => {
+        const { id, frequencia: frequência, nis } = req.body
         const aluno = await alunosModels.findById(id)
         const anoLetivo = (await turmasModels.findById(aluno.turma)).serie
 
@@ -193,7 +193,7 @@
             align: 'justify'
         })
         .font('Helvetica-Bold')
-        .text('236.3487.1004', {
+        .text(nis, {
             continued: true,
             align: 'justify'
         })
