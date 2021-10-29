@@ -127,10 +127,6 @@
         doc.name = `Declaração do aluno(a) ${aluno.nome}`
 
         doc.on('data', chunk => chunks.push(chunk))
-        
-        const { data: assinatura } = await axios.get(process.env.URL_ASSINATURA, {
-            responseType: 'arraybuffer'
-        })
 
         doc
         .opacity(0.15)
@@ -178,8 +174,7 @@
         })
         .font('Helvetica-Bold')
         .text(aluno.nome, {
-            continued: true,
-            align: 'justify'
+            continued: true
         })
         .font('Helvetica')
         .text(', nascido em: ', {
@@ -188,8 +183,7 @@
         })
         .font('Helvetica-Bold')
         .text(aluno.nascimento, {
-            continued: true,
-            align: 'justify'
+            continued: true
         })
         .font('Helvetica')
         .text(', Número de Identificação Social (NIS): ', {
@@ -207,9 +201,17 @@
             align: 'justify'
         })
         .font('Helvetica-Bold')
-        .text(`${aluno.responsável1} e ${aluno.responsável2}`, {
+        .text(aluno.responsável1, {
+            continued: true
+        })
+        .font('Helvetica')
+        .text(' e ', {
             continued: true,
             align: 'justify'
+        })
+        .font('Helvetica-Bold')
+        .text(aluno.responsável2, {
+            continued: true
         })
         .font('Helvetica')
         .text(`, matriculado neste estabelecimento de Ensino no ${anoLetivo} do Ensino Fundamental com bolsa de estudos.`, {
@@ -217,9 +219,6 @@
         })
         .moveDown(1.5)
         .text(`Tem frequência de ${frequência}% dos dias letivos`)
-        .image(assinatura, 230, 610, {
-            width: 140
-        })
         .moveDown(6.2)
         .fontSize(12)
         .text('__________________________________', {
