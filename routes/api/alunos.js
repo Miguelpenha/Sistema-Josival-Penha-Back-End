@@ -174,7 +174,8 @@
         })
         .font('Helvetica-Bold')
         .text(aluno.nome, {
-            continued: true
+            continued: true,
+            align: 'left'
         })
         .font('Helvetica')
         .text(', nascido em: ', {
@@ -183,7 +184,8 @@
         })
         .font('Helvetica-Bold')
         .text(aluno.nascimento, {
-            continued: true
+            continued: true,
+            align: 'left'
         })
         .font('Helvetica')
         .text(', Número de Identificação Social (NIS): ', {
@@ -202,7 +204,8 @@
         })
         .font('Helvetica-Bold')
         .text(aluno.responsável1, {
-            continued: true
+            continued: true,
+            align: 'left'
         })
         .font('Helvetica')
         .text(' e ', {
@@ -211,7 +214,8 @@
         })
         .font('Helvetica-Bold')
         .text(aluno.responsável2, {
-            continued: true
+            continued: true,
+            align: 'left'
         })
         .font('Helvetica')
         .text(`, matriculado neste estabelecimento de Ensino no ${anoLetivo} do Ensino Fundamental com bolsa de estudos.`, {
