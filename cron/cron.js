@@ -16,3 +16,5 @@ tarefas.map(nomeArq => {
         }
     }
 })
+
+module.exports = tarefas
