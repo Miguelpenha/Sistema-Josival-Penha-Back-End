@@ -110,8 +110,16 @@
 
     alunos.post('/exportar', async (req, res) => {
         const { id, frequencia: frequência } = req.body
+        let { bolsista } = req.body
         const aluno = await alunosModels.findById(id)
         const anoLetivo = (await turmasModels.findById(aluno.turma)).serie
+
+        try {
+            bolsista.length
+            bolsista = true
+        } catch {
+            
+        }
 
         const doc = new PDFDOCUMENT({size: 'A4', margin: 60, lang: 'pt-br', displayTitle: `Declaração do aluno(a) ${aluno.nome}`, info: {
             Title: `Declaração do aluno(a) ${aluno.nome}`,
@@ -127,7 +135,9 @@
         doc.name = `Declaração do aluno(a) ${aluno.nome}`
 
         doc.on('data', chunk => chunks.push(chunk))
-
+        if (bolsista) {
+            bolsista = true
+        }
         doc
         .opacity(0.15)
         .image(path.resolve(__dirname, '..', '..', 'public', 'logo-josival-penha.png'), 150, 300, {
@@ -188,16 +198,6 @@
             align: 'left'
         })
         .font('Helvetica')
-        .text(', Número de Identificação Social (NIS): ', {
-            continued: true,
-            align: 'justify'
-        })
-        .font('Helvetica-Bold')
-        .text('', {
-            continued: true,
-            align: 'justify'
-        })
-        .font('Helvetica')
         .text(', filho de ', {
             continued: true,
             align: 'justify'
@@ -218,7 +218,7 @@
             align: 'left'
         })
         .font('Helvetica')
-        .text(`, matriculado neste estabelecimento de Ensino no ${anoLetivo} do Ensino Fundamental com bolsa de estudos.`, {
+        .text(`, matriculado neste estabelecimento de Ensino no ${anoLetivo} do Ensino Fundamental${bolsista ? ' com bolsa de estudos.' : '.'}`, {
             align: 'justify'
         })
         .moveDown(1.5)
