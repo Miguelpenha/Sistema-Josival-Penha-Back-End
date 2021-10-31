@@ -118,7 +118,7 @@ schema.pre('deleteMany', async function(next) {
 })
 
 schema.pre('deleteOne', {document: true}, async function(next) {
-    const turma = await turmasModels.findOne({nome: this.turma})
+    const turma = await turmasModels.findById(this.turma)
     turma.alunos = Number(turma.alunos)-1
     turma.save()
     if (process.env.ARMAZENAMENTO === 's3') {
