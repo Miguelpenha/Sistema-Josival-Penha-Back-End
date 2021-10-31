@@ -7,7 +7,7 @@
     "dev": "nodemon app.js",
     "start": "pm2-runtime start ecosystem.config.js --env production",
     "testar": "artillery quick --count 20 -n 200 http://localhost:3000",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   },
   "keywords": [],
   "author": "Miguel Penha <miguel.penha1@gmail.com> (https://portfolio-sand-xi.vercel.app/)",
