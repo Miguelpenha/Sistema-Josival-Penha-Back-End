@@ -109,7 +109,7 @@
     })
 
     alunos.post('/exportar', async (req, res) => {
-        const { id, frequencia: frequência, nis } = req.body
+        const { id, frequencia: frequência } = req.body
         const aluno = await alunosModels.findById(id)
         const anoLetivo = (await turmasModels.findById(aluno.turma)).serie
 
@@ -193,7 +193,7 @@
             align: 'justify'
         })
         .font('Helvetica-Bold')
-        .text(nis, {
+        .text('', {
             continued: true,
             align: 'justify'
         })
