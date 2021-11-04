@@ -21,6 +21,26 @@
         res.json(categorias)
     })
 
+    categoriasReceitas.get('/total', async (req, res) => {
+        const categoriasBrutas = await categoriasReceitasModels.find({})
+
+        const categorias = Promise.all(
+            categoriasBrutas.map(async categoria => {
+                let receitas =  await receitasModels.find({categorias: categoria._id})
+                let total = 0
+                receitas.map(receita => total += receita.precoBruto)
+                categoria = {
+                    ...categoria._doc,
+                    total: total
+                }
+                
+                return categoria
+            })
+        )
+
+        res.json(await categorias)
+    })
+
     categoriasReceitas.get('/:id', async (req, res) => {
         const categoria = await categoriasReceitasModels.findById(req.params.id)
         res.json(categoria)

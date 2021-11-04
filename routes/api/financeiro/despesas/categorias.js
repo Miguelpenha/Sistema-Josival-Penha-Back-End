@@ -21,6 +21,26 @@
         res.json(categorias)
     })
 
+    categoriasDespesas.get('/total', async (req, res) => {
+        const categoriasBrutas = await categoriasDespesasModels.find({})
+
+        const categorias = Promise.all(
+            categoriasBrutas.map(async categoria => {
+                let despesas =  await despesasModels.find({categorias: categoria._id})
+                let total = 0
+                despesas.map(despesa => total += despesa.precoBruto)
+                categoria = {
+                    ...categoria._doc,
+                    total: total
+                }
+                
+                return categoria
+            })
+        )
+
+        res.json(await categorias)
+    })
+
     categoriasDespesas.get('/:id', async (req, res) => {
         const categoria = await categoriasDespesasModels.findById(req.params.id)
         res.json(categoria)
