@@ -6,6 +6,7 @@
     // Models
         const turmasModels = require('../../models/turma')
         const professorasModels = require('../../models/professora')
+        const alunosModels = require('../../models/aluno')
 // Confi
     // Middlewares
 
@@ -49,6 +50,12 @@
                 .catch(() => res.json({error: 'Houve um erro ao criar a turma'}))
             }).catch(() => res.json({error: 'Houve um erro ao criar a turma'}))
         }
+    })
+
+    turmas.get('/alunos/:id', async (req, res) => {
+        const alunos = await alunosModels.find({turma: req.params.id})
+
+        res.json(alunos)
     })
 // Exportações
     module.exports = turmas 
