@@ -7,7 +7,6 @@
     const path = require('path')
     const PDFDOCUMENT = require('pdfkit')
     const data = require('../../utils/data')
-    const axios = require('axios').default
     // Configs
         const configMulter = require('../../config/multer/multer')
     // Models

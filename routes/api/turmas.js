@@ -1,6 +1,7 @@
 // Importações
     const express = require('express')
     const turmas = express.Router()
+    const mongoose = require('mongoose')
     // Middlewares
         
     // Models
@@ -56,6 +57,22 @@
         const alunos = await alunosModels.find({turma: req.params.id})
 
         res.json(alunos)
+    })
+
+    turmas.delete('/:id', async (req, res) => {
+        const { id } = req.params
+
+        if (mongoose.isValidObjectId(id)) {
+            const turma = await turmasModels.findById(id)
+            if (turma) {
+                turma.deleteOne()
+                res.json({deleted: true})
+            } else {
+                res.json({exists: false})
+            }
+        } else {
+            res.json({exists: false})
+        }
     })
 // Exportações
     module.exports = turmas 
