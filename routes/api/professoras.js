@@ -94,15 +94,20 @@
                 res.json({notExists: true})
             }
         } catch {
-            const professora = await professorasModels.findById(decode(token).sub)
-            if (professora) {
-                const newToken = sign({}, process.env.SECRET_JWT, {
-                    subject: (await professorasModels.findById(decode(token).sub)).id,
-                    expiresIn: '20s'
-                })
-                res.json({newToken})
-            } else {
-                res.json({notExists: true})
+            try {
+                const professora = await professorasModels.findById(decode(token).sub)
+                if (professora) {
+                    const newToken = sign({}, process.env.SECRET_JWT, {
+                        subject: (await professorasModels.findById(decode(token).sub)).id,
+                        expiresIn: '20s'
+                    })
+                    res.json({newToken})
+                } else {
+                    res.json({notExists: true})
+                }
+            } catch {
+                res.status(400)
+                res.json('Token inválido')
             }
         }
     })

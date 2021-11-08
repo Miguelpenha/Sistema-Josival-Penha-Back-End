@@ -34,13 +34,12 @@
     })
 
     despesas.get('/total', async (req, res) => {
-        console.log(req.hostname)
         const despesas = await despesasModels.find({})
         let total = 0
         despesas.map(despesa => {
             total += despesa.precoBruto
         })
-
+        
         res.json({
             total: dinero({ amount: total, currency: 'BRL' }).toFormat(),
             totalBruto: total
