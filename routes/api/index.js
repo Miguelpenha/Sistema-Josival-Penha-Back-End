@@ -15,7 +15,7 @@
     // Middlewares
         api.use((req, res, next) => {
             const keyBruta = req.header('Authorization')
-            console.log(keyBruta)
+            
             if (keyBruta) {
                 const key = keyBruta.replace('key ', '')
                 const keysAuthorizeds = process.env.API_KEYS_AUTHORIZED.split(',')
