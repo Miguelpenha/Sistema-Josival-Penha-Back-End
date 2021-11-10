@@ -14,7 +14,7 @@
 // Config
     // Middlewares
         api.use((req, res, next) => {
-            const keyBruta = req.header('Authorization')
+            const keyBruta = req.header('Authorization') || req.body.keyapi
             
             if (keyBruta) {
                 const key = keyBruta.replace('key ', '')
