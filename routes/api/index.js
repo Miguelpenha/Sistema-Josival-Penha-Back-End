@@ -11,6 +11,8 @@
         const alunosRouter = require('./alunos')
         const turmasRouter = require('./turmas')
         const financeiroRouter = require('./financeiro')
+    // Utils
+        const veriCep = require('../../utils/veriCep')
 // Config
     // Middlewares
         api.use((req, res, next) => {
@@ -38,6 +40,10 @@
     api.use('/turmas', turmasRouter)
     api.use('/financeiro', financeiroRouter)
 // Rotas solo
+    api.get('/cep/:cep', async (req, res) => {
+        const endereço = await veriCep(req.params.cep)
 
+        res.json(endereço)
+    })
 // Exportações
     module.exports = api

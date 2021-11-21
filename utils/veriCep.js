@@ -1,6 +1,6 @@
 const cepPromise = require('cep-promise')
 
-module.exports = async (cep=String) => {
+module.exports = async function veriCep (cep='') {
     try {
         const enderecoBruto = await cepPromise(String(cep))
         const endereco = {
@@ -8,6 +8,7 @@ module.exports = async (cep=String) => {
             bairro: enderecoBruto.neighborhood,
             rua: enderecoBruto.street
         }
+        
         return endereco
     } catch {
         return false
