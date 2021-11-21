@@ -53,49 +53,53 @@ const schema = new mongoose.Schema({
 })
 
 schema.pre('save', async function() {
-    const turma = await turmasModels.findById(this.turma).select('alunos')
-    turma.alunos = Number(turma.alunos)+1
-    turma.save()
-    if (this.nascimento === 'undefined/undefined/') {
-        this.nascimento = undefined
+    try {
+        const turma = await turmasModels.findById(this.turma).select('alunos')
+        turma.alunos = Number(turma.alunos)+1
+        turma.save()
+        if (this.nascimento === 'undefined/undefined/') {
+            this.nascimento = undefined
+        }
+        if (this.email.length === 0) {
+            this.email = undefined
+        }
+        if (this.endereço.cep.length === 0) {
+            this.endereço.cep = undefined
+        }
+        if (this.endereço.cidade.length === 0) {
+            this.endereço.cidade = undefined
+        }
+        if (this.endereço.bairro.length === 0) {
+            this.endereço.bairro = undefined
+        }
+        if (this.endereço.rua.length === 0) {
+            this.endereço.rua = undefined
+        }
+        if (this.endereço.número.length === 0) {
+            this.endereço.número = undefined
+        }
+        if (this.endereço.complemento.length === 0) {
+            this.endereço.complemento = undefined
+        }
+        if (this.matrícula === 'undefined/undefined/') {
+            this.matrícula = undefined
+        }
+        if (this.situação.length === 0) {
+            this.situação = undefined
+        }
+        if (this.observação.length === 0) {
+            this.observação = undefined
+        }
+        if (this.responsável2.length === 0) {
+            this.responsável2 = undefined
+        }
+        if (!this.foto.url) {
+            this.foto.url = `${process.env.DOMINIO}/public/alunos/fotos/${this.foto.key}`
+        }
+        this.foto.tamanho = (this.foto.tamanho/(1024*1024)).toFixed(2)
+    } catch {
+        
     }
-    if (this.email.length === 0) {
-        this.email = undefined
-    }
-    if (this.endereço.cep.length === 0) {
-        this.endereço.cep = undefined
-    }
-    if (this.endereço.cidade.length === 0) {
-        this.endereço.cidade = undefined
-    }
-    if (this.endereço.bairro.length === 0) {
-        this.endereço.bairro = undefined
-    }
-    if (this.endereço.rua.length === 0) {
-        this.endereço.rua = undefined
-    }
-    if (this.endereço.número.length === 0) {
-        this.endereço.número = undefined
-    }
-    if (this.endereço.complemento.length === 0) {
-        this.endereço.complemento = undefined
-    }
-    if (this.matrícula === 'undefined/undefined/') {
-        this.matrícula = undefined
-    }
-    if (this.situação.length === 0) {
-        this.situação = undefined
-    }
-    if (this.observação.length === 0) {
-        this.observação = undefined
-    }
-    if (this.responsável2.length === 0) {
-        this.responsável2 = undefined
-    }
-    if (!this.foto.url) {
-        this.foto.url = `${process.env.DOMINIO}/public/alunos/fotos/${this.foto.key}`
-    }
-    this.foto.tamanho = (this.foto.tamanho/(1024*1024)).toFixed(2)
 })
 
 schema.pre('deleteMany', async function(next) {
