@@ -331,64 +331,67 @@
                 width: 25
             }
         ]
+        
         const alunos = await alunosModels.find({})
         alunos.map((aluno, index) => {
             pagina.addRow([
-                aluno.nome,
-                aluno.sexo,
-                aluno.nascimento,
-                aluno.cpf,
-                aluno.responsavel1,
-                aluno.responsavel2,
-                aluno.telefone,
-                aluno.email,
-                aluno.endereco.cep,
-                aluno.endereco.cidade,
-                aluno.endereco.bairro,
-                aluno.endereco.rua,
-                aluno.endereco.numero,
-                aluno.endereco.complemento,
-                aluno.matricula,
-                aluno.turma,
-                aluno.professora,
-                aluno.situacao,
-                aluno.observacao,
-                aluno.foto.url,
-                `${aluno.criacao.data} as ${aluno.criacao.hora}`
+                aluno.nome || '',
+                aluno.sexo || '',
+                aluno.nascimento || '',
+                aluno.cpf || '',
+                aluno.responsável1 || '',
+                aluno.responsável2 || '',
+                aluno.telefone || '',
+                aluno.email || '',
+                aluno.endereço.cep || '',
+                aluno.endereço.cidade || '',
+                aluno.endereço.bairro || '',
+                aluno.endereço.rua || '',
+                aluno.endereço.número || '',
+                aluno.endereço.complemento || '',
+                aluno.matrícula || '',
+                aluno.turma || '',
+                aluno.professora || '',
+                aluno.situação || '',
+                aluno.observação || '',
+                aluno.foto.url || '',
+                `${aluno.criação.data} as ${aluno.criação.hora}`
             ])
-            pagina.findCell('A'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('B'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('C'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('D'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('E'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('F'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('G'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('H'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('I'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('J'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('K'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('L'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('M'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('N'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('O'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('P'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('Q'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('R'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('S'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('T'+(index+2)).alignment = {horizontal: 'center'}
-            pagina.findCell('T'+(index+2)).value = {
-                text: aluno.foto.url,
-                hyperlink: aluno.foto.url,
-                tooltip: aluno.foto.url
+
+            try {
+                pagina.findCell('A'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('B'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('C'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('D'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('E'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('F'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('G'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('H'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('I'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('J'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('K'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('L'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('M'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('N'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('O'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('P'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('Q'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('R'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('S'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('T'+(index+2)).alignment = {horizontal: 'center'}
+                pagina.findCell('T'+(index+2)).value = {
+                    text: aluno.foto.url,
+                    hyperlink: aluno.foto.url,
+                    tooltip: aluno.foto.url
+                }
+                pagina.findCell('U'+(index+2)).alignment = {horizontal: 'center'}
+            } catch {
+
             }
-            pagina.findCell('U'+(index+2)).alignment = {horizontal: 'center'}
         })
         const caminhoPlanilha = path.resolve(__dirname, '../', 'public', 'planilhas', `${crypto.randomBytes(4).toString('hex')}-alunos.xlsx`)
-        planilha.xlsx.writeFile(caminhoPlanilha).then(() => {
-            res.download(caminhoPlanilha, 'alunos.xlsx', () => {
-                fs.unlinkSync(caminhoPlanilha)
-            })
-        })
+
+        planilha.xlsx.writeFile(caminhoPlanilha).then(() => res.download(caminhoPlanilha, 'alunos.xlsx', () => fs.unlinkSync(caminhoPlanilha)))
     })
 
     alunos.get('/listar', async (req, res) => {
