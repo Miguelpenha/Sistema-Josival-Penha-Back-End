@@ -27,29 +27,33 @@
     })
     
     turmas.post('/', async (req, res) => {
-        const { nome, serie, turno, professora, criação } = req.body
+        const { nome, serie, turno, professora: nameProfessora, criação } = req.body
 
         const turma = await turmasModels.findOne({nome})
         if (turma) {
             res.json({error: 'Já existe uma turma com esse nome'})
         } else {
-            turmasModels.create({
-                nome,
-                serie,
-                turno,
-                professora,
-                criacao: {
-                    data: new Date(criação).toLocaleDateString(),
-                    hora: new Date(criação).toLocaleTimeString().split(':')[0]+':'+new Date(criação).toLocaleTimeString().split(':')[1],
-                    sistema: new Date(criação).toISOString()
-                }
-            }).then(async () => {
-                const professora = await professorasModels.findOne({nome: req.body.professora})
-                professora.turmas = professora.turmas+1
-                professora.save()
-                .then(() => res.json({created: true}))
-                .catch(() => res.json({error: 'Houve um erro ao criar a turma'}))
-            }).catch(() => res.json({error: 'Houve um erro ao criar a turma'}))
+            const professora = await professorasModels.findOne({nome: nameProfessora})
+            if (professora) {
+                turmasModels.create({
+                    nome,
+                    serie,
+                    turno,
+                    professora: professora.nome,
+                    criacao: {
+                        data: new Date(criação).toLocaleDateString(),
+                        hora: new Date(criação).toLocaleTimeString().split(':')[0]+':'+new Date(criação).toLocaleTimeString().split(':')[1],
+                        sistema: new Date(criação).toISOString()
+                    }
+                }).then(async () => {
+                    professora.turmas = professora.turmas+1
+                    professora.save()
+                    .then(() => res.json({created: true}))
+                    .catch(() => res.status(400).json({error: 'Houve um erro ao ligar essa turma a professora'}))
+                }).catch(() => res.status(400).json({error: 'Houve um erro ao criar a turma'}))
+            } else {
+                res.status(400).json({error: 'Não existe uma professora com esse nome'})
+            }
         }
     })
 
