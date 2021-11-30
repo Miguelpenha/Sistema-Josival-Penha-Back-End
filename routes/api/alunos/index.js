@@ -7,6 +7,7 @@
     const path = require('path')
     const excelJs = require('exceljs')
     const crypto = require('crypto')
+    const probe = require('probe-image-size')
     // Configs
         const configMulter = require('../../../config/multer/multer')
     // Models
@@ -15,11 +16,13 @@
         const turmasModels = require('../../../models/turma')
     // Routes
         const documentsRouter = require('./documents')
+        const fotosRouter = require('./fotos')
 // Config
     // Multer
         const fotoUpload = multer(configMulter.foto)
 // Grupo de rotas
     alunos.use('/documents', documentsRouter)
+    alunos.use('/fotos', fotosRouter)
 // Rotas solo
     alunos.get('/', async (req, res) => {
         if (req.query.quant) {
@@ -35,7 +38,7 @@
 
     alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
         const { nome, sexo, nascimento, cpf, responsável1, responsável2, telefone, email, cep, cidade, bairro, rua, número, complemento, matrícula, turma, situação, observação, criação } = req.body
-
+        
         const aluno = await alunosModels.findOne({nome: String(nome)})
         if (aluno) {
             res.json({error: 'Já existe um aluno cadastrado com esse nome'})
@@ -44,12 +47,16 @@
             let foto = {}
             if (req.file) {
                 const { originalname: nomeArq, mimetype: tipo, key, size: tamanho, location: url=undefined } = req.file
+                const { width, height } = await probe(url)
+
                 foto = {
                     nome: nomeArq,
                     key,
                     tamanho,
                     tipo,
-                    url
+                    url,
+                    width,
+                    height
                 }
             } else {
                 foto = {
@@ -57,7 +64,9 @@
                     key: 'Padrão.jpg',
                     tamanho: Number(fs.statSync(path.resolve(__dirname, '..', '..', '..', 'public', 'Padrão.jpg')).size),
                     tipo: 'image/jpeg',
-                    url: `${process.env.DOMINIO}/public/Padrão.jpg`
+                    url: `${process.env.DOMINIO}/public/Padrão.jpg`,
+                    width: 500,
+                    height: 500
                 }
             }
             
@@ -92,6 +101,20 @@
             }).then(() => {
                 res.json({created: true})
             })
+        }
+    })
+
+    alunos.delete('/:id', async (req, res) => {
+        if (mongoose.isValidObjectId(req.params.id)) {
+            const aluno = await alunosModels.findById(req.params.id)
+            if (aluno) {
+                aluno.deleteOne()
+                res.json({deleted: true})
+            } else {
+                res.json({exists: false})
+            }
+        } else {
+            res.json({exists: false})
         }
     })
 
@@ -278,20 +301,6 @@
         res.setHeader('Pragma', 'public')
         
         res.download(caminhoPlanilha, 'alunos.xlsx', () => fs.unlinkSync(caminhoPlanilha))
-    })
-
-    alunos.delete('/:id', async (req, res) => {
-        if (mongoose.isValidObjectId(req.params.id)) {
-            const aluno = await alunosModels.findById(req.params.id)
-            if (aluno) {
-                aluno.deleteOne()
-                res.json({deleted: true})
-            } else {
-                res.json({exists: false})
-            }
-        } else {
-            res.json({exists: false})
-        }
     })
 // Exportações
     module.exports = alunos

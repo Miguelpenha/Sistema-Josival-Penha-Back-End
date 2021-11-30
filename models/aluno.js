@@ -39,7 +39,9 @@ const schema = new mongoose.Schema({
         key: String,
         tamanho: String,
         tipo: String,
-        url: String
+        url: String,
+        width: Number,
+        height: Number
     },
     criação: {
         data: String,
@@ -137,6 +139,7 @@ schema.pre('deleteOne', {document: true}, async function(next) {
             fs.unlinkSync(path.resolve(__dirname, '../', 'public', 'alunos', 'fotos', this.foto.key))
         }
     }
+    
     next()
 })
 
