@@ -13,16 +13,25 @@
     fotos.get('/', async (req, res) => {
         s3.listObjects({
             Bucket: process.env.AWS_NAME_BUCKET
-        }, (err, resu) => {
+        }, async (err, resu) => {
             const { Contents: fotosBrutas } = resu
-            const fotos = []
 
-            fotosBrutas.map(foto => {
-                if (foto.Key != 'alunos/' && foto.Key != 'alunos/fotos/') {
-                    fotos.push(foto)
-                }
-            })
+            const fotosSemFilter = await Promise.all(
+                fotosBrutas.map(async foto => {
+                    if (foto.Key != 'alunos/' && foto.Key != 'alunos/fotos/') {
+                        const aluno = await alunosModels.findOne({'foto.key': foto.Key})
+                        
+                        foto.used = aluno ? true : false
+                        foto.url = `https://${process.env.AWS_NAME_BUCKET}.s3.amazonaws.com/${foto.Key}`
+                        foto.fileName = foto.Key.split('/')[foto.Key.split('/').length-1]
 
+                        return foto
+                    }
+                })
+            )
+
+            const fotos = fotosSemFilter.filter(foto => foto)
+            
             res.json(fotos)
         })
     })
