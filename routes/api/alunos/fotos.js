@@ -38,6 +38,8 @@
 
     fotos.delete('/', async (req, res) => {
         const { key } = req.body
+
+        console.log(req.body)
         
         s3.deleteObject({
             Bucket: process.env.AWS_NAME_BUCKET,

@@ -252,7 +252,7 @@
                 aluno.situação || '',
                 aluno.observação || '',
                 aluno.foto.url || '',
-                `${aluno.criação.data} as ${aluno.criação.hora}`
+                `${aluno.criação.data} ás ${aluno.criação.hora}`
             ])
 
             try {
