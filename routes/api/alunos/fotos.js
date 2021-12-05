@@ -1,9 +1,10 @@
 // Importações
     const express = require('express')
     const fotos = express.Router()
-    const mongoose = require('mongoose')
     const aws = require('aws-sdk')
     const s3 = new aws.S3()
+    const fs = require('fs')
+    const path = require('path')
     // Models
         const alunosModels = require('../../../models/aluno')
         const turmasModels = require('../../../models/turma')
@@ -39,7 +40,21 @@
     fotos.delete('/', async (req, res) => {
         const { key } = req.body
 
-        console.log(req.body)
+        const aluno = await alunosModels.findOne({'foto.key': key})
+
+        if (aluno) {
+            aluno.foto = {
+                nome: 'Padrão.jpg',
+                key: 'Padrão.jpg',
+                tamanho: Number(fs.statSync(path.resolve(__dirname, '..', '..', '..', 'public', 'Padrão.jpg')).size),
+                tipo: 'image/jpeg',
+                url: `${process.env.DOMINIO}/public/Padrão.jpg`,
+                width: 500,
+                height: 500
+            }
+
+            aluno.save()
+        }
         
         s3.deleteObject({
             Bucket: process.env.AWS_NAME_BUCKET,
