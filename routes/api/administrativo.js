@@ -7,24 +7,22 @@
     const fs = require('fs')
     const path = require('path')
     // Middlewares
-        
-    // Models
-        
+        const middlewareAPI = require('../../middlewares/middlewareAPI')
 // Confi
     // Middlewares
 // Grupo de rotas
-
+    administrativo.use(middlewareAPI)
 // Rotas solo
     administrativo.post('/login', async (req, res) => {
         const { login, senha } = req.body
-        let administrador = login == process.env.LOGIN ? {
+        let administrador = login === process.env.LOGIN ? {
             login: process.env.LOGIN
         } : {}
 
         if (!administrador.login) {
             res.json({userNotFound: true})
         } else {
-            if (senha == process.env.PASSWORD) {
+            if (senha === process.env.PASSWORD) {
                 administrador = administrador[0]
                 const token = sign({}, process.env.SECRET_JWT, {
                     subject: 'true',

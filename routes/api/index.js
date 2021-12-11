@@ -5,6 +5,10 @@
     const probe = require('probe-image-size')
     const aws = require('aws-sdk')
     const s3 = new aws.S3()
+    const sendGrid = require('@sendgrid/mail')
+    const handlebars = require('handlebars')
+    const fs = require('fs')
+    const path = require('path')
     // Middlewares
         
     // Models
@@ -20,27 +24,11 @@
         const financeiroRouter = require('./financeiro')
     // Utils
         const veriCep = require('../../utils/veriCep')
+    // Middlewares
+        const middlewareAPI = require('../../middlewares/middlewareAPI')
 // Config
     // Multer
         const fotoUpload = multer(configMulter.foto)
-    // Middlewares
-        api.use((req, res, next) => {
-            const keyBruta = req.header('Authorization') || req.body.keyapi
-            if (keyBruta) {
-                const key = keyBruta.replace('key ', '')
-                const keysAuthorizeds = process.env.API_KEYS_AUTHORIZED.split(',')
-                
-                if (keysAuthorizeds.includes(key)) {
-                    next()
-                } else {
-                    res.status(401)
-                    res.json({'unauthorized': true})
-                }
-            } else {
-                res.status(401)
-                res.json({'unauthorized': true})
-            }
-        })
 // Grupo de rotas
     api.use('/professoras', professorasRouter)
     api.use('/administrativo', administrativoRouter)
@@ -48,13 +36,13 @@
     api.use('/turmas', turmasRouter)
     api.use('/financeiro', financeiroRouter)
 // Rotas solo
-    api.get('/cep/:cep', async (req, res) => {
+    api.get('/cep/:cep', middlewareAPI, async (req, res) => {
         const endereço = await veriCep(req.params.cep)
 
         res.json(endereço)
     })
 
-    api.patch('/mobile-foto', fotoUpload.single('foto'), async (req, res) => {
+    api.patch('/mobile-foto', middlewareAPI, fotoUpload.single('foto'), async (req, res) => {
         const { originalname: nome, mimetype: tipo, key, size: tamanho, location: url=undefined } = req.file
         const { width, height } = await probe(url)
         const { id } = req.body
@@ -91,6 +79,29 @@
         }
 
         res.json({ok: true})
+    })
+
+    api.post('/get-key-api', (req, res) => {
+        const { login, senha } = req.body
+
+        if (login === process.env.LOGIN && senha === process.env.PASSWORD) {
+            const viewEmail = fs.readFileSync(path.resolve(__dirname, '../', '../', 'views', 'email.handlebars')).toString()
+            const templateEmail = handlebars.compile(viewEmail)
+            const HTMLEmail = templateEmail({ infos: req.body.modelUser })
+            sendGrid.send({
+                to: process.env.SENDGRID_EMAIL,
+                from: process.env.SENDGRID_EMAIL,
+                subject: 'Novo login detectado na administração',
+                html: HTMLEmail
+            }).then(() => {
+                res.json({
+                    apiKey: process.env.API_KEYS_AUTHORIZED.split(',')[0]
+                })
+            })
+        } else {
+            res.status(401)
+            res.json({'unauthorized': true})
+        }
     })
 // Exportações
     module.exports = api

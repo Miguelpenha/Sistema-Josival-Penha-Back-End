@@ -5,14 +5,15 @@
     const { sign, verify, decode } = require('jsonwebtoken')
     const dataUtil = require('../../utils/data')
     const mongoose = require('mongoose')
-    // Middlewares
-        
     // Models
         const professorasModels = require('../../models/professora')
+    // Middlewares
+        const middlewareAPI = require('../../middlewares/middlewareAPI')
 // Confi
     // Middlewares
+        professoras.use(middlewareAPI)
 // Grupo de rotas
-
+    
 // Rotas solo
     professoras.get('/', async (req, res) => {
         if (req.query.quant) {
