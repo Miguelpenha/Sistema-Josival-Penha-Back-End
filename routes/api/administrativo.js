@@ -6,12 +6,10 @@
     const handlebars = require('handlebars')
     const fs = require('fs')
     const path = require('path')
-    // Middlewares
-        const middlewareAPI = require('../../middlewares/middlewareAPI')
 // Confi
     // Middlewares
 // Grupo de rotas
-    administrativo.use(middlewareAPI)
+    
 // Rotas solo
     administrativo.post('/login', async (req, res) => {
         const { login, senha } = req.body

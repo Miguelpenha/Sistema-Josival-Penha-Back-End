@@ -3,7 +3,7 @@
     const financeiro = express.Router()
     const dinero = require('dinero.js')
     // Middlewares
-        const middlewareAPI = require('../../../middlewares/middlewareAPI')
+        
     // Models
         const despesasModels = require('../../../models/financeiro/despesas')
         const receitasModels = require('../../../models/financeiro/receitas')
@@ -13,7 +13,6 @@
 // Confi
     // Dinero
         dinero.globalLocale = 'pt-br'
-    financeiro.use(middlewareAPI)
 // Grupo de rotas
     financeiro.use('/despesas', despesasRouter)
     financeiro.use('/receitas', receitasRouter)

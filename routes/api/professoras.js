@@ -7,11 +7,8 @@
     const mongoose = require('mongoose')
     // Models
         const professorasModels = require('../../models/professora')
-    // Middlewares
-        const middlewareAPI = require('../../middlewares/middlewareAPI')
 // Confi
-    // Middlewares
-        professoras.use(middlewareAPI)
+    
 // Grupo de rotas
     
 // Rotas solo

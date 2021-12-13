@@ -3,14 +3,13 @@
     const turmas = express.Router()
     const mongoose = require('mongoose')
     // Middlewares
-    const middlewareAPI = require('../../middlewares/middlewareAPI')
     // Models
         const turmasModels = require('../../models/turma')
         const professorasModels = require('../../models/professora')
         const alunosModels = require('../../models/aluno')
 // Confi
     // Middlewares
-        turmas.use(middlewareAPI)
+        
     // Grupo de rotas
 
 // Rotas solo

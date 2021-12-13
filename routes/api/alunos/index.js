@@ -8,7 +8,6 @@
     const excelJs = require('exceljs')
     const crypto = require('crypto')
     const probe = require('probe-image-size')
-    const middlewareAPI = require('../../../middlewares/middlewareAPI')
     // Configs
         const configMulter = require('../../../config/multer/multer')
     // Models
@@ -21,7 +20,6 @@
 // Config
     // Multer
         const fotoUpload = multer(configMulter.foto)
-    alunos.use(middlewareAPI)
 // Grupo de rotas
     alunos.use('/documents', documentsRouter)
     alunos.use('/fotos', fotosRouter)
