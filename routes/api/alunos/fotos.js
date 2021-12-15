@@ -5,11 +5,15 @@
     const s3 = new aws.S3()
     const fs = require('fs')
     const path = require('path')
+    const multer = require('multer')
+    const probe = require('probe-image-size')
     // Models
         const alunosModels = require('../../../models/aluno')
-        const turmasModels = require('../../../models/turma')
+    // Configs 
+        const configMulter = require('../../../config/multer/multer')
     // Config
-
+        // Multer
+            const fotoUpload = multer(configMulter.foto)
 // Rotas solo
     fotos.get('/', async (req, res) => {
         s3.listObjects({
@@ -66,6 +70,82 @@
                 res.json({deleted: true})
             }
         })
+    })
+
+    fotos.patch('/', fotoUpload.single('foto'), async (req, res) => {
+        const { originalname: nome, mimetype: tipo, key, size: tamanho, location: url=undefined } = req.file
+        const { width, height } = await probe(url)
+        const { id } = req.body
+        
+        const foto = {
+            nome,
+            key,
+            tamanho: tamanho/(1024*1024),
+            tipo,
+            url,
+            width,
+            height
+        }
+
+        const aluno = await alunosModels.findById(id)
+
+        const keyFotoAntiga = String(aluno.foto.key)
+
+        aluno.foto = foto
+
+        await aluno.save()
+
+        if (keyFotoAntiga != 'Padrão.jpg') {
+            if (process.env.ARMAZENAMENTO === 's3') {
+                s3.deleteObject({
+                    Bucket: process.env.AWS_NAME_BUCKET,
+                    Key: keyFotoAntiga
+                }, (err, data) => {
+                    
+                })
+            } else {
+                fs.unlinkSync(path.resolve(__dirname, '../', '../', 'public', 'alunos', 'fotos', keyFotoAntiga))
+            }
+        }
+
+        res.json({ok: true})
+    })
+
+    fotos.patch('/default', async (req, res) => {
+        const { id } = req.body
+        
+        const foto = {
+            nome: 'Padrão.jpg',
+            key: 'Padrão.jpg',
+            tamanho: Number(fs.statSync(path.resolve(__dirname, '..', '..', '..', 'public', 'Padrão.jpg')).size),
+            tipo: 'image/jpeg',
+            url: `${process.env.DOMINIO}/public/Padrão.jpg`,
+            width: 500,
+            height: 500
+        }
+
+        const aluno = await alunosModels.findById(id)
+
+        const keyFotoAntiga = String(aluno.foto.key)
+
+        aluno.foto = foto
+
+        await aluno.save()
+
+        if (keyFotoAntiga != 'Padrão.jpg') {
+            if (process.env.ARMAZENAMENTO === 's3') {
+                s3.deleteObject({
+                    Bucket: process.env.AWS_NAME_BUCKET,
+                    Key: keyFotoAntiga
+                }, (err, data) => {
+                    
+                })
+            } else {
+                fs.unlinkSync(path.resolve(__dirname, '../', '../', 'public', 'alunos', 'fotos', keyFotoAntiga))
+            }
+        }
+
+        res.json({ok: true})
     })
 // Exportações
     module.exports = fotos
