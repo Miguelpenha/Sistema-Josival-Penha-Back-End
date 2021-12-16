@@ -31,5 +31,15 @@
             saldoBruto: saldo
         })
     })
+
+    financeiro.post('/verify', async (req, res) => {
+        const { password } = req.body
+
+        if (password === process.env.PASSWORD_FINANCE) {
+            res.json({authorized: true})
+        } else {
+            res.json({authorized: false})
+        }
+    })
 // Exportações
     module.exports = financeiro
