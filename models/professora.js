@@ -30,10 +30,6 @@ const schema = new mongoose.Schema({
     }
 })
 
-schema.pre('deleteOne', {document: true}, async function(next) {
-    next()
-})
-
 const professorasModels = mongoose.model('professoras', schema)
 
 module.exports = professorasModels

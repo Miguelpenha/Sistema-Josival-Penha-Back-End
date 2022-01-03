@@ -3,9 +3,7 @@ const path = require('path')
 const crypto = require('crypto')
 const fs = require('fs')
 const multerS3 = require('multer-s3')
-
 const aws = require('aws-sdk')
-
 const storageS3 = new aws.S3()
 
 const storagesTypes = {

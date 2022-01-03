@@ -6,6 +6,4 @@ if (process.env.URL_MONGO_PRODUCAO || process.env.URL_MONGO_TESTE) {
         module.exports = {urlMongo: process.env.URL_MONGO_TESTE}
         console.log('Usando o banco de dados de teste')
     }
-} else {
-    console.log('Não há um banco de dados sendo usado')
-}
+} else console.log('Não há um banco de dados sendo usado')

@@ -1,21 +1,13 @@
-module.exports = () => {
-    const data = new Date().toLocaleDateString('pt-br')
-    return data
-}
+module.exports = () => new Date().toLocaleDateString('pt-br')
 
 module.exports.hora = () => {
     const hora = new Date().toLocaleTimeString('pt-br').split(':')
     return `${hora[0]}:${hora[1]}`
 }
 
-module.exports.hora.completa = () => {
-    const hora = new Date().toLocaleTimeString('pt-br')
-    return hora
-}
+module.exports.hora.completa = () => new Date().toLocaleTimeString('pt-br')
 
-module.exports.completa = (dataBruta=undefined) => {
-    return dataBruta ? new Date(dataBruta) : new Date()
-}
+module.exports.completa = (dataBruta=undefined) => dataBruta ? new Date(dataBruta) : new Date()
 
 module.exports.input = () => {
     const data = new Date().toLocaleDateString('pt-br')
