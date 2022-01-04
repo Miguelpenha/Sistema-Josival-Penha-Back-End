@@ -26,7 +26,16 @@ alunos.get('/', async (req, res) => {
         
         res.json({quant: alunos.length})
     } else {
-        const alunos = await alunosModels.find({})
+        const alunosBrutos = await alunosModels.find({})
+
+        const alunos = await Promise.all(
+            alunosBrutos.map(async aluno => {
+                aluno.turma = (await turmasModels.findById(aluno.turma)).nome
+                aluno.professora = (await professorasModels.findById(aluno.professora)).nome
+
+                return aluno
+            })
+        )
 
         res.json(alunos)
     }
@@ -114,6 +123,7 @@ alunos.delete('/:id', async (req, res) => {
 
     if (mongoose.isValidObjectId(id)) {
         const aluno = await alunosModels.findById(id)
+
         if (aluno) {
             aluno.deleteOne()
             const turma = await turmasModels.findById(aluno.turma)
@@ -253,7 +263,17 @@ alunos.post('/exportar', async (req, res) => {
         }
     ]
     
-    const alunos = await alunosModels.find({})
+    const alunosBrutos = await alunosModels.find({})
+
+    const alunos = await Promise.all(
+        alunosBrutos.map(async aluno => {
+            aluno.turma = (await turmasModels.findById(aluno.turma)).nome
+            aluno.professora = (await professorasModels.findById(aluno.professora)).nome
+
+            return aluno
+        })
+    )
+
     alunos.map((aluno, index) => {
         pagina.addRow([
             aluno.nome || '',

@@ -6,6 +6,7 @@ const dataUtil = require('../../utils/data')
 const mongoose = require('mongoose')
 const professorasModels = require('../../models/professora')
 const turmasModels = require('../../models/turma')
+const alunosModels = require('../../models/aluno')
 
 professoras.get('/', async (req, res) => {
     if (req.query.quant) {
@@ -45,12 +46,17 @@ professoras.post('/', async (req, res) => {
 professoras.delete('/:id', async (req, res) => {
     if (mongoose.isValidObjectId(req.params.id)) {
         const professora = await professorasModels.findById(req.params.id)
+
         if (professora) {
             professora.deleteOne()
             const turmas = await turmasModels.find({professora: professora.nome})
 
-            turmas.map(turma => {
+            turmas.map(async turma => {
                 turma.deleteOne()
+
+                const alunosDelete = await alunosModels.find({turma: turma.id})
+
+                alunosDelete.map(aluno => aluno.deleteOne())
             })
             
             res.json({deleted: true})

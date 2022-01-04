@@ -50,25 +50,6 @@ const schema = new mongoose.Schema({
     }
 })
 
-schema.pre('find', function() {
-    this.map(async alunos => {
-        if (alunos.length >= 1) {
-            await Promise.all(
-                alunos.map(async aluno => {
-                    try {
-                        aluno.turma = (await turmasModels.findById(aluno.turma)).nome
-                        aluno.professora = (await professorasModels.findById(aluno.professora)).nome
-                        return aluno
-                    } catch {
-
-                    }
-                })
-            )
-        }
-        return alunos
-    })
-})
-
 const alunosModels = mongoose.model('alunos', schema)
 
 module.exports = alunosModels

@@ -49,7 +49,16 @@ turmas.post('/', async (req, res) => {
 })
 
 turmas.get('/alunos/:id', async (req, res) => {
-    const alunos = await alunosModels.find({turma: req.params.id})
+    const alunosBrutos = await alunosModels.find({turma: req.params.id})
+
+    const alunos = await Promise.all(
+        alunosBrutos.map(async aluno => {
+            aluno.turma = (await turmasModels.findById(aluno.turma)).nome
+            aluno.professora = (await professorasModels.findById(aluno.professora)).nome
+
+            return aluno
+        })
+    )
 
     res.json(alunos)
 })
@@ -59,8 +68,18 @@ turmas.delete('/:id', async (req, res) => {
 
     if (mongoose.isValidObjectId(id)) {
         const turma = await turmasModels.findById(id)
+        
         if (turma) {
             turma.deleteOne()
+            const alunosDelete = await alunosModels.find({turma: id})
+
+            alunosDelete.map(aluno => aluno.deleteOne())
+
+            const professoraEdit = await professorasModels.findOne({nome: turma.professora})
+
+            professoraEdit.turmas = professoraEdit.turmas-1
+            professoraEdit.save()
+
             res.json({deleted: true})
         } else {
             res.json({exists: false})
