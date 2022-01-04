@@ -23,7 +23,7 @@ administrativo.post('/login', async (req, res) => {
             })
             let sendEmail = false
             if (req.body.ult) {
-                const viewEmail = fs.readFileSync(path.resolve(__dirname, '../', '../', 'views', 'email.handlebars')).toString()
+                const viewEmail = fs.readFileSync(path.resolve(__dirname, '../', '../', 'views', 'emails', 'email.handlebars')).toString()
                 const templateEmail = handlebars.compile(viewEmail)
                 const HTMLEmail = templateEmail({ infos: req.body.modelUser })
                 sendGrid.send({
