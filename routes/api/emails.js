@@ -5,9 +5,7 @@ const alunosModels = require('../../models/aluno')
 const fs = require('fs')
 const path = require('path')
 const handlebars = require('handlebars')
-const markDown = require('markdown-it')({
-    html: true
-})
+const replaceAll = require('../../utils/replaceAll')
 
 emails.post('/responsible', async (req, res) => {
     const { id, msg } = req.body
@@ -18,7 +16,7 @@ emails.post('/responsible', async (req, res) => {
         if (aluno) {
             const viewEmail = fs.readFileSync(path.resolve(__dirname, '..', '..', 'views', 'emails', 'responsible.handlebars')).toString()
             const templateEmail = handlebars.compile(viewEmail)
-            const HTMLEmail = templateEmail({ msg: markDown.render(msg) })
+            const HTMLEmail = templateEmail({ msg: replaceAll(msg, './', '<br>') })
             /*sendGrid.send({
                 to: process.env.SENDGRID_EMAIL,
                 from: process.env.SENDGRID_EMAIL,
