@@ -1,35 +1,25 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet"/>
-    <style>
-        * {
-            font-family: 'Roboto', sans-serif;
-        }
-
-        body {
-            padding: 1%;
-        }
-
-        #title {
-            text-align: center;
-            margin-top: 2%;
-            font-size: 4vw;
-        }
-
-        #msg * {
-            padding: 2%;
-            font-size: 5vw;
-        }
-    </style>
 </head>
-
-<body>
+<body style="padding: 1%;font-family: 'Roboto', sans-serif;">
     <header>
-        <h1 id="title">Aviso do Instituto Educacional Josival Penha</h1>
+        <h1 style="margin-top: 2%;font-size: 2.5vw;text-align: center;">Aviso do Instituto Educacional Josival Penha</h1>
     </header>
     <hr>
-    <main id="msg" style="padding: 2%;font-size: 5vw;">{{{msg}}}</main>
-    <br>
+    <span style="margin: 1%;font-size: 2vw;">{{{msg}}}</span>
+    {{#if attachments.length}}
+        <section style="padding-left: 1%;padding-bottom: 1%;border-radius: 10px;">
+            <h2 style="padding-top: 2%;font-size: 2vw;">Anexos</h2>
+            <ul style="list-style: none;padding: 0;">
+                {{#each attachments}}
+                    <li style="padding: 0.2%;padding-left: 1%;">
+                        <a style="font-size: 1.5vw;" href="{{this}}">{{this}}</a>
+                    </li>
+                {{/each}}
+            </ul>
+        </section>
+    {{/if}}
     <footer>
-        <h4>Atenciosamente, Secretária Josival Penha</h4>
+        <h4 style="font-size: 1.8vw;">Atenciosamente, Secretária Josival Penha</h4>
     </footer>
 </body>
