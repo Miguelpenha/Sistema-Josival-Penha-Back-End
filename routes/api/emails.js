@@ -14,11 +14,15 @@ emails.post('/responsible', async (req, res) => {
         const aluno = await alunosModels.findById(id)
         
         if (aluno) {
+            let links = []
+
+            attachments.map(link => link.length > 0 && links.push(link))
+            
             const viewEmail = fs.readFileSync(path.resolve(__dirname, '..', '..', 'views', 'emails', 'responsible.handlebars')).toString()
             const templateEmail = handlebars.compile(viewEmail)
             const htmlEmail = templateEmail({
                 msg: msg.replace(/\n/g, '<br>'),
-                attachments
+                attachments: links
             })
             
             sendGrid.send({
