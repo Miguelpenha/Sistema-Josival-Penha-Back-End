@@ -30,6 +30,50 @@ const schema = new mongoose.Schema({
     professora: String,
     situação: String,
     observação: String,
+    matérias: {
+        português: {
+            primeira: Number,
+            segunda: Number,
+            terceira: Number,
+            quarta: Number
+        },
+        inglês: {
+            primeira: Number,
+            segunda: Number,
+            terceira: Number,
+            quarta: Number
+        },
+        matemática: {
+            primeira: Number,
+            segunda: Number,
+            terceira: Number,
+            quarta: Number
+        },
+        história: {
+            primeira: Number,
+            segunda: Number,
+            terceira: Number,
+            quarta: Number
+        },
+        artes: {
+            primeira: Number,
+            segunda: Number,
+            terceira: Number,
+            quarta: Number
+        },
+        ciências: {
+            primeira: Number,
+            segunda: Number,
+            terceira: Number,
+            quarta: Number
+        },
+        geografia: {
+            primeira: Number,
+            segunda: Number,
+            terceira: Number,
+            quarta: Number
+        }
+    },
     foto: {
         nome: String,
         key: String,

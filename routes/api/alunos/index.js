@@ -15,10 +15,12 @@ const professorasModels = require('../../../models/professora')
 const turmasModels = require('../../../models/turma')
 const documentsRouter = require('./documents')
 const fotosRouter = require('./fotos')
+const mattersRouter = require('./matters')
 const fotoUpload = multer(configMulter.foto)
 
 alunos.use('/documents', documentsRouter)
 alunos.use('/fotos', fotosRouter)
+alunos.use('/matters', mattersRouter)
 
 alunos.get('/', async (req, res) => {
     if (req.query.quant) {
