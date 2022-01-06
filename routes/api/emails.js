@@ -17,7 +17,7 @@ emails.post('/responsible', async (req, res) => {
             const viewEmail = fs.readFileSync(path.resolve(__dirname, '..', '..', 'views', 'emails', 'responsible.handlebars')).toString()
             const templateEmail = handlebars.compile(viewEmail)
             const htmlEmail = templateEmail({
-                msg: msg.replaceAll(/\n/g, '<br>'),
+                msg: msg.replace(/\n/g, '<br>'),
                 attachments
             })
             
