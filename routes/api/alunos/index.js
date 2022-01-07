@@ -113,6 +113,62 @@ alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
                 data: new Date(criação).toLocaleDateString(),
                 hora: new Date(criação).toLocaleTimeString().split(':')[0]+':'+new Date(criação).toLocaleTimeString().split(':')[1],
                 sistema: new Date(criação).toISOString()
+            },
+            matérias: {
+                português: {
+                    primeira: 0,
+                    segunda: 0,
+                    terceira: 0,
+                    quarta: 0
+                },
+                inglês: {
+                    primeira: 0,
+                    segunda: 0,
+                    terceira: 0,
+                    quarta: 0
+                },
+                matemática: {
+                    primeira: 0,
+                    segunda: 0,
+                    terceira: 0,
+                    quarta: 0
+                },
+                história: {
+                    primeira: 0,
+                    segunda: 0,
+                    terceira: 0,
+                    quarta: 0
+                },
+                artes: {
+                    primeira: 0,
+                    segunda: 0,
+                    terceira: 0,
+                    quarta: 0
+                },
+                ciências: {
+                    primeira: 0,
+                    segunda: 0,
+                    terceira: 0,
+                    quarta: 0
+                },
+                geografia: {
+                    primeira: 0,
+                    segunda: 0,
+                    terceira: 0,
+                    quarta: 0
+                },
+                religião: {
+                    primeira: 0,
+                    segunda: 0,
+                    terceira: 0,
+                    quarta: 0
+                },
+                educaçãoFísica: {
+                    primeira: 0,
+                    segunda: 0,
+                    terceira: 0,
+                    quarta: 0
+                }
             }
         }).then(() => {
             res.json({created: true})
