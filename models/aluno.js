@@ -72,6 +72,18 @@ const schema = new mongoose.Schema({
             segunda: Number,
             terceira: Number,
             quarta: Number
+        },
+        religião: {
+            primeira: Number,
+            segunda: Number,
+            terceira: Number,
+            quarta: Number
+        },
+        educaçãoFísica: {
+            primeira: Number,
+            segunda: Number,
+            terceira: Number,
+            quarta: Number
         }
     },
     foto: {
