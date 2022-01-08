@@ -1,0 +1,38 @@
+[
+    {
+        "name": "português",
+        "displayName": "Português"
+    },
+    {
+        "name": "inglês",
+        "displayName": "Inglês"
+    },
+    {
+        "name": "matemática",
+        "displayName": "Matemática"
+    },
+    {
+        "name": "história",
+        "displayName": "História"
+    },
+    {
+        "name": "artes",
+        "displayName": "Artes"
+    },
+    {
+        "name": "ciências",
+        "displayName": "Ciências"
+    },
+    {
+        "name": "geografia",
+        "displayName": "Geografia"
+    },
+    {
+        "name": "religião",
+        "displayName": "Religião"
+    },
+    {
+        "name": "educaçãoFísica",
+        "displayName": "Educação Física"
+    }
+]

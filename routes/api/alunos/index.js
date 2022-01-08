@@ -213,6 +213,7 @@ alunos.delete('/:id', async (req, res) => {
 alunos.post('/exportar', async (req, res) => {
     const planilha = new excelJs.Workbook()
     const pagina = planilha.addWorksheet('Alunos')
+    
     pagina.columns = [
         {
             header: 'Nome: ', 
