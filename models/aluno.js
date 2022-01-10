@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-const turmasModels = require('./turma')
-const professorasModels = require('./professora')
 const criptografar = require('../utils/criptografia/criptografar')
 const descriptografar = require('../utils/criptografia/descriptografar')
 
