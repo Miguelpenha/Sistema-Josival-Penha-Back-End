@@ -10,15 +10,8 @@ const sendGrid = require('@sendgrid/mail')
 const apiRouter = require('./routes/api')
 const urlMongo = require('./config/db').urlMongo
 const port = require('./config/port')
-// helmet sem funcionar
-// app.use(helmet({
-//     contentSecurityPolicy: {
-//         useDefaults: true,
-//         directives: {
-//             scriptSrc: ["'self'", "'unsafe-inline'", "www.gstatic.com", "cdnjs.cloudflare.com", "ajax.googleapis.com", "cdn.jsdelivr.net"]
-//         }
-//     }
-// }))
+const helmet = require('helmet')
+app.use(helmet())
 mongoose.connect(urlMongo, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 app.set('trust proxy', 1)
 app.disable('x-powered-by')
@@ -36,8 +29,6 @@ sendGrid.setApiKey(process.env.SENDGRID_API_KEY)
 
 app.use('/api', apiRouter)
 
-app.use((req, res) => {
-    res.status(404)
-})
+app.use((req, res) => res.status(404))
 
 app.listen(port, () => console.log('Servidor Rodando'))
