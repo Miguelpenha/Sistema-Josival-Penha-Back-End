@@ -13,13 +13,13 @@
   "author": "Miguel Penha <miguel.penha1@gmail.com> (https://portfolio-sand-xi.vercel.app/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Miguelpenha/Escola-Node-Js/issues",
+    "url": "https://github.com/Miguelpenha/Sistema-Josival-Penha-Back-End/issues",
     "email": "miguel.penha1@gmail.com"
   },
-  "homepage": "https://github.com/Miguelpenha/Escola-Node-Js#readme",
+  "homepage": "https://github.com/Miguelpenha/Sistema-Josival-Penha-Back-End#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Miguelpenha/Escola-Node-Js.git"
+    "url": "https://github.com/Miguelpenha/Sistema-Josival-Penha-Back-End.git"
   },
   "dependencies": {
     "@pm2/pm2-version-check": "^1.0.4",
@@ -36,6 +36,7 @@
     "exceljs": "^4.2.1",
     "express": "^4.17.1",
     "handlebars": "^4.7.7",
+    "helmet": "^5.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.13",
     "morgan": "^1.10.0",
