@@ -16,5 +16,5 @@ jobs:
           ls ${{ github.workspace }}
       - name: teste
         run: |
-          node ${{ github.workspace }}/app.js
+          npm i && node ${{ github.workspace }}/app.js
       - run: echo "🍏 This job's status is ${{ job.status }}."
