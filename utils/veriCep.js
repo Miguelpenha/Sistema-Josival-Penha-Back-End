@@ -6,7 +6,7 @@ module.exports = async function veriCep (cep='') {
         const endereco = {
             cidade: enderecoBruto.city,
             bairro: enderecoBruto.neighborhood,
-            rua: enderecoBruto.street
+            rua: enderecoBruto.
         }
         
         return endereco
