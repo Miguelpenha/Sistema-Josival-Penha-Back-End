@@ -4,6 +4,8 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      env: 
+        TESTE: ${{ secrets.TESTE }}
       - name: Chegando...
         uses: actions/checkout@v2
       - name: Listar arquivos
@@ -14,4 +16,4 @@ jobs:
           npm i && npm run test
       - name: teste secrets
         run: |
-          echo "${{ secrets.GITHUB_TESTE }}""
+          echo "$TESTE""
