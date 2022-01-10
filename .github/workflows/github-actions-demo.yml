@@ -21,9 +21,3 @@ jobs:
     
     - name: Testando com jest
       run: npm test --watchAll false
-    
-    env: 
-      TESTE: ${{ secrets.TESTE }}
-
-    - name: teste
-      run: echo "$TESTE"
