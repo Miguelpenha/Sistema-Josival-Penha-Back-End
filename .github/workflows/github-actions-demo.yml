@@ -10,11 +10,6 @@ jobs:
   
     steps:
     - uses: actions/checkout@v2
-
-    - name: Setup Node.js
-      uses: action/setup/node@v1
-      with: 
-        node-version: 12.x
     
     - name: Instalando dependências
       run: npm i
