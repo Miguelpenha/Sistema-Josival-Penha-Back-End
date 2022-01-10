@@ -4,6 +4,11 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      - name: Chegando...
+        uses: actions/checkout@v2
+      - name: Listar arquivos
+        run: |
+          ls ${{ github.workspace }}
       - name: Começando testes
         run: |
           npm i && npm run test
