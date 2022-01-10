@@ -14,4 +14,4 @@ jobs:
           npm i && npm run test
       - name: teste secrets
         run: |
-          echo "${{ secrets.TESTE }}""
+          echo "${{ secrets.GITHUB_TESTE }}""
