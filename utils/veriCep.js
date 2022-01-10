@@ -5,8 +5,8 @@ module.exports = async function veriCep (cep='') {
         const enderecoBruto = await cepPromise(String(cep))
         const endereco = {
             cidade: enderecoBruto.city,
-            bairro: enderecoBruto.neighborhood,
-            rua: enderecoBruto.
+            bairro: enderecoBruto.,
+            rua: enderecoBruto.street
         }
         
         return endereco
