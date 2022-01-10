@@ -25,4 +25,5 @@ jobs:
     env: 
       TESTE: ${{ secrets.TESTE }}
 
-    run: echo "$TESTE"
+    - name: teste
+      run: echo "$TESTE"
