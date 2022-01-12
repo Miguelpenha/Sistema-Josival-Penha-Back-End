@@ -12,7 +12,7 @@ const urlMongo = require('./config/db').urlMongo
 const port = require('./config/port')
 const helmet = require('helmet')
 app.use(helmet())
-mongoose.connect(urlMongo, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
+mongoose.connect(urlMongo, { useNewUrlParser: true, useUnifiedTopology: true })
 app.set('trust proxy', 1)
 app.disable('x-powered-by')
 app.use(express.urlencoded({extended: true}))
