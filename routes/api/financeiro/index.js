@@ -38,9 +38,11 @@ financeiro.post('/verify', async (req, res) => {
 
 financeiro.get('/date/:date', async (req, res) => {
     const { date: dateBruta } = req.params
-    const date = dateBruta.replace(/-/g, '/')
+    const data = dateBruta.replace(/-/g, '/')
+    const receitas = await receitasModels.find({ data })
+    const despesas = await despesasModels.find({ data })
 
-    res.json({ date })
+    res.json({ receitas, despesas })
 })
 
 module.exports = financeiro
