@@ -19,7 +19,7 @@ financeiro.get('/saldo', async (req, res) => {
     receitas.map(receita => totalReceitas += receita.precoBruto)
     despesas.map(despesa => totalDespesas += despesa.precoBruto)
     const saldo = totalReceitas - totalDespesas
-
+    
     res.json({
         saldo: dinero({ amount: saldo, currency: 'BRL' }).toFormat(),
         saldoBruto: saldo
@@ -41,8 +41,30 @@ financeiro.get('/date/:date', async (req, res) => {
     const data = dateBruta.replace(/-/g, '/')
     const receitas = await receitasModels.find({ data })
     const despesas = await despesasModels.find({ data })
+    let totalReceitas = 0
+    let totalDespesas = 0
 
-    res.json({ receitas, despesas })
+    receitas.map(receita => totalReceitas += receita.precoBruto)
+    despesas.map(despesa => totalDespesas += despesa.precoBruto)
+    
+    res.json({
+        receitas,
+        despesas,
+        totals: {
+            receitas: {
+                total: dinero({ amount: totalReceitas, currency: 'BRL' }).toFormat(),
+                totalBruto: totalReceitas
+            },
+            despesas: {
+                total: dinero({ amount: totalDespesas, currency: 'BRL' }).toFormat(),
+                totalBruto: totalDespesas
+            },
+            saldo: {
+                total: dinero({ amount: totalReceitas-totalDespesas, currency: 'BRL' }).toFormat(),
+                totalBruto: totalReceitas-totalDespesas
+            }
+        }
+    })
 })
 
 module.exports = financeiro
