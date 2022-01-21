@@ -84,6 +84,92 @@ const schema = new mongoose.Schema({
             quarta: Number
         }
     },
+    pagamentos: {
+        '01': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '02': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '03': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '04': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '05': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '06': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '07': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '08': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '09': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '10': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '11': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        },
+        '12': {
+            valueBruto: Number,
+            value: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date
+        }
+    },
     foto: {
         nome: String,
         key: String,

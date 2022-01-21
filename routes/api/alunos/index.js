@@ -17,6 +17,7 @@ const documentsRouter = require('./documents')
 const fotosRouter = require('./fotos')
 const mattersRouter = require('./matters')
 const fotoUpload = multer(configMulter.foto)
+const dinero = require('dinero.js')
 
 alunos.use('/documents', documentsRouter)
 alunos.use('/fotos', fotosRouter)
@@ -48,8 +49,9 @@ alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
 
     const { nome, sexo, nascimento, cpf, responsável1, responsável2, telefone, email, cep, cidade, bairro, rua, número, complemento, matrícula, turma, situação, observação, criação } = req.body
     
-    const aluno = await alunosModels.findOne({nome: String(nome)})
-    if (aluno) {
+    const alunoVeri = await alunosModels.findOne({nome: String(nome)})
+
+    if (alunoVeri) {
         res.json({error: 'Já existe um aluno cadastrado com esse nome'})
     } else {
         const professora = (await professorasModels.findOne({nome: (await turmasModels.findOne({nome: turma})).professora}))._id
@@ -85,8 +87,8 @@ alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
         const turmaModi = await turmasModels.findById(IdTurma).select('alunos')
         turmaModi.alunos = Number(turmaModi.alunos)+1
         turmaModi.save()
-            
-        alunosModels.create({
+        const valueMensalidade = dinero({ amount: Number(process.env.VALUE_MENSALIDADE.replace(',', '').replace('.', '')), currency: 'BRL' })
+        const aluno = {
             nome,
             sexo,
             nascimento: nascimento === 'undefined/undefined/' ? undefined : nascimento,
@@ -169,10 +171,96 @@ alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
                     terceira: 0,
                     quarta: 0
                 }
+            },
+            pagamentos: {
+                '01': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/01/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 0, 10)
+                },
+                '02': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/01/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 1, 10)
+                },
+                '03': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/03/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 2, 10)
+                },
+                '04': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/04/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 3, 10)
+                },
+                '05': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/05/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 4, 10)
+                },
+                '06': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/06/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 5, 10)
+                },
+                '07': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/07/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 6, 10)
+                },
+                '08': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/08/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 7, 10)
+                },
+                '09': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/09/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 8, 10)
+                },
+                '10': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/10/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 9, 10)
+                },
+                '11': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/11/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 10, 10)
+                },
+                '12': {
+                    valueBruto: valueMensalidade.getAmount(),
+                    value: valueMensalidade.toFormat(),
+                    pago: false,
+                    vencimento: `10/12/${new Date().getFullYear()}`,
+                    vencimentoSistema: new Date(new Date().getFullYear(), 11, 10)
+                }
             }
-        }).then(() => {
-            res.json({created: true})
-        })
+        }
+            
+        alunosModels.create(aluno).then(() => res.json({created: true}))
     }
 })
 
