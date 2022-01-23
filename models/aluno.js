@@ -90,84 +90,96 @@ const schema = new mongoose.Schema({
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '02': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '03': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '04': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '05': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '06': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '07': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '08': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '09': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '10': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '11': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         },
         '12': {
             valueBruto: Number,
             value: String,
             pago: Boolean,
             vencimento: String,
-            vencimentoSistema: Date
+            vencimentoSistema: Date,
+            descrição: String
         }
     },
     foto: {
