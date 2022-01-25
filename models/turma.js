@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const data = require('../utils/data')
 
 const schema = new mongoose.Schema({
     nome: String,
