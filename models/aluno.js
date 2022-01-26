@@ -91,7 +91,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '02': {
             valueBruto: Number,
@@ -99,7 +100,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '03': {
             valueBruto: Number,
@@ -107,7 +109,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '04': {
             valueBruto: Number,
@@ -115,7 +118,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '05': {
             valueBruto: Number,
@@ -123,7 +127,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '06': {
             valueBruto: Number,
@@ -131,7 +136,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '07': {
             valueBruto: Number,
@@ -139,7 +145,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '08': {
             valueBruto: Number,
@@ -147,7 +154,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '09': {
             valueBruto: Number,
@@ -155,7 +163,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '10': {
             valueBruto: Number,
@@ -163,7 +172,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '11': {
             valueBruto: Number,
@@ -171,7 +181,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         },
         '12': {
             valueBruto: Number,
@@ -179,7 +190,8 @@ const schema = new mongoose.Schema({
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String
+            descrição: String,
+            forma: String
         }
     },
     foto: {
