@@ -29,17 +29,20 @@ alunos.get('/', async (req, res) => {
         
         res.json({quant: alunos.length})
     } else {
-        const alunosBrutos = await alunosModels.find({})
-
+        const { turma, filter, mes, atrazados } = req.body
+        const alunosBrutos = turma ? await alunosModels.find({turma: turma}) : await alunosModels.find({})
+        
         const alunos = await Promise.all(
             alunosBrutos.map(async aluno => {
                 aluno.turma = (await turmasModels.findById(aluno.turma)).nome
                 aluno.professora = (await professorasModels.findById(aluno.professora)).nome
 
-                return aluno
+                if (!filter || aluno.nome.toUpperCase().includes(filter.toUpperCase())) {
+                    return aluno
+                }
             })
         )
-
+        
         res.json(alunos)
     }
 })
