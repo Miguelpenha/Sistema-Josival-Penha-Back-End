@@ -9,7 +9,7 @@ const sendGrid = require('@sendgrid/mail')
 
 emails.post('/responsible', async (req, res) => {
     let { id, msg, attachments } = req.body
-
+    
     if (mongoose.isValidObjectId(id)) {
         const aluno = await alunosModels.findById(id)
         

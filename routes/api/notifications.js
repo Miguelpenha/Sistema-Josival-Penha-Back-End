@@ -1,6 +1,6 @@
 const express = require('express')
 const notifications = express.Router()
-const notificationsModels = require('../../models/notifications')
+const notificationsModels = require('../../models/notification')
 const mongoose = require('mongoose')
 
 notifications.get('/', async (req, res) => {

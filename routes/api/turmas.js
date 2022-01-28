@@ -21,10 +21,12 @@ turmas.post('/', async (req, res) => {
     const { nome, serie, turno, professora: nameProfessora, criação } = req.body
 
     const turma = await turmasModels.findOne({nome})
+    
     if (turma) {
         res.json({error: 'Já existe uma turma com esse nome'})
     } else {
         const professora = await professorasModels.findOne({nome: nameProfessora})
+
         if (professora) {
             turmasModels.create({
                 nome,
