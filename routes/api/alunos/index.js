@@ -47,6 +47,13 @@ alunos.get('/', async (req, res) => {
     }
 })
 
+alunos.get('/:id', async (req, res) => {
+    const { id } = req.params
+    const aluno = await alunosModels.findById(id)
+    
+    res.json(aluno)
+})
+
 alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
     Object.keys(req.body).map(key => req.body[key] = req.body[key] ? req.body[key] : undefined)
 
