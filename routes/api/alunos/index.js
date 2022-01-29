@@ -49,9 +49,18 @@ alunos.get('/', async (req, res) => {
 
 alunos.get('/:id', async (req, res) => {
     const { id } = req.params
-    const aluno = await alunosModels.findById(id)
     
-    res.json(aluno)
+    if (mongoose.isValidObjectId(id)) {
+        const aluno = await alunosModels.findById(id)
+
+        if (aluno) {
+            res.json(aluno)
+        } else {
+            res.json({exists: false})
+        }
+    } else {
+        res.json({exists: false})
+    }
 })
 
 alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
