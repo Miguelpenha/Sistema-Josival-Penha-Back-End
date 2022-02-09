@@ -1,29 +1,29 @@
 const express = require('express')
-const receitas = express.Router()
+const despesas = express.Router()
 const dinero = require('dinero.js')
 const mongoose = require('mongoose')
-const receitasModels = require('../../../../models/financeiro/receitas')
-const dataUtil = require('../../../../utils/data')
+const despesasModels = require('../../../models/financeiro/despesas')
+const dataUtil = require('../../../utils/data')
 
 dinero.globalLocale = 'pt-br'
 
-receitas.get('/', async (req, res) => {
+despesas.get('/', async (req, res) => {
     if (req.query.quant) {
-        const receitas = await receitasModels.find({}).select('id')
+        const despesas = await despesasModels.find({}).select('id')
                 
-        res.json({quant: receitas.length})
+        res.json({quant: despesas.length})
     } else {
-        const receitas = await receitasModels.find({})
+        const despesas = await despesasModels.find({})
         
-        res.json(receitas)
+        res.json(despesas)
     }
 })
 
-receitas.get('/total', async (req, res) => {
-    const receitas = await receitasModels.find({})
+despesas.get('/total', async (req, res) => {
+    const despesas = await despesasModels.find({})
     let total = 0
-    receitas.map(receita => {
-        total += receita.precoBruto
+    despesas.map(despesa => {
+        total += despesa.precoBruto
     })
     
     res.json({
@@ -32,10 +32,10 @@ receitas.get('/total', async (req, res) => {
     })
 })
 
-receitas.post('/', async (req, res) => {
+despesas.post('/', async (req, res) => {
     let { nome, preco, data: dataSistema, investimento, fixa, fixaDay, observação, criação } = req.body
-    const receita = await receitasModels.findOne({nome: nome})
-    if (receita) {
+    const despesa = await despesasModels.findOne({nome: nome})
+    if (despesa) {
         res.json({exists: true})
     } else {
         preco.includes(',') ? null : preco = `${preco},00`
@@ -45,17 +45,15 @@ receitas.post('/', async (req, res) => {
             .replace('R$', '')
             .trimStart()
         )
-
+        
         const data = dataUtil.completa(dataSistema).toLocaleDateString('pt-br')
         const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
-        receitasModels.create({
+        despesasModels.create({
             nome,
             preco: dinero({ amount: precoBruto, currency: 'BRL' }).toFormat(),
             precoBruto,
-            categorias,
-            fontes,
-            data: fixa ? data : undefined,
-            dataSistema: fixa ? dataSistema : undefined,
+            data: fixa ? undefined : data,
+            dataSistema: fixa ? undefined : dataSistema,
             investimento,
             fixa,
             fixaDay: fixa ? fixaDay : undefined,
@@ -73,11 +71,11 @@ receitas.post('/', async (req, res) => {
     }
 })
 
-receitas.delete('/:id', async (req, res) => {
+despesas.delete('/:id', async (req, res) => {
     if (mongoose.isValidObjectId(req.params.id)) {
-        const receita = await receitasModels.findById(req.params.id)
-        if (receita) {
-            receita.deleteOne()
+        const despesa = await despesasModels.findById(req.params.id)
+        if (despesa) {
+            despesa.deleteOne()
             res.json({deleted: true})
         } else {
             res.json({exists: false})
@@ -87,4 +85,4 @@ receitas.delete('/:id', async (req, res) => {
     }
 })
 
-module.exports = receitas
+module.exports = despesas
