@@ -39,11 +39,15 @@ financeiro.post('/verify', async (req, res) => {
 financeiro.get('/date/:date', async (req, res) => {
     const { date: dateBruta } = req.params
     const data = dateBruta.replace(/-/g, '/')
-    const receitas = await receitasModels.find({ data })
-    const despesas = await despesasModels.find({ data })
+    const receitasBrutas = await receitasModels.find({ data })
+    const despesasBrutas = await despesasModels.find({ data })
+    const receitasFixas = await receitasModels.find({ fixaDay: data.split('/')[0] })
+    const despesasFixas = await despesasModels.find({ fixaDay: data.split('/')[0] })
+    const receitas = [...receitasBrutas, ...receitasFixas]
+    const despesas = [...despesasBrutas, ...despesasFixas]
     let totalReceitas = 0
     let totalDespesas = 0
-
+    
     receitas.map(receita => totalReceitas += receita.precoBruto)
     despesas.map(despesa => totalDespesas += despesa.precoBruto)
     

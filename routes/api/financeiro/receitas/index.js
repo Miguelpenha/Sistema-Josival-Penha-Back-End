@@ -3,16 +3,9 @@ const receitas = express.Router()
 const dinero = require('dinero.js')
 const mongoose = require('mongoose')
 const receitasModels = require('../../../../models/financeiro/receitas')
-const categoriasDespesasModels = require('../../../../models/financeiro/receitas/categorias')
-const fontesDespesasModels = require('../../../../models/financeiro/receitas/fontes')
 const dataUtil = require('../../../../utils/data')
-const categoriasDespesasRouter = require('./categorias')
-const fontesDespesasRouter= require('./fontes')
 
 dinero.globalLocale = 'pt-br'
-
-receitas.use('/categorias', categoriasDespesasRouter)
-receitas.use('/fontes', fontesDespesasRouter)
 
 receitas.get('/', async (req, res) => {
     if (req.query.quant) {
@@ -40,7 +33,7 @@ receitas.get('/total', async (req, res) => {
 })
 
 receitas.post('/', async (req, res) => {
-    let { nome, preco, categorias: categoriasBrutas, fontes: fontesBrutas, data: dataSistema, investimento, fixa, observação, criação } = req.body
+    let { nome, preco, data: dataSistema, investimento, fixa, fixaDay, observação, criação } = req.body
     const receita = await receitasModels.findOne({nome: nome})
     if (receita) {
         res.json({exists: true})
@@ -52,35 +45,6 @@ receitas.post('/', async (req, res) => {
             .replace('R$', '')
             .trimStart()
         )
-        const categoriasQuase = await Promise.all(
-            categoriasBrutas.map(async categoriaBruta => {
-                const categoria = await categoriasDespesasModels.findOne({nome: categoriaBruta})
-                if (categoria){ 
-                    return categoria.id
-                }
-            })
-        )
-        const categorias = []
-        categoriasQuase.map(categoria => {
-            if (categoria) {
-                categorias.push(categoria)
-            }
-        })
-
-        const fontesQuase = await Promise.all(
-            fontesBrutas.map(async fonteBruta => {
-                const fonte = await fontesDespesasModels.findOne({nome: fonteBruta})
-                if (fonte){ 
-                    return fonte.id
-                }
-            })
-        )
-        const fontes = []
-        fontesQuase.map(fonte => {
-            if (fonte) {
-                fontes.push(fonte)
-            }
-        })
 
         const data = dataUtil.completa(dataSistema).toLocaleDateString('pt-br')
         const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
@@ -90,10 +54,11 @@ receitas.post('/', async (req, res) => {
             precoBruto,
             categorias,
             fontes,
-            data,
-            dataSistema,
+            data: fixa ? data : undefined,
+            dataSistema: fixa ? dataSistema : undefined,
             investimento,
             fixa,
+            fixaDay: fixa ? fixaDay : undefined,
             observação,
             criação: {
                 data: dataUtil.completa(criação).toLocaleDateString('pt-br'),

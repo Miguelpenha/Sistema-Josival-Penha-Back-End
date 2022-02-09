@@ -4,12 +4,11 @@ const schema = new mongoose.Schema({
     nome: String,
     preco: String,
     precoBruto: Number,
-    categorias: [String],
-    fontes: [String],
     data: String,
     dataSistema: Date,
     investimento: Boolean,
     fixa: Boolean,
+    fixaDay: String,
     observação: String,
     criação: {
         data: String,

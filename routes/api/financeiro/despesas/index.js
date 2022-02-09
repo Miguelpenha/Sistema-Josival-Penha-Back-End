@@ -3,16 +3,9 @@ const despesas = express.Router()
 const dinero = require('dinero.js')
 const mongoose = require('mongoose')
 const despesasModels = require('../../../../models/financeiro/despesas')
-const categoriasDespesasModels = require('../../../../models/financeiro/despesas/categorias')
-const fontesDespesasModels = require('../../../../models/financeiro/despesas/fontes')
 const dataUtil = require('../../../../utils/data')
-const categoriasDespesasRouter = require('./categorias')
-const fontesDespesasRouter= require('./fontes')
 
 dinero.globalLocale = 'pt-br'
-
-despesas.use('/categorias', categoriasDespesasRouter)
-despesas.use('/fontes', fontesDespesasRouter)
 
 despesas.get('/', async (req, res) => {
     if (req.query.quant) {
@@ -40,7 +33,7 @@ despesas.get('/total', async (req, res) => {
 })
 
 despesas.post('/', async (req, res) => {
-    let { nome, preco, categorias: categoriasBrutas, fontes: fontesBrutas, data: dataSistema, investimento, fixa, observação, criação } = req.body
+    let { nome, preco, data: dataSistema, investimento, fixa, fixaDay, observação, criação } = req.body
     const despesa = await despesasModels.findOne({nome: nome})
     if (despesa) {
         res.json({exists: true})
@@ -52,48 +45,18 @@ despesas.post('/', async (req, res) => {
             .replace('R$', '')
             .trimStart()
         )
-        const categoriasQuase = await Promise.all(
-            categoriasBrutas.map(async categoriaBruta => {
-                const categoria = await categoriasDespesasModels.findOne({nome: categoriaBruta})
-                if (categoria){ 
-                    return categoria.id
-                }
-            })
-        )
-        const categorias = []
-        categoriasQuase.map(categoria => {
-            if (categoria) {
-                categorias.push(categoria)
-            }
-        })
-
-        const fontesQuase = await Promise.all(
-            fontesBrutas.map(async fonteBruta => {
-                const fonte = await fontesDespesasModels.findOne({nome: fonteBruta})
-                if (fonte){ 
-                    return fonte.id
-                }
-            })
-        )
-        const fontes = []
-        fontesQuase.map(fonte => {
-            if (fonte) {
-                fontes.push(fonte)
-            }
-        })
-
+        
         const data = dataUtil.completa(dataSistema).toLocaleDateString('pt-br')
         const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
         despesasModels.create({
             nome,
             preco: dinero({ amount: precoBruto, currency: 'BRL' }).toFormat(),
             precoBruto,
-            categorias,
-            fontes,
-            data,
-            dataSistema,
+            data: fixa ? undefined : data,
+            dataSistema: fixa ? undefined : dataSistema,
             investimento,
             fixa,
+            fixaDay: fixa ? fixaDay : undefined,
             observação,
             criação: {
                 data: dataUtil.completa(criação).toLocaleDateString('pt-br'),
