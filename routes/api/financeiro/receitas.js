@@ -85,4 +85,37 @@ receitas.delete('/:id', async (req, res) => {
     }
 })
 
+receitas.post('/:id', async (req, res) => {
+    const { id } = req.params
+    let { nome, preco, data: dataSistema, investimento, fixa, fixaDay, observação } = req.body
+    const receita = await receitasModels.findById(id)
+
+    if (!receita) {
+        res.json({exists: false})
+    } else {
+        preco.includes(',') ? null : preco = `${preco},00`
+        let precoBruto = Number(
+            preco.replace('.', '')
+            .replace(',', '')
+            .replace('R$', '')
+            .trimStart()
+        )
+        const data = dataUtil.completa(dataSistema).toLocaleDateString('pt-br')
+
+        receita.nome = nome
+        receita.preco = dinero({ amount: precoBruto, currency: 'BRL' }).toFormat(),
+        receita.precoBruto = precoBruto
+        receita.data = fixa ? undefined : data
+        receita.dataSistema = fixa ? undefined : dataSistema
+        receita.investimento = investimento
+        receita.fixa = fixa
+        receita.fixaDay = fixa ? fixaDay : undefined
+        receita.observação = observação
+
+        receita.save()
+        .then(() => res.json({edited: true}))
+        .catch(() => res.json({edited: false}))
+    }
+})
+
 module.exports = receitas

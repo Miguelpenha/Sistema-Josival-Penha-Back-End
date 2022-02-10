@@ -85,4 +85,37 @@ despesas.delete('/:id', async (req, res) => {
     }
 })
 
+despesas.post('/:id', async (req, res) => {
+    const { id } = req.params
+    let { nome, preco, data: dataSistema, investimento, fixa, fixaDay, observação } = req.body
+    const despesa = await despesasModels.findById(id)
+
+    if (!despesa) {
+        res.json({exists: false})
+    } else {
+        preco.includes(',') ? null : preco = `${preco},00`
+        let precoBruto = Number(
+            preco.replace('.', '')
+            .replace(',', '')
+            .replace('R$', '')
+            .trimStart()
+        )
+        const data = dataUtil.completa(dataSistema).toLocaleDateString('pt-br')
+
+        despesa.nome = nome
+        despesa.preco = dinero({ amount: precoBruto, currency: 'BRL' }).toFormat(),
+        despesa.precoBruto = precoBruto
+        despesa.data = fixa ? undefined : data
+        despesa.dataSistema = fixa ? undefined : dataSistema
+        despesa.investimento = investimento
+        despesa.fixa = fixa
+        despesa.fixaDay = fixa ? fixaDay : undefined
+        despesa.observação = observação
+        
+        despesa.save()
+        .then(() => res.json({edited: true}))
+        .catch(() => res.json({edited: false}))
+    }
+})
+
 module.exports = despesas
