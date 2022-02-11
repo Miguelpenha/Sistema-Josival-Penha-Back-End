@@ -331,13 +331,15 @@ alunos.post('/:id', async (req, res) => {
             if (turmaModiNew) {
                 const turmaModiOriginal = await turmasModels.findById(aluno.turma)
 
-                turmaModiNew.alunos = turmaModiNew.alunos+1
+                if (aluno.turma != turma) {
+                    turmaModiNew.alunos = turmaModiNew.alunos+1
 
-                turmaModiNew.save()
+                    turmaModiNew.save()
 
-                turmaModiOriginal.alunos = turmaModiOriginal.alunos-1
+                    turmaModiOriginal.alunos = turmaModiOriginal.alunos-1
 
-                turmaModiOriginal.save()
+                    turmaModiOriginal.save()
+                }
 
                 alunosModels.findByIdAndUpdate(id, {
                     nome,
