@@ -296,6 +296,8 @@ alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
 })
 
 alunos.post('/:id', async (req, res) => {
+    Object.keys(req.body).map(key => req.body[key] = req.body[key] ? req.body[key] : undefined)
+    
     const { id } = req.params
     const aluno = await alunosModels.findById(id)
     
@@ -318,34 +320,53 @@ alunos.post('/:id', async (req, res) => {
             matrícula,
             turma,
             situação,
-            observação,
-            criação
+            observação
         } = req.body
 
         const alunoByName = await alunosModels.findOne({nome})
 
-        if (!nome || aluno.nome === nome || !alunoByName) {
-            res.json({
-                nome,
-                sexo,
-                nascimento,
-                cpf,
-                responsável1,
-                responsável2,
-                telefone,
-                email,
-                cep,
-                cidade,
-                bairro,
-                rua,
-                número,
-                complemento,
-                matrícula,
-                turma,
-                situação,
-                observação,
-                criação
-            })
+        if (aluno.nome === nome || !alunoByName) {
+            const turmaModiNew = await turmasModels.findById(turma)
+
+            if (turmaModiNew) {
+                const turmaModiOriginal = await turmasModels.findById(aluno.turma)
+
+                turmaModiNew.alunos = turmaModiNew.alunos+1
+
+                turmaModiNew.save()
+
+                turmaModiOriginal.alunos = turmaModiOriginal.alunos-1
+
+                turmaModiOriginal.save()
+
+                alunosModels.findByIdAndUpdate(id, {
+                    nome,
+                    sexo,
+                    nascimento: nascimento === 'undefined/undefined/' ? undefined : nascimento,
+                    cpf,
+                    responsável1,
+                    responsável2,
+                    telefone,
+                    email,
+                    endereço: {
+                        cep,
+                        número,
+                        complemento,
+                        bairro,
+                        cidade,
+                        rua
+                    },
+                    matrícula,
+                    turma,
+                    professora: (await professorasModels.findOne({nome: turmaModiNew.professora}))._id,
+                    situação,
+                    observação
+                })
+                .then(() => res.json({edited: true}))
+                .catch(() => res.json({error: 'Houve um erro ao editar esse aluno'}))
+            } else {
+                res.json({error: 'Essa turma não existe'})
+            }
         } else {
             res.json({error: 'Já existe um aluno cadastrado com esse nome'})
         }
