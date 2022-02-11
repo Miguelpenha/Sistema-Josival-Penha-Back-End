@@ -295,6 +295,65 @@ alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
     }
 })
 
+alunos.post('/:id', async (req, res) => {
+    const { id } = req.params
+    const aluno = await alunosModels.findById(id)
+    
+    if (aluno) {
+        const {
+            nome,
+            sexo,
+            nascimento,
+            cpf,
+            responsável1,
+            responsável2,
+            telefone,
+            email,
+            cep,
+            cidade,
+            bairro,
+            rua,
+            número,
+            complemento,
+            matrícula,
+            turma,
+            situação,
+            observação,
+            criação
+        } = req.body
+
+        const alunoByName = await alunosModels.findOne({nome})
+
+        if (!nome || aluno.nome === nome || !alunoByName) {
+            res.json({
+                nome,
+                sexo,
+                nascimento,
+                cpf,
+                responsável1,
+                responsável2,
+                telefone,
+                email,
+                cep,
+                cidade,
+                bairro,
+                rua,
+                número,
+                complemento,
+                matrícula,
+                turma,
+                situação,
+                observação,
+                criação
+            })
+        } else {
+            res.json({error: 'Já existe um aluno cadastrado com esse nome'})
+        }
+    } else {
+        res.json({exists: false})
+    }
+})
+
 alunos.delete('/:id', async (req, res) => {
     const { id } = req.params
 
