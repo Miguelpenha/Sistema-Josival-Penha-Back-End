@@ -296,7 +296,7 @@ alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
 })
 
 alunos.post('/:id', async (req, res) => {
-    Object.keys(req.body).map(key => req.body[key] = req.body[key] ? req.body[key] : undefined)
+    Object.keys(req.body).map(key => req.body[key] = req.body[key] ? req.body[key] : null)
     
     const { id } = req.params
     const aluno = await alunosModels.findById(id)
@@ -322,7 +322,7 @@ alunos.post('/:id', async (req, res) => {
             situação,
             observação
         } = req.body
-
+        
         const alunoByName = await alunosModels.findOne({nome})
 
         if (aluno.nome === nome || !alunoByName) {
