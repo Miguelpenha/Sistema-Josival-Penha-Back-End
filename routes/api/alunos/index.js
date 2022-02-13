@@ -204,7 +204,7 @@ alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
                     valueBruto: valueMensalidade.getAmount(),
                     value: valueMensalidade.toFormat(),
                     pago: false,
-                    vencimento: `10/01/${new Date().getFullYear()}`,
+                    vencimento: `10/02/${new Date().getFullYear()}`,
                     vencimentoSistema: new Date(new Date().getFullYear(), 1, 10),
                     forma: 'Espécie'
                 },

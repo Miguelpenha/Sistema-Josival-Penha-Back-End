@@ -8,6 +8,7 @@ const financeiroRouter = require('./financeiro')
 const emailsRouter = require('./emails')
 const notificationsRouter = require('./notifications')
 const problemasRouter = require('./problemas')
+const pagamentosRouter = require('./pagamentos')
 const veriCep = require('../../utils/veriCep')
 const middlewareAPI = require('../../middlewares/middlewareAPI')
 
@@ -20,6 +21,7 @@ api.use('/financeiro', financeiroRouter)
 api.use('/emails', emailsRouter)
 api.use('/notifications', notificationsRouter)
 api.use('/problemas', problemasRouter)
+api.use('/pagamentos', pagamentosRouter)
 
 api.get('/cep/:cep', async (req, res) => {
     const endereço = await veriCep(req.params.cep)
