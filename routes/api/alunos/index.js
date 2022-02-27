@@ -131,7 +131,7 @@ alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
             observação,
             foto,
             criação: {
-                data: new Date(criação).toLocaleDateString(),
+                data: new Date(criação).toLocaleDateString('pt-br'),
                 hora: new Date(criação).toLocaleTimeString().split(':')[0]+':'+new Date(criação).toLocaleTimeString().split(':')[1],
                 sistema: new Date(criação).toISOString()
             },

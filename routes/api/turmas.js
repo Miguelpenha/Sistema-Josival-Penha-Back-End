@@ -34,7 +34,7 @@ turmas.post('/', async (req, res) => {
                 turno,
                 professora: professora.nome,
                 criacao: {
-                    data: new Date(criação).toLocaleDateString(),
+                    data: new Date(criação).toLocaleDateString('pt-br'),
                     hora: new Date(criação).toLocaleTimeString().split(':')[0]+':'+new Date(criação).toLocaleTimeString().split(':')[1],
                     sistema: new Date(criação).toISOString()
                 }

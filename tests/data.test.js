@@ -15,13 +15,13 @@ describe('Data()', () => {
 
     describe('Data.converter', () => {
         it('data.converter.inputParaData()', () => {
-            const date = new Date().toLocaleDateString().split('/')
+            const date = new Date().toLocaleDateString('pt-br').split('/')
 
-            expect(data.converter.inputParaData(`${date[2]}-${date[1]}-${date[0]}`)).toContain(new Date().toLocaleDateString())
+            expect(data.converter.inputParaData(`${date[2]}-${date[1]}-${date[0]}`)).toContain(new Date().toLocaleDateString('pt-br'))
         })
 
-        it('data.converter.dataParaInput()', () => expect(data.converter.dataParaInput(new Date().toLocaleDateString())).toContain('-'))
+        it('data.converter.dataParaInput()', () => expect(data.converter.dataParaInput(new Date().toLocaleDateString('pt-br'))).toContain('-'))
 
-        it('data.converter.dataParaDate()', () => expect(data.converter.dataParaDate(new Date().toLocaleDateString())).toBeDefined())
+        it('data.converter.dataParaDate()', () => expect(data.converter.dataParaDate(new Date().toLocaleDateString('pt-br'))).toBeDefined())
     })
 })

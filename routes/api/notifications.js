@@ -24,7 +24,7 @@ notifications.post('/', async (req, res) => {
         admin,
         icon,
         created: {
-            data: new Date(created).toLocaleDateString(),
+            data: new Date(created).toLocaleDateString('pt-br'),
             hora: new Date(created).toLocaleTimeString().split(':')[0]+':'+new Date(created).toLocaleTimeString().split(':')[1],
             sistema: new Date(created).toISOString()
         }
