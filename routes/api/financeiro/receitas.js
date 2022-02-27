@@ -3,17 +3,44 @@ const receitas = express.Router()
 const dinero = require('dinero.js')
 const mongoose = require('mongoose')
 const receitasModels = require('../../../models/financeiro/receitas')
+const alunosModels = require('../../../models/aluno')
 const dataUtil = require('../../../utils/data')
+const { v4: uuid } = require('uuid')
 
 dinero.globalLocale = 'pt-br'
 
 receitas.get('/', async (req, res) => {
     if (req.query.quant) {
         const receitas = await receitasModels.find({}).select('id')
-                
-        res.json({quant: receitas.length})
+        
+        res.json({quant: receitas.length+1})
     } else {
         const receitas = await receitasModels.find({})
+        const alunos = await alunosModels.find()
+        let mensalidades = 0
+        const criação = new Date()
+        const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
+
+        alunos.map(aluno => {
+            mensalidades+=aluno.pagamentos[new Date().toLocaleDateString().split('/')[1]].pago && aluno.pagamentos[new Date().toLocaleDateString().split('/')[1]].valueBruto
+        })
+
+        receitas.push({
+            _id: uuid(),
+            nome: 'Mensalidades dos alunos',
+            precoBruto: mensalidades,
+            preco: dinero({ amount: mensalidades, currency: 'BRL' }).toFormat(),
+            investimento: false,
+            fixa: true,
+            auto: true,
+            observação: '',
+            fixaDay: '12',
+            criação: {
+                data: criação.toLocaleDateString('pt-br'),
+                hora: `${hora[0]}:${hora[1]}`,
+                sistema: criação.toISOString()
+            }
+        })
         
         res.json(receitas)
     }
@@ -21,7 +48,34 @@ receitas.get('/', async (req, res) => {
 
 receitas.get('/total', async (req, res) => {
     const receitas = await receitasModels.find({})
+    const alunos = await alunosModels.find()
+    let mensalidades = 0
+    const criação = new Date()
+    const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
+
+    alunos.map(aluno => {
+        mensalidades+=aluno.pagamentos[new Date().toLocaleDateString().split('/')[1]].pago && aluno.pagamentos[new Date().toLocaleDateString().split('/')[1]].valueBruto
+    })
+
+    receitas.push({
+        _id: uuid(),
+        nome: 'Mensalidades dos alunos',
+        precoBruto: mensalidades,
+        preco: dinero({ amount: mensalidades, currency: 'BRL' }).toFormat(),
+        investimento: false,
+        fixa: true,
+        auto: true,
+        observação: '',
+        fixaDay: '12',
+        criação: {
+            data: criação.toLocaleDateString('pt-br'),
+            hora: `${hora[0]}:${hora[1]}`,
+            sistema: criação.toISOString()
+        }
+    })
+
     let total = 0
+
     receitas.map(receita => {
         total += receita.precoBruto
     })
@@ -35,7 +89,7 @@ receitas.get('/total', async (req, res) => {
 receitas.post('/', async (req, res) => {
     let { nome, preco, data: dataSistema, investimento, fixa, fixaDay, observação, criação } = req.body
     const receita = await receitasModels.findOne({nome: nome})
-    if (receita) {
+    if (receita || nome === 'Mensalidades dos alunos') {
         res.json({exists: true})
     } else {
         preco.includes(',') ? null : preco = `${preco},00`
@@ -74,7 +128,7 @@ receitas.post('/', async (req, res) => {
 receitas.delete('/:id', async (req, res) => {
     if (mongoose.isValidObjectId(req.params.id)) {
         const receita = await receitasModels.findById(req.params.id)
-        if (receita) {
+        if (receita && nome !== 'Mensalidades dos alunos') {
             receita.deleteOne()
             res.json({deleted: true})
         } else {
@@ -90,7 +144,7 @@ receitas.post('/:id', async (req, res) => {
     let { nome, preco, data: dataSistema, investimento, fixa, fixaDay, observação } = req.body
     const receita = await receitasModels.findById(id)
 
-    if (!receita) {
+    if (!receita && nome === 'Mensalidades dos alunos') {
         res.json({exists: false})
     } else {
         preco.includes(',') ? null : preco = `${preco},00`

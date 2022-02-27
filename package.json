@@ -47,7 +47,8 @@
     "pm2": "^5.1.1",
     "probe-image-size": "^7.2.3",
     "shelljs": "^0.8.4",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
