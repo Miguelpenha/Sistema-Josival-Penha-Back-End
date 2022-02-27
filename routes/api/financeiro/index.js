@@ -25,7 +25,7 @@ financeiro.get('/saldo', async (req, res) => {
     const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
 
     alunos.map(aluno => {
-        mensalidades+=aluno.pagamentos[new Date().toLocaleDateString().split('/')[1]].pago && aluno.pagamentos[new Date().toLocaleDateString().split('/')[1]].valueBruto
+        mensalidades+=aluno.pagamentos[new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[new Date().toLocaleDateString().split('/')[1]].valueBruto
     })
 
     receitas.push({
@@ -83,7 +83,7 @@ financeiro.get('/date/:date', async (req, res) => {
     const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
 
     alunos.map(aluno => {
-        mensalidades+=aluno.pagamentos[new Date().toLocaleDateString().split('/')[1]].pago && aluno.pagamentos[new Date().toLocaleDateString().split('/')[1]].valueBruto
+        mensalidades+=aluno.pagamentos[new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[new Date().toLocaleDateString().split('/')[1]].valueBruto
     })
 
     receitas.push({
