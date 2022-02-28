@@ -128,7 +128,7 @@ receitas.post('/', async (req, res) => {
 receitas.delete('/:id', async (req, res) => {
     if (mongoose.isValidObjectId(req.params.id)) {
         const receita = await receitasModels.findById(req.params.id)
-        if (receita && nome !== 'Mensalidades dos alunos') {
+        if (receita && receita.nome !== 'Mensalidades dos alunos') {
             receita.deleteOne()
             res.json({deleted: true})
         } else {
