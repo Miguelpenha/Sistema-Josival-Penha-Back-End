@@ -21,6 +21,7 @@ app.use('/public', express.static(path.resolve(__dirname, 'public')))
 app.use(morgan('dev'))
 app.use(cors({
     origin: process.env.URLS_AUTHORIZED.split(','),
+    credentials: true,
     optionsSuccessStatus: 200
 }))
 
