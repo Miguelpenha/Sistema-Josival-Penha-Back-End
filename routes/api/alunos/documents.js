@@ -171,8 +171,8 @@ documents.post('/declaration-finance', async (req, res) => {
         if (aluno) {
             const anoLetivo = (await turmasModels.findById(aluno.turma)).serie
     
-            const doc = new PDFDOCUMENT({size: 'A4', margin: 60, lang: 'pt-br', displayTitle: `Declaração do aluno(a) ${aluno.nome}`, info: {
-                Title: `Declaração do aluno(a) ${aluno.nome}`,
+            const doc = new PDFDOCUMENT({size: 'A4', margin: 60, lang: 'pt-br', displayTitle: `Declaração financeira do aluno(a) ${aluno.nome}`, info: {
+                Title: `Declaração financeira do aluno(a) ${aluno.nome}`,
                 CreationDate: new Date(),
                 Author: 'Sistema Josival Penha',
                 Creator: 'Sistema Josival Penha',
@@ -188,7 +188,7 @@ documents.post('/declaration-finance', async (req, res) => {
             
             totalMensalidades = dinero({ amount: totalMensalidades, currency: 'BRL' }).toFormat()
 
-            doc.name = `Declaração do aluno(a) ${aluno.nome}`
+            doc.name = `Declaração financeira do aluno(a) ${aluno.nome}`
     
             doc.on('data', chunk => chunks.push(chunk))
 
@@ -324,7 +324,7 @@ documents.post('/declaration-finance', async (req, res) => {
             doc.end()
     
             doc.on('end', () => {
-                res.setHeader('Content-disposition', `inline; filename=Declaração do aluno(a) ${aluno.nome}.pdf`)
+                res.setHeader('Content-disposition', `inline; filename=Declaração financeira do aluno(a) ${aluno.nome}.pdf`)
                 res.setHeader('Content-type', 'application/pdf')
                 res.end(Buffer.concat(chunks))
             })
