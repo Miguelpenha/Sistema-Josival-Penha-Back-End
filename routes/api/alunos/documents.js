@@ -29,8 +29,8 @@ documents.post('/declaration', async (req, res) => {
             
         }
 
-        const doc = new PDFDOCUMENT({size: 'A4', margin: 60, lang: 'pt-br', displayTitle: `Declaração do aluno(a) ${aluno.nome}`, info: {
-            Title: `Declaração do aluno(a) ${aluno.nome}`,
+        const doc = new PDFDOCUMENT({size: 'A4', margin: 60, lang: 'pt-br', displayTitle: `Declaração de frequência do aluno(a) ${aluno.nome}`, info: {
+            Title: `Declaração de frequência do aluno(a) ${aluno.nome}`,
             CreationDate: new Date(),
             Author: 'Sistema Josival Penha',
             Creator: 'Sistema Josival Penha',
@@ -40,12 +40,14 @@ documents.post('/declaration', async (req, res) => {
 
         const chunks = []
 
-        doc.name = `Declaração do aluno(a) ${aluno.nome}`
+        doc.name = `Declaração de frequência do aluno(a) ${aluno.nome}`
 
-        doc.on('data', chunk => chunks.push(chunk))
+        doc.on('data', chunks.push.bind(chunks))
+
         if (bolsista) {
             bolsista = true
         }
+
         doc
         .opacity(0.15)
         .image(path.resolve(__dirname, '..', '..', '..', 'public', 'logo-josival-penha.png'), 150, 300, {
@@ -150,13 +152,15 @@ documents.post('/declaration', async (req, res) => {
         .text('Mirueira, Paulista - PE', 240, 767)
         .text('@josival.penha', 385, 766)
 
-        doc.end()
-
         doc.on('end', () => {
-            res.setHeader('Content-disposition', `inline; filename=Declaração do aluno(a) ${aluno.nome}.pdf`)
-            res.setHeader('Content-type', 'application/pdf')
-            res.end(Buffer.concat(chunks))
+            res
+            .contentType('application/pdf')
+            .setHeader('Content-disposition', `attachment; filename=Declaração de frequência do aluno(a) ${aluno.nome}.pdf`)
+            .setHeader('Content-Length', Buffer.byteLength(Buffer.concat(chunks)))
+            .end(Buffer.concat(chunks))
         })
+
+        doc.end()
     } else {
         res.status('400').json({error: 'Id inválido'})
     }
@@ -190,7 +194,7 @@ documents.post('/declaration-finance', async (req, res) => {
 
             doc.name = `Declaração financeira do aluno(a) ${aluno.nome}`
     
-            doc.on('data', chunk => chunks.push(chunk))
+            doc.on('data', chunks.push.bind(chunks))
 
             doc
             .opacity(0.15)
@@ -321,13 +325,15 @@ documents.post('/declaration-finance', async (req, res) => {
             .text('Mirueira, Paulista - PE', 240, 767)
             .text('@josival.penha', 385, 766)
     
-            doc.end()
-    
             doc.on('end', () => {
-                res.setHeader('Content-disposition', `inline; filename=Declaração financeira do aluno(a) ${aluno.nome}.pdf`)
-                res.setHeader('Content-type', 'application/pdf')
-                res.end(Buffer.concat(chunks))
+                res
+                .contentType('application/pdf')
+                .setHeader('Content-disposition', `attachment; filename=Declaração financeira do aluno(a) ${aluno.nome}.pdf`)
+                .setHeader('Content-Length', Buffer.byteLength(Buffer.concat(chunks)))
+                .end(Buffer.concat(chunks))
             })
+
+            doc.end()
         } else {
             res.status('400').json({error: 'Esse aluno(a) não existe'})
         }
