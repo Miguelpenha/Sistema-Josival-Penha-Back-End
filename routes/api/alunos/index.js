@@ -54,6 +54,8 @@ alunos.get('/:id', async (req, res) => {
         const aluno = await alunosModels.findById(id)
 
         if (aluno) {
+            aluno.turma = (await turmasModels.findById(aluno.turma)).nome
+
             res.json(aluno)
         } else {
             res.json({exists: false})
