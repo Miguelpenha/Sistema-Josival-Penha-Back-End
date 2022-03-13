@@ -168,12 +168,29 @@ documents.post('/declaration', async (req, res) => {
 
 documents.post('/declaration-finance', async (req, res) => {
     const { id, ano } = req.body
+    let { mátricula, mensalidade } = req.body
 
     if (mongoose.isValidObjectId(id)) {
         const aluno = await alunosModels.findById(id)
 
         if (aluno) {
             const anoLetivo = (await turmasModels.findById(aluno.turma)).serie
+
+            mátricula.includes(',') ? null : mátricula = `${mátricula},00`
+            let mátriculaBruta = Number(
+                mátricula.replace('.', '')
+                .replace(',', '')
+                .replace('R$', '')
+                .trimStart()
+            )
+
+            mensalidade.includes(',') ? null : mensalidade = `${mensalidade},00`
+            let mensalidadeBruta = Number(
+                mensalidade.replace('.', '')
+                .replace(',', '')
+                .replace('R$', '')
+                .trimStart()
+            )
     
             const doc = new PDFDOCUMENT({size: 'A4', margin: 60, lang: 'pt-br', displayTitle: `Declaração financeira do aluno(a) ${aluno.nome}`, info: {
                 Title: `Declaração financeira do aluno(a) ${aluno.nome}`,
@@ -286,26 +303,28 @@ documents.post('/declaration-finance', async (req, res) => {
                 underline: true
             })
             .font('Helvetica')
-            .text(' pai e responsável financeiro pelo aluno(a).', {
+            .text(' responsável financeiro pelo aluno(a).', {
                 align: 'left',
                 underline: false
             })
             .text(`Está adimplente com as mensalidades escolares no ano de ${ano}.`)
             .text('Nos seguintes meses:')
-            .text(`Matrícula.................................................${aluno.pagamentos['01'].value.replace('R$ ', '')}`)
-            .text(`Fevereiro.................................................${aluno.pagamentos['02'].value.replace('R$ ', '')}`)
-            .text(`Março......................................................${aluno.pagamentos['03'].value.replace('R$ ', '')}`)
-            .text(`Abril.........................................................${aluno.pagamentos['04'].value.replace('R$ ', '')}`)
-            .text(`Maio.........................................................${aluno.pagamentos['05'].value.replace('R$ ', '')}`)
-            .text(`Junho.......................................................${aluno.pagamentos['06'].value.replace('R$ ', '')}`)
-            .text(`Julho........................................................${aluno.pagamentos['07'].value.replace('R$ ', '')}`)
-            .text(`Agosto......................................................${aluno.pagamentos['08'].value.replace('R$ ', '')}`)
-            .text(`Setembro.................................................${aluno.pagamentos['09'].value.replace('R$ ', '')}`)
-            .text(`Outubro....................................................${aluno.pagamentos['10'].value.replace('R$ ', '')}`)
-            .text(`Novembro.................................................${aluno.pagamentos['11'].value.replace('R$ ', '')}`)
-            .text(`Dezembro.................................................${aluno.pagamentos['12'].value.replace('R$ ', '')}`)
+            .text(`Matrícula.................................................${dinero({ amount: mátriculaBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Fevereiro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Fevereiro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Fevereiro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Março......................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Abril.........................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Maio.........................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Junho.......................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Julho........................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Agosto......................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Setembro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Outubro....................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Novembro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Dezembro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
             .moveDown(0.5)
-            .text(`Total.......................................................${totalMensalidades.replace('R$ ', '')}`)
+            .text(`Total.......................................................${dinero({ amount: (mensalidadeBruta*12)+mátriculaBruta, currency: 'BRL' }).toFormat()}`)
             .moveDown(2.2)
             .fontSize(12)
             .text('__________________________________', {
