@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon app.js",
     "start": "pm2-runtime start ecosystem.config.js --env production",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "testar": "artillery quick -o ./artillery.json -c 100 -n 100 http://localhost:3000/api/alunos && artillery report -o artillery.html artillery.json && node commands/testar.js"
   },
   "keywords": [],
   "author": "Miguel Penha <miguel.penha1@gmail.com> (https://portfolio-sand-xi.vercel.app/)",
