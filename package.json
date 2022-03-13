@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "nodemon app.js",
     "start": "pm2-runtime start ecosystem.config.js --env production",
-    "testar": "artillery quick --count 20 -n 200 http://localhost:3000",
     "test": "jest --detectOpenHandles"
   },
   "keywords": [],
@@ -52,6 +51,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
+    "artillery": "^2.0.0-12",
     "jest": "^27.5.1"
   }
 }
