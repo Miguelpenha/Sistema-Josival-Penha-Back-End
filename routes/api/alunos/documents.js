@@ -168,7 +168,7 @@ documents.post('/declaration', async (req, res) => {
 
 documents.post('/declaration-finance', async (req, res) => {
     const { id, ano } = req.body
-    let { mátricula, mensalidade, mensalidades, responsável, cpf } = req.body
+    let { mátricula, mensalidade, mensalidades, responsável, cpf, noCpf } = req.body
 
     if (mongoose.isValidObjectId(id)) {
         const aluno = await alunosModels.findById(id)
@@ -317,18 +317,32 @@ documents.post('/declaration-finance', async (req, res) => {
                 underline: true
             })
             .font('Helvetica')
-            .text(', CPF nº ', {
-                continued: true,
-                underline: false
-            })
-            .font('Helvetica-Bold')
-            .text(cpf ? cpf : aluno.cpf, {
-                continued: true,
-                align: 'left',
-                underline: true
-            })
+            
+            if (!noCpf) {
+                doc.text(', CPF nº ', {
+                    continued: true,
+                    underline: false
+                })
+                .font('Helvetica-Bold')
+                .text(`${cpf ? cpf : aluno.cpf}`, {
+                    continued: true,
+                    align: 'left',
+                    underline: true
+                })
+                .text(' ', {
+                    continued: true,
+                    underline: false
+                })
+            } else {
+                doc.text(', ', {
+                    continued: true,
+                    underline: false
+                })
+            }
+
+            doc
             .font('Helvetica')
-            .text(' responsável financeiro pelo aluno(a).', {
+            .text('responsável financeiro pelo aluno(a).', {
                 align: 'left',
                 underline: false
             })
