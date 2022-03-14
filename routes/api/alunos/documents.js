@@ -168,7 +168,7 @@ documents.post('/declaration', async (req, res) => {
 
 documents.post('/declaration-finance', async (req, res) => {
     const { id, ano } = req.body
-    let { mátricula, mensalidade } = req.body
+    let { mátricula, mensalidade, mensalidades, responsável, cpf } = req.body
 
     if (mongoose.isValidObjectId(id)) {
         const aluno = await alunosModels.findById(id)
@@ -184,15 +184,40 @@ documents.post('/declaration-finance', async (req, res) => {
                 .trimStart()
             )
 
-            mensalidade.includes(',') ? null : mensalidade = `${mensalidade},00`
-            let mensalidadeBruta = Number(
-                mensalidade.replace('.', '')
-                .replace(',', '')
-                .replace('R$', '')
-                .trimStart()
-            )
+            let mensalidadeBruta = 0
+
+            if (mensalidade) {
+                mensalidade.includes(',') ? null : mensalidade = `${mensalidade},00`
+                mensalidadeBruta = Number(
+                    mensalidade.replace('.', '')
+                    .replace(',', '')
+                    .replace('R$', '')
+                    .trimStart()
+                )
+            }
+
+            let mensalidadesTotal = 0
+
+            if (mensalidades) {
+                Object.keys(mensalidades).map(mês => {
+                    mensalidades[mês].includes(',') ? null : mensalidades[mês] = `${mensalidades[mês]},00`
+                    mensalidades[mês] = Number(
+                        mensalidades[mês].replace('.', '')
+                        .replace(',', '')
+                        .replace('R$', '')
+                        .trimStart()
+                    )
+
+                    mensalidadesTotal += mensalidades[mês]
+                })
+            }
     
-            const doc = new PDFDOCUMENT({size: 'A4', margin: 60, lang: 'pt-br', displayTitle: `Declaração financeira do aluno(a) ${aluno.nome}`, info: {
+            const doc = new PDFDOCUMENT({size: 'A4', margins: {
+                top: 60,
+                left: 60,
+                right: 60,
+                bottom: 40
+            }, lang: 'pt-br', displayTitle: `Declaração financeira do aluno(a) ${aluno.nome}`, info: {
                 Title: `Declaração financeira do aluno(a) ${aluno.nome}`,
                 CreationDate: new Date(),
                 Author: 'Sistema Josival Penha',
@@ -249,7 +274,7 @@ documents.post('/declaration-finance', async (req, res) => {
             })
             .font('Helvetica')
             .fontSize(13)
-            .moveDown(3)
+            .moveDown(1)
             .text(`Paulista, ${new Date().getDate()} de ${data.getMes(new Date().toLocaleDateString('pt-br').split('/')[1])} de ${new Date().       getFullYear()}`, {
                 align: 'right',
                 underline: false
@@ -286,7 +311,7 @@ documents.post('/declaration-finance', async (req, res) => {
                 continued: true
             })
             .font('Helvetica-Bold')
-            .text(aluno.responsável1, {
+            .text(responsável === '1' ? aluno.responsável1 : aluno.responsável2, {
                 continued: true,
                 align: 'left',
                 underline: true
@@ -297,7 +322,7 @@ documents.post('/declaration-finance', async (req, res) => {
                 underline: false
             })
             .font('Helvetica-Bold')
-            .text(aluno.cpf, {
+            .text(cpf ? cpf : aluno.cpf, {
                 continued: true,
                 align: 'left',
                 underline: true
@@ -310,22 +335,20 @@ documents.post('/declaration-finance', async (req, res) => {
             .text(`Está adimplente com as mensalidades escolares no ano de ${ano}.`)
             .text('Nos seguintes meses:')
             .text(`Matrícula.................................................${dinero({ amount: mátriculaBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Fevereiro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Fevereiro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Fevereiro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Março......................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Abril.........................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Maio.........................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Junho.......................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Julho........................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Agosto......................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Setembro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Outubro....................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Novembro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
-            .text(`Dezembro.................................................${dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat()}`)
+            .text(`Fevereiro.................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['02'], currency: 'BRL' }).toFormat()}`)
+            .text(`Março......................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['03'], currency: 'BRL' }).toFormat()}`)
+            .text(`Abril.........................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['04'], currency: 'BRL' }).toFormat()}`)
+            .text(`Maio.........................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['05'], currency: 'BRL' }).toFormat()}`)
+            .text(`Junho.......................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['06'], currency: 'BRL' }).toFormat()}`)
+            .text(`Julho........................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['07'], currency: 'BRL' }).toFormat()}`)
+            .text(`Agosto......................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['08'], currency: 'BRL' }).toFormat()}`)
+            .text(`Setembro.................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['09'], currency: 'BRL' }).toFormat()}`)
+            .text(`Outubro....................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['10'], currency: 'BRL' }).toFormat()}`)
+            .text(`Novembro.................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['11'], currency: 'BRL' }).toFormat()}`)
+            .text(`Dezembro.................................................${mensalidade ? dinero({ amount: mensalidadeBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidades['12'], currency: 'BRL' }).toFormat()}`)
             .moveDown(0.5)
-            .text(`Total.......................................................${dinero({ amount: (mensalidadeBruta*12)+mátriculaBruta, currency: 'BRL' }).toFormat()}`)
-            .moveDown(2.2)
+            .text(`Total.......................................................${mensalidade ? dinero({ amount: (mensalidadeBruta*12)+mátriculaBruta, currency: 'BRL' }).toFormat() : dinero({ amount: mensalidadesTotal+mátriculaBruta, currency: 'BRL' }).toFormat()}`)
+            .moveDown(2.5)
             .fontSize(12)
             .text('__________________________________', {
                 align: 'center'
@@ -337,12 +360,12 @@ documents.post('/declaration-finance', async (req, res) => {
             })
             .font('Helvetica-Bold')
             .fontSize(11)
-            .text('tel. (81) 3437-2618', 100, 752)
-            .text('Av. João Paulo II, 894', 240, 751)
-            .text('www.josivalpenha.com', 385, 750)
-            .text('cel. (81) 99499-7501', 100, 768)
-            .text('Mirueira, Paulista - PE', 240, 767)
-            .text('@josival.penha', 385, 766)
+            .text('tel. (81) 3437-2618', 100, 772)
+            .text('Av. João Paulo II, 894', 240, 771)
+            .text('www.josivalpenha.com', 385, 770)
+            .text('cel. (81) 99499-7501', 100, 788)
+            .text('Mirueira, Paulista - PE', 240, 787)
+            .text('@josival.penha', 385, 786)
     
             doc.on('end', () => {
                 res
