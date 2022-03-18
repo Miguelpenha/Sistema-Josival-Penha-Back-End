@@ -107,7 +107,7 @@ alunos.post('/', fotoUpload.single('foto'), async (req, res) => {
 
         const turmaModi = await turmasModels.findById(IdTurma).select('alunos')
         turmaModi.alunos = Number(turmaModi.alunos)+1
-        turmaModi.save()
+        await turmaModi.save()
         const valueMensalidade = dinero({ amount: Number(process.env.VALUE_MENSALIDADE.replace(',', '').replace('.', '')), currency: 'BRL' })
         const aluno = {
             nome,
@@ -573,6 +573,22 @@ alunos.post('/:id', async (req, res) => {
     } else {
         res.json({exists: false})
     }
+})
+
+alunos.delete('/', async (req, res) => {
+    const alunos = await alunosModels.find({})
+
+    alunos.map(aluno => {
+        alunosModels.findByIdAndDelete(aluno._id, async () => {
+            const turmaDelete = await turmasModels.findById(aluno.turma)
+
+            turmaDelete.alunos = turmaDelete.alunos-1
+
+            turmaDelete.save().then(() => {})
+        })
+    })
+
+    res.json({deleted: true})
 })
 
 alunos.delete('/:id', async (req, res) => {
