@@ -580,6 +580,9 @@ documents.post('/payments', async (req, res) => {
     const planilha = new excelJs.Workbook()
     const pagina = planilha.addWorksheet('Pagamentos dos alunos')
 
+    planilha.title = 'Pagamentos dos alunos'
+    planilha.creator = 'Josival Penha'
+
     let columns = [
         {
             header: 'Aluno',
@@ -904,21 +907,17 @@ documents.post('/payments', async (req, res) => {
         left: { color: '#000000', style: 'thin' },
         bottom: { color: '#000000', style: 'thin' }
     }
-    
-    const caminhoPlanilha = path.resolve(__dirname, '..', '..', '..', 'public', 'planilhas', 'Pagamentos dos alunos.xlsx')
 
-    await planilha.xlsx.writeFile(caminhoPlanilha)
-    const tamanho = fs.statSync(caminhoPlanilha)
+    const chunks = await planilha.xlsx.writeBuffer()
 
     res.setHeader('Content-Description', 'File Transfer')
-    res.setHeader('Content-Disposition', 'attachment; filename=Pagamentos dos alunos.xlsx')
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    res.setHeader('Content-Length', tamanho.size)
-    res.setHeader('Content-Transfer-Encoding', 'binary')
-    res.setHeader('Cache-Control', 'must-revalidate')
-    res.setHeader('Pragma', 'public')
-    
-    res.download(caminhoPlanilha, 'Pagamentos dos alunos.xlsx', () => fs.unlinkSync(caminhoPlanilha))
+    .setHeader('Content-Disposition', 'attachment; filename=Pagamentos dos alunos.xlsx')
+    .contentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    .setHeader('Content-Length', Buffer.byteLength(chunks))
+    .setHeader('Content-Transfer-Encoding', 'binary')
+    .setHeader('Cache-Control', 'must-revalidate')
+    .setHeader('Pragma', 'public')
+    .end(chunks)
 })
 
 module.exports = documents
