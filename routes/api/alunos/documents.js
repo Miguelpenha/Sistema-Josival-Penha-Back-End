@@ -11,6 +11,7 @@ const crypto = require('crypto')
 const fs = require('fs')
 const namesMatters = require('../../../namesMatters.json')
 const dinero = require('dinero.js')
+const meses = require('../../../meses')
 
 dinero.globalLocale = 'pt-br'
 
@@ -573,6 +574,351 @@ documents.post('/report', async (req, res) => {
     } else {
         res.json({ exists: false })
     }
+})
+
+documents.post('/payments', async (req, res) => {
+    const planilha = new excelJs.Workbook()
+    const pagina = planilha.addWorksheet('Pagamentos dos alunos')
+
+    let columns = [
+        {
+            header: 'Aluno',
+            key: 'Aluno',
+            width: 25,
+            style: {
+                alignment: {
+                    horizontal: 'center'
+                },
+                font: {
+                    bold: true
+                }
+            }
+        }
+    ]
+    
+    meses.map(mês => (
+        columns.push({
+            header: mês,
+            key: mês,
+            width: 14
+        })
+    ))
+
+    pagina.columns = columns
+
+    pagina.findCell('A1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('B1').font = {
+        bold: true
+    }
+    pagina.findCell('B1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('C1').font = {
+        bold: true
+    }
+    pagina.findCell('C1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('D1').font = {
+        bold: true
+    }
+    pagina.findCell('D1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('E1').font = {
+        bold: true
+    }
+    pagina.findCell('E1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('F1').font = {
+        bold: true
+    }
+    pagina.findCell('F1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('G1').font = {
+        bold: true
+    }
+    pagina.findCell('G1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('H1').font = {
+        bold: true
+    }
+    pagina.findCell('H1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('I1').font = {
+        bold: true
+    }
+    pagina.findCell('I1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('J1').font = {
+        bold: true
+    }
+    pagina.findCell('J1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('K1').font = {
+        bold: true
+    }
+    pagina.findCell('K1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('L1').font = {
+        bold: true
+    }
+    pagina.findCell('L1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('M1').font = {
+        bold: true
+    }
+    pagina.findCell('M1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    
+    const alunos = await alunosModels.find({})
+
+    alunos.map((aluno, index) => {
+        pagina.addRow([
+            aluno.nome,
+            aluno.pagamentos['01'].pago ? aluno.pagamentos['01'].value : '',
+            aluno.pagamentos['02'].pago ? aluno.pagamentos['02'].value : '',
+            aluno.pagamentos['03'].pago ? aluno.pagamentos['03'].value : '',
+            aluno.pagamentos['04'].pago ? aluno.pagamentos['04'].value : '',
+            aluno.pagamentos['05'].pago ? aluno.pagamentos['05'].value : '',
+            aluno.pagamentos['06'].pago ? aluno.pagamentos['06'].value : '',
+            aluno.pagamentos['07'].pago ? aluno.pagamentos['07'].value : '',
+            aluno.pagamentos['08'].pago ? aluno.pagamentos['08'].value : '',
+            aluno.pagamentos['09'].pago ? aluno.pagamentos['09'].value : '',
+            aluno.pagamentos['10'].pago ? aluno.pagamentos['10'].value : '',
+            aluno.pagamentos['11'].pago ? aluno.pagamentos['11'].value : '',
+            aluno.pagamentos['12'].pago ? aluno.pagamentos['12'].value : '',
+        ])
+
+        pagina.findCell('A'+Number(index+1)).alignment = {
+            horizontal: 'left'
+        }
+        pagina.findCell('A'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('B'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('C'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('D'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('E'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('F'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('G'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('H'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('I'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('J'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('K'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('L'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('M'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+    })
+
+    pagina.findCell('A'+Number(alunos.length+1)).alignment = {
+        horizontal: 'left'
+    }
+    pagina.findCell('A'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('B'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('C'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('D'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('E'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('F'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('G'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('H'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('I'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('J'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('K'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('L'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    pagina.findCell('M'+Number(alunos.length+1)).border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
+    
+    const caminhoPlanilha = path.resolve(__dirname, '..', '..', '..', 'public', 'planilhas', 'Pagamentos dos alunos.xlsx')
+
+    await planilha.xlsx.writeFile(caminhoPlanilha)
+    const tamanho = fs.statSync(caminhoPlanilha)
+
+    res.setHeader('Content-Description', 'File Transfer')
+    res.setHeader('Content-Disposition', 'attachment; filename=Pagamentos dos alunos.xlsx')
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    res.setHeader('Content-Length', tamanho.size)
+    res.setHeader('Content-Transfer-Encoding', 'binary')
+    res.setHeader('Cache-Control', 'must-revalidate')
+    res.setHeader('Pragma', 'public')
+    
+    res.download(caminhoPlanilha, 'Pagamentos dos alunos.xlsx', () => fs.unlinkSync(caminhoPlanilha))
 })
 
 module.exports = documents
