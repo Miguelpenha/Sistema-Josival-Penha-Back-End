@@ -587,7 +587,7 @@ documents.post('/payments', async (req, res) => {
         {
             header: 'Aluno',
             key: 'Aluno',
-            width: 25,
+            width: 32,
             style: {
                 alignment: {
                     horizontal: 'center'
