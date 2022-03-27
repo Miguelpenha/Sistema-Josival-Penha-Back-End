@@ -511,6 +511,11 @@ alunos.post('/exportar-por-turma', async (req, res) => {
 
     const columns = [
         {
+            header: 'Índice:', 
+            key: 'índice', 
+            width: 8
+        },
+        {
             header: 'Nome: ', 
             key: 'nome', 
             width: 25
@@ -625,6 +630,7 @@ alunos.post('/exportar-por-turma', async (req, res) => {
         alunos.map((aluno, index) => {
             if (aluno.turma == turma.nome) {
                 pagina.addRow([
+                    index+1,
                     aluno.nome || '',
                     aluno.sexo || '',
                     aluno.nascimento || '',
@@ -649,11 +655,16 @@ alunos.post('/exportar-por-turma', async (req, res) => {
                 ])
     
                 try {
-                    pagina.findCell('A'+(index+2)).border = {
-                        top: { color: '#000000', style: 'thin' },
-                        right: { color: '#000000', style: 'thin' },
-                        left: { color: '#000000', style: 'thin' },
-                        bottom: { color: '#000000', style: 'thin' }
+                    pagina.findCell('A'+(index+2)).style = {
+                        alignment: {
+                            horizontal: 'center'
+                        },
+                        border: {
+                            top: { color: '#000000', style: 'thin' },
+                            right: { color: '#000000', style: 'thin' },
+                            left: { color: '#000000', style: 'thin' },
+                            bottom: { color: '#000000', style: 'thin' }
+                        }
                     }
                     pagina.findCell('B'+(index+2)).border = {
                         top: { color: '#000000', style: 'thin' },
@@ -786,6 +797,12 @@ alunos.post('/exportar-por-turma', async (req, res) => {
                         left: { color: '#000000', style: 'thin' },
                         bottom: { color: '#000000', style: 'thin' }
                     }
+                    pagina.findCell('V'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
                     pagina.findCell('A1').border = {
                         top: { color: '#000000', style: 'thin' },
                         right: { color: '#000000', style: 'thin' },
@@ -907,6 +924,12 @@ alunos.post('/exportar-por-turma', async (req, res) => {
                         bottom: { color: '#000000', style: 'thin' }
                     }
                     pagina.findCell('U1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('V1').border = {
                         top: { color: '#000000', style: 'thin' },
                         right: { color: '#000000', style: 'thin' },
                         left: { color: '#000000', style: 'thin' },
