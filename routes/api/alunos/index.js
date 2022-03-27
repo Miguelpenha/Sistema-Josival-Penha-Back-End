@@ -623,296 +623,298 @@ alunos.post('/exportar-por-turma', async (req, res) => {
         pagina.columns = columns
 
         alunos.map((aluno, index) => {
-            pagina.addRow([
-                aluno.nome || '',
-                aluno.sexo || '',
-                aluno.nascimento || '',
-                aluno.cpf || '',
-                aluno.responsável1 || '',
-                aluno.responsável2 || '',
-                aluno.telefone || '',
-                aluno.email || '',
-                aluno.endereço.cep || '',
-                aluno.endereço.cidade || '',
-                aluno.endereço.bairro || '',
-                aluno.endereço.rua || '',
-                aluno.endereço.número || '',
-                aluno.endereço.complemento || '',
-                aluno.matrícula || '',
-                aluno.turma || '',
-                aluno.professora || '',
-                aluno.situação || '',
-                aluno.observação || '',
-                aluno.foto.url || '',
-                `${aluno.criação.data} ás ${aluno.criação.hora}`
-            ])
-
-            try {
-                pagina.findCell('A'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('B'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('C'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('D'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('E'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('F'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('G'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('H'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('I'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('J'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('K'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('L'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('M'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('N'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('O'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('P'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('Q'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('R'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('S'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('T'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('T'+(index+2)).value = {
-                    text: aluno.foto.url,
-                    hyperlink: aluno.foto.url,
-                    tooltip: aluno.foto.url
-                }
-                pagina.findCell('T'+(index+2)).style = {
-                    font: {
-                        underline: true,
-                        color: { argb: 'FF0000FF' }
+            if (aluno.turma == turma.nome) {
+                pagina.addRow([
+                    aluno.nome || '',
+                    aluno.sexo || '',
+                    aluno.nascimento || '',
+                    aluno.cpf || '',
+                    aluno.responsável1 || '',
+                    aluno.responsável2 || '',
+                    aluno.telefone || '',
+                    aluno.email || '',
+                    aluno.endereço.cep || '',
+                    aluno.endereço.cidade || '',
+                    aluno.endereço.bairro || '',
+                    aluno.endereço.rua || '',
+                    aluno.endereço.número || '',
+                    aluno.endereço.complemento || '',
+                    aluno.matrícula || '',
+                    aluno.turma || '',
+                    aluno.professora || '',
+                    aluno.situação || '',
+                    aluno.observação || '',
+                    aluno.foto.url || '',
+                    `${aluno.criação.data} ás ${aluno.criação.hora}`
+                ])
+    
+                try {
+                    pagina.findCell('A'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
                     }
+                    pagina.findCell('B'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('C'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('D'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('E'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('F'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('G'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('H'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('I'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('J'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('K'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('L'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('M'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('N'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('O'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('P'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('Q'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('R'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('S'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('T'+(index+2)).value = {
+                        text: aluno.foto.url,
+                        hyperlink: aluno.foto.url,
+                        tooltip: aluno.foto.url
+                    }
+                    pagina.findCell('T'+(index+2)).style = {
+                        font: {
+                            underline: true,
+                            color: { argb: 'FF0000FF' }
+                        },
+                        border: {
+                            top: { color: '#000000', style: 'thin' },
+                            right: { color: '#000000', style: 'thin' },
+                            left: { color: '#000000', style: 'thin' },
+                            bottom: { color: '#000000', style: 'thin' }
+                        }
+                    }
+                    pagina.findCell('U'+(index+2)).border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('A1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('B1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('C1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('D1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('E1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('F1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('G1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('H1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('I1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('J1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('K1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('L1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('M1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('N1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('O1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('P1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('Q1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('R1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('S1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('T1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                    pagina.findCell('U1').border = {
+                        top: { color: '#000000', style: 'thin' },
+                        right: { color: '#000000', style: 'thin' },
+                        left: { color: '#000000', style: 'thin' },
+                        bottom: { color: '#000000', style: 'thin' }
+                    }
+                } catch {
+                    
                 }
-                pagina.findCell('U'+(index+2)).border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('A1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('B1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('C1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('D1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('E1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('F1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('G1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('H1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('I1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('J1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('K1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('L1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('M1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('N1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('O1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('P1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('Q1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('R1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('S1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('T1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-                pagina.findCell('U1').border = {
-                    top: { color: '#000000', style: 'thin' },
-                    right: { color: '#000000', style: 'thin' },
-                    left: { color: '#000000', style: 'thin' },
-                    bottom: { color: '#000000', style: 'thin' }
-                }
-            } catch {
-                
             }
         })
     })
