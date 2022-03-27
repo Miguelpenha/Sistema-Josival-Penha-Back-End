@@ -585,6 +585,16 @@ documents.post('/payments', async (req, res) => {
 
     let columns = [
         {
+            header: 'Índice',
+            key: 'índice',
+            width: 8,
+            style: {
+                font: {
+                    bold: true
+                }
+            }
+        },
+        {
             header: 'Aluno',
             key: 'Aluno',
             width: 32,
@@ -723,11 +733,21 @@ documents.post('/payments', async (req, res) => {
         left: { color: '#000000', style: 'thin' },
         bottom: { color: '#000000', style: 'thin' }
     }
+    pagina.findCell('N1').font = {
+        bold: true
+    }
+    pagina.findCell('N1').border = {
+        top: { color: '#000000', style: 'thin' },
+        right: { color: '#000000', style: 'thin' },
+        left: { color: '#000000', style: 'thin' },
+        bottom: { color: '#000000', style: 'thin' }
+    }
     
     const alunos = await alunosModels.find({})
 
     alunos.map((aluno, index) => {
         pagina.addRow([
+            index+1,
             aluno.nome,
             aluno.pagamentos['01'].pago ? aluno.pagamentos['01'].value : '',
             aluno.pagamentos['02'].pago ? aluno.pagamentos['02'].value : '',
@@ -819,6 +839,12 @@ documents.post('/payments', async (req, res) => {
             bottom: { color: '#000000', style: 'thin' }
         }
         pagina.findCell('M'+Number(index+1)).border = {
+            top: { color: '#000000', style: 'thin' },
+            right: { color: '#000000', style: 'thin' },
+            left: { color: '#000000', style: 'thin' },
+            bottom: { color: '#000000', style: 'thin' }
+        }
+        pagina.findCell('N'+Number(index+1)).border = {
             top: { color: '#000000', style: 'thin' },
             right: { color: '#000000', style: 'thin' },
             left: { color: '#000000', style: 'thin' },
