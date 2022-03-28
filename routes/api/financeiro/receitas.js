@@ -15,6 +15,7 @@ receitas.get('/', async (req, res) => {
         
         res.json({quant: receitas.length+1})
     } else {
+        const { month } = req.query
         const receitas = await receitasModels.find({})
         const alunos = await alunosModels.find()
         let mensalidades = 0
@@ -22,9 +23,9 @@ receitas.get('/', async (req, res) => {
         const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
 
         alunos.map(aluno => {
-            mensalidades+=aluno.pagamentos[new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[new Date().toLocaleDateString('pt-br').split('/')[1]].valueBruto
+            mensalidades+=aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].valueBruto
         })
-
+        
         receitas.push({
             _id: uuid(),
             nome: 'Mensalidades dos alunos',
