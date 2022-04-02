@@ -6,6 +6,7 @@ const receitasModels = require('../../../models/financeiro/receitas')
 const alunosModels = require('../../../models/aluno')
 const dataUtil = require('../../../utils/data')
 const { v4: uuid } = require('uuid')
+const mesesNumbers = require('../../../mesesNumbers')
 
 dinero.globalLocale = 'pt-br'
 
@@ -22,9 +23,17 @@ receitas.get('/', async (req, res) => {
         const criação = new Date()
         const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
 
-        alunos.map(aluno => {
-            mensalidades+=aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].valueBruto
-        })
+        if (month === 'full') {
+            alunos.map(aluno => {
+                mesesNumbers.map(mês => {
+                    mensalidades+=aluno.pagamentos[mês].pago && aluno.pagamentos[mês].valueBruto
+                })
+            })
+        } else {
+            alunos.map(aluno => {
+                mensalidades+=aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].valueBruto
+            })
+        }
         
         receitas.push({
             _id: uuid(),
