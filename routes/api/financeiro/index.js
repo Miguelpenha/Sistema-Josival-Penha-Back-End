@@ -59,8 +59,6 @@ financeiro.get('/saldo', async (req, res) => {
     despesas.map(despesa => totalDespesas += despesa.precoBruto)
     
     const saldo = totalReceitas-totalDespesas
-
-    console.log(totalReceitas, totalDespesas)
     
     res.json({
         saldo: dinero({ amount: saldo, currency: 'BRL' }).toFormat(),
