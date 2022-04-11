@@ -7,6 +7,7 @@ const alunosModels = require('../../../models/aluno')
 const despesasRouter = require('./despesas')
 const receitasRouter = require('./receitas')
 const dataUtil = require('../../../utils/data')
+const mesesNumbers = require('../../../mesesNumbers')
 const { v4: uuid } = require('uuid')
 
 dinero.globalLocale = 'pt-br'
@@ -23,10 +24,19 @@ financeiro.get('/saldo', async (req, res) => {
     let mensalidades = 0
     const criação = new Date()
     const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
+    const { month } = req.query
 
-    alunos.map(aluno => {
-        mensalidades+=aluno.pagamentos[new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[new Date().toLocaleDateString('pt-br').split('/')[1]].valueBruto
-    })
+    if (month === 'full') {
+        alunos.map(aluno => {
+            mesesNumbers.map(mês => {
+                mensalidades+=aluno.pagamentos[mês].pago && aluno.pagamentos[mês].valueBruto
+            })
+        })
+    } else {
+        alunos.map(aluno => {
+            mensalidades+=aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].valueBruto
+        })
+    }
 
     receitas.push({
         _id: uuid(),
@@ -47,8 +57,10 @@ financeiro.get('/saldo', async (req, res) => {
 
     receitas.map(receita => totalReceitas += receita.precoBruto)
     despesas.map(despesa => totalDespesas += despesa.precoBruto)
+    
+    const saldo = totalReceitas-totalDespesas
 
-    const saldo = totalReceitas - totalDespesas
+    console.log(totalReceitas, totalDespesas)
     
     res.json({
         saldo: dinero({ amount: saldo, currency: 'BRL' }).toFormat(),

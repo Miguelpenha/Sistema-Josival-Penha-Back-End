@@ -62,10 +62,19 @@ receitas.get('/total', async (req, res) => {
     let mensalidades = 0
     const criação = new Date()
     const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
+    const { month } = req.query
 
-    alunos.map(aluno => {
-        mensalidades+=aluno.pagamentos[new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[new Date().toLocaleDateString('pt-br').split('/')[1]].valueBruto
-    })
+    if (month === 'full') {
+        alunos.map(aluno => {
+            mesesNumbers.map(mês => {
+                mensalidades+=aluno.pagamentos[mês].pago && aluno.pagamentos[mês].valueBruto
+            })
+        })
+    } else {
+        alunos.map(aluno => {
+            mensalidades+=aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].valueBruto
+        })
+    }
 
     receitas.push({
         _id: uuid(),
