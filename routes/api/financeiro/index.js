@@ -62,7 +62,11 @@ financeiro.get('/saldo', async (req, res) => {
     
     res.json({
         saldo: dinero({ amount: saldo, currency: 'BRL' }).toFormat(),
-        saldoBruto: saldo
+        saldoBruto: saldo,
+        receitas: dinero({ amount: totalReceitas, currency: 'BRL' }).toFormat(),
+        receitasBrutas: totalReceitas,
+        despesas: dinero({ amount: totalDespesas, currency: 'BRL' }).toFormat(),
+        despesasBrutas: totalDespesas
     })
 })
 
