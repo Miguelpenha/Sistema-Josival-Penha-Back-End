@@ -20,37 +20,75 @@ receitas.get('/', async (req, res) => {
         const receitas = await receitasModels.find({})
         const alunos = await alunosModels.find()
         let mensalidades = 0
+        let months = {}
         const criação = new Date()
         const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
 
-        if (month === 'full') {
-            alunos.map(aluno => {
-                mesesNumbers.map(mês => {
-                    mensalidades+=aluno.pagamentos[mês].pago && aluno.pagamentos[mês].valueBruto
-                })
-            })
-        } else {
-            alunos.map(aluno => {
-                mensalidades+=aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].pago && aluno.pagamentos[month || new Date().toLocaleDateString('pt-br').split('/')[1]].valueBruto
-            })
-        }
-        
-        receitas.push({
+        let receitaMensalidades = {
             _id: uuid(),
             nome: 'Mensalidades dos alunos',
-            precoBruto: mensalidades,
-            preco: dinero({ amount: mensalidades, currency: 'BRL' }).toFormat(),
             investimento: false,
             fixa: true,
             auto: true,
-            observação: '',
             fixaDay: '12',
             criação: {
                 data: criação.toLocaleDateString('pt-br'),
                 hora: `${hora[0]}:${hora[1]}`,
                 sistema: criação.toISOString()
             }
-        })
+        }
+
+        if (month === 'full' || !month) {
+            alunos.map(aluno => {
+                mesesNumbers.map(mês => {
+                    const pagamento = aluno.pagamentos[mês]
+
+                    if (pagamento.pago) {
+                        mensalidades+=pagamento.valueBruto
+
+                        months[mês] = {
+                            preco: dinero({ amount: months[mês] ? months[mês].valueBruto+pagamento.valueBruto : pagamento.valueBruto, currency: 'BRL' }).toFormat(),
+                            precoBruto: months[mês] ? months[mês].valueBruto+pagamento.valueBruto : pagamento.valueBruto
+                        }
+                    } else {
+                        if (!months[mês]) {
+                            months[mês] = {
+                                preco: 'R$ 0,00',
+                                precoBruto: 0
+                            }
+                        }
+                    }
+                })
+            })
+        } else {
+            alunos.map(aluno => {
+                mensalidades+=aluno.pagamentos[month].pago && aluno.pagamentos[month].valueBruto
+                
+                mesesNumbers.map(mês => {
+                    const pagamento = aluno.pagamentos[mês]
+
+                    if (pagamento.pago) {
+                        months[mês] = {
+                            preco: dinero({ amount: months[mês] ? months[mês].valueBruto+pagamento.valueBruto : pagamento.valueBruto, currency: 'BRL' }).toFormat(),
+                            precoBruto: months[mês] ? months[mês].valueBruto+pagamento.valueBruto : pagamento.valueBruto
+                        }
+                    } else {
+                        if (!months[mês]) {
+                            months[mês] = {
+                                preco: 'R$ 0,00',
+                                precoBruto: 0
+                            }
+                        }
+                    }
+                })
+            })
+        }
+
+        receitaMensalidades.preco = dinero({ amount: mensalidades, currency: 'BRL' }).toFormat()
+        receitaMensalidades.precoBruto = mensalidades
+        receitaMensalidades.months = months
+        
+        receitas.push(receitaMensalidades)
         
         res.json(receitas)
     }
@@ -121,9 +159,11 @@ receitas.post('/', async (req, res) => {
 
         const data = dataUtil.completa(dataSistema).toLocaleDateString('pt-br')
         const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
+        const precoChecked = dinero({ amount: precoBruto, currency: 'BRL' }).toFormat()
+
         receitasModels.create({
             nome,
-            preco: dinero({ amount: precoBruto, currency: 'BRL' }).toFormat(),
+            preco: precoChecked,
             precoBruto,
             data: fixa ? undefined : data,
             dataSistema: fixa ? undefined : dataSistema,
@@ -131,6 +171,56 @@ receitas.post('/', async (req, res) => {
             fixa,
             fixaDay: fixa ? fixaDay : undefined,
             observação,
+            months: {
+                '01': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '02': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '03': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '04': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '05': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '06': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '07': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '08': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '09': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '10': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '11': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+                '12': {
+                    preco: precoChecked,
+                    precoBruto: precoBruto
+                },
+            },
             criação: {
                 data: dataUtil.completa(criação).toLocaleDateString('pt-br'),
                 hora: `${hora[0]}:${hora[1]}`,
