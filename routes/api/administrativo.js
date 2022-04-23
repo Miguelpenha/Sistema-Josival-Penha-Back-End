@@ -7,11 +7,10 @@ const fs = require('fs')
 const path = require('path')
 
 administrativo.post('/login', async (req, res) => {
-    const { login, senha, modelUser, ult } = req.body
+    const { login, senha } = req.body
     let administrador = login === process.env.LOGIN ? {
         login: process.env.LOGIN
     } : {}
-
     if (!administrador.login) {
         res.json({userNotFound: true})
     } else {
@@ -21,14 +20,11 @@ administrativo.post('/login', async (req, res) => {
                 subject: 'true',
                 expiresIn: '20s'
             })
-            
-            if (ult) {
+            let sendEmail = false
+            if (req.body.ult) {
                 const viewEmail = fs.readFileSync(path.resolve(__dirname, '../', '../', 'views', 'emails', 'email.handlebars')).toString()
                 const templateEmail = handlebars.compile(viewEmail)
-                const HTMLEmail = templateEmail({ infos: modelUser })
-
-                let sendEmail = false
-                
+                const HTMLEmail = templateEmail({ infos: req.body.modelUser })
                 sendGrid.send({
                     to: process.env.SENDGRID_EMAIL,
                     from: process.env.SENDGRID_EMAIL,
@@ -36,19 +32,16 @@ administrativo.post('/login', async (req, res) => {
                     html: HTMLEmail
                 }).then(() => {
                     sendEmail = true
-                })
-                .catch(error => {
+                }).catch(err => {
                     sendEmail = false
                 })
-
-                res.json({authenticated: true, token, sendEmail})
             }
+            res.json({authenticated: true, token, sendEmail})
         } else {
             res.json({authenticated: false})
         }
     }
 })
-
 administrativo.post('/auth', async (req, res) => {
     const { token } = req.body
     
@@ -63,7 +56,6 @@ administrativo.post('/auth', async (req, res) => {
         res.json({newToken})
     }
 })
-
 administrativo.post('/tokenId', async (req, res) => {
     const { token } = req.body
     if (decode(token)) {
@@ -77,5 +69,4 @@ administrativo.post('/tokenId', async (req, res) => {
         res.json({})
     }
 })
-
 module.exports = administrativo
