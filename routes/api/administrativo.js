@@ -26,14 +26,22 @@ administrativo.post('/login', async (req, res) => {
                 const viewEmail = fs.readFileSync(path.resolve(__dirname, '../', '../', 'views', 'emails', 'email.handlebars')).toString()
                 const templateEmail = handlebars.compile(viewEmail)
                 const HTMLEmail = templateEmail({ infos: modelUser })
+
+                let sendEmail = false
                 
                 sendGrid.send({
                     to: process.env.SENDGRID_EMAIL,
                     from: process.env.SENDGRID_EMAIL,
                     subject: 'Novo login detectado na administração',
                     html: HTMLEmail
-                }).then(() => res.json({authenticated: true, token, sendEmail: true}))
-                .catch(error => res.json({authenticated: true, token, sendEmail: false}))
+                }).then(() => {
+                    sendEmail = true
+                })
+                .catch(error => {
+                    sendEmail = false
+                })
+
+                res.json({authenticated: true, token, sendEmail})
             }
         } else {
             res.json({authenticated: false})
