@@ -1,12 +1,17 @@
-<h1>Um novo login foi feito na administração 🧐 (Sistema Josival Penha Beta)</h1>
+<header>
+    <h1>Uma nova tentativa de login foi feita na administração 🧐</h1>
+    <h3>Sistema Josival Penha Beta</h3>
+</header>
 <hr>
-{{#if infos}}
-    <h2>Informações sobre o login</h3>
-{{else}}
-    <h2>Não há informações sobre o login 😕</h2>
-{{/if}}
-<ul>
-    {{#each infos}}
-        <li style="list-style: none;">{{this}}</lo>
-    {{/each}}
-</ul>
+<main>
+    {{#if infos}}
+        <h2>Informações sobre a tentativa de login</h3>
+    {{else}}
+        <h2>Não há informações sobre a tentativa login 😕</h2>
+    {{/if}}
+    <ul>
+        {{#each infos}}
+            <li style="list-style: none;">{{this}}</lo>
+        {{/each}}
+    </ul>
+</main>
