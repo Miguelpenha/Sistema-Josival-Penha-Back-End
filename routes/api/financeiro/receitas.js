@@ -84,6 +84,15 @@ receitas.get('/', async (req, res) => {
             })
         }
 
+        if (alunos.length <= 0) {
+            mesesNumbers.map(mês => {
+                months[mês] = {
+                    preco: 'R$ 0,00',
+                    precoBruto: 0
+                }
+            })
+        }
+
         receitaMensalidades.preco = dinero({ amount: mensalidades, currency: 'BRL' }).toFormat()
         receitaMensalidades.precoBruto = mensalidades
         receitaMensalidades.months = months
