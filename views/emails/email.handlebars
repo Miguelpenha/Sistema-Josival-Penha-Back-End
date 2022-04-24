@@ -1,6 +1,12 @@
-<h1>Um novo login foi feito na administração!</h1>
+<h1>Um novo login foi feito na administração 🧐</h1>
 <hr>
-<h3>Informações do login</h3>
-{{#each infos}}
-    <h4>{{this}}</h4>
-{{/each}}
+{{#if infos}}
+    <h2>Informações sobre o login</h3>
+{{else}}
+    <h2>Não há informações sobre o login 😕</h2>
+{{/if}}
+<ul>
+    {{#each infos}}
+        <li style="list-style: none;">{{this}}</lo>
+    {{/each}}
+</ul>

@@ -11,7 +11,6 @@ administrativo.post('/login', async (req, res) => {
     let administrador = login === process.env.LOGIN ? {
         login: process.env.LOGIN
     } : {}
-
     if (!administrador.login) {
         res.json({userNotFound: true})
     } else {
@@ -43,7 +42,6 @@ administrativo.post('/login', async (req, res) => {
         }
     }
 })
-
 administrativo.post('/auth', async (req, res) => {
     const { token } = req.body
     
