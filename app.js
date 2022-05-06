@@ -11,6 +11,7 @@ const apiRouter = require('./routes/api')
 const urlMongo = require('./config/db').urlMongo
 const port = require('./config/port')
 const helmet = require('helmet')
+console.log(process.env.URL_MONGO_PRODUCAO)
 // app.use(helmet())
 mongoose.connect(urlMongo, { useNewUrlParser: true, useUnifiedTopology: true })
 app.set('trust proxy', 1)
