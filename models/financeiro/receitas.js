@@ -12,108 +12,100 @@ const schema = new mongoose.Schema({
     observação: String,
     months: {
         '01': {
-            preco: String,
             precoBruto: Number,
+            preco: String,
+            pago: Boolean,
+            vencimento: String,
+            vencimentoSistema: Date,
             observação: String
         },
         '02': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         },
         '03': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         },
         '04': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         },
         '05': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         },
         '06': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         },
         '07': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         },
         '08': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         },
         '09': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         },
         '10': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         },
         '11': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         },
         '12': {
-            valueBruto: Number,
-            value: String,
+            precoBruto: Number,
+            preco: String,
             pago: Boolean,
             vencimento: String,
             vencimentoSistema: Date,
-            descrição: String,
-            forma: String
+            observação: String
         }
     },
     criação: {

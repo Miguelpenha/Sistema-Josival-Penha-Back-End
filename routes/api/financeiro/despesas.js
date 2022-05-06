@@ -48,9 +48,11 @@ despesas.post('/', async (req, res) => {
         
         const data = dataUtil.completa(dataSistema).toLocaleDateString('pt-br')
         const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
+        const precoChecked = dinero({ amount: precoBruto, currency: 'BRL' }).toFormat()
+
         despesasModels.create({
             nome,
-            preco: dinero({ amount: precoBruto, currency: 'BRL' }).toFormat(),
+            preco: precoChecked,
             precoBruto,
             data: fixa ? undefined : data,
             dataSistema: fixa ? undefined : dataSistema,
@@ -58,6 +60,104 @@ despesas.post('/', async (req, res) => {
             fixa,
             fixaDay: fixa ? fixaDay : undefined,
             observação,
+            months: {
+                '01': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/01/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/01/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '02': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/02/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/02/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '03': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/03/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/03/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '04': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/04/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/04/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '05': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/05/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/05/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '06': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/06/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/06/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '07': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/07/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/07/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '08': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/08/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/08/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '09': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/09/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/09/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '10': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/10/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/10/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '11': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/11/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/11/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                },
+                '12': {
+                    precoBruto: precoBruto,
+                    preco: precoChecked,
+                    pago: false,
+                    vencimento: `${fixaDay}/12/${new Date().toLocaleDateString().split('/')[2]}`,
+                    vencimentoSistema: new Date(`${fixaDay}/12/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    observação: ''
+                }
+            },
             criação: {
                 data: dataUtil.completa(criação).toLocaleDateString('pt-br'),
                 hora: `${hora[0]}:${hora[1]}`,
@@ -87,7 +187,7 @@ despesas.delete('/:id', async (req, res) => {
 
 despesas.post('/:id', async (req, res) => {
     const { id } = req.params
-    let { nome, preco, data: dataSistema, investimento, fixa, fixaDay, observação } = req.body
+    let { nome, preco, data: dataSistema, investimento, fixa, fixaDay, observação, months } = req.body
     const despesa = await despesasModels.findById(id)
 
     if (!despesa) {
@@ -111,6 +211,7 @@ despesas.post('/:id', async (req, res) => {
         despesa.fixa = fixa
         despesa.fixaDay = fixa ? fixaDay : undefined
         despesa.observação = observação
+        despesa.months = months
         
         despesa.save()
         .then(() => res.json({edited: true}))
