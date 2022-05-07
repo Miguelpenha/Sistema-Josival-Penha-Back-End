@@ -946,4 +946,72 @@ documents.post('/payments', async (req, res) => {
     .end(chunks)
 })
 
+documents.post('/notification', async (req, res) => {
+    const { text } = req.body
+    const chunks = []
+
+    const doc = new PDFDOCUMENT({size: 'A4', margins: {
+        top: 60,
+        left: 60,
+        right: 60,
+        bottom: 40
+    }, lang: 'pt-br', displayTitle: 'Aviso', info: {
+        Title: 'Aviso',
+        CreationDate: new Date(),
+        Author: 'Sistema Josival Penha',
+        Creator: 'Sistema Josival Penha',
+        ModDate: new Date(),
+        Producer: 'Sistema Josival Penha'
+    }})
+
+    doc.name = 'Aviso'
+    
+    doc.on('data', chunks.push.bind(chunks))
+    doc.registerFont('Quicksand-Bold', path.resolve(__dirname, '..', '..', '..', 'public', 'fonts', 'quicksand', 'Quicksand-Bold.ttf'))
+    doc.registerFont('Quicksand', path.resolve(__dirname, '..', '..', '..', 'public', 'fonts', 'quicksand', 'Quicksand-Regular.ttf'))
+    doc
+    .rect(0, 0, 595, 842)
+    .lineWidth(8)
+    .stroke('#ed3237')
+    .fill('#ffffff')
+    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'icon-aviso.png'), 250, 20, {
+        scale: 0.090
+    })
+    .fill('#0872fc')
+    .font('Quicksand-Bold')
+    .fontSize(50)
+    .fillColor('#0872fc')
+    .moveDown(0.5)
+    .text('Comunicado', {
+        align: 'center'
+    })
+    .fillColor('#ff5757')
+    .text('Escolar', {
+        align: 'center'
+    })
+    .moveDown(0.5)
+    .font('Quicksand')
+    .fontSize(18)
+    .fillColor('#000000')
+    .text(text)
+    .font('Quicksand-Bold')
+    .moveDown(15)
+    .text('Atenciosamente, ')
+    .moveDown(0.5)
+    .text('Instituto Educacional Josival Penha')
+    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'logo-JP-aviso.png'), 528, 773, {
+        scale: 0.090
+    })
+    
+    doc.on('end', () => {
+        res
+        .contentType('application/pdf')
+        .setHeader('Content-disposition', 'attachment; filename=Aviso.pdf')
+        .setHeader('Content-Length', Buffer.byteLength(Buffer.concat(chunks)))
+        .end(Buffer.concat(chunks))
+    })
+
+    doc.end()
+})
+
 module.exports = documents
