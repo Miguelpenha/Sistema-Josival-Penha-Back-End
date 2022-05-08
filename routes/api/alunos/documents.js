@@ -969,36 +969,129 @@ documents.post('/notification', async (req, res) => {
     doc.on('data', chunks.push.bind(chunks))
     doc.registerFont('Quicksand-Bold', path.resolve(__dirname, '..', '..', '..', 'public', 'fonts', 'quicksand', 'Quicksand-Bold.ttf'))
     doc.registerFont('Quicksand', path.resolve(__dirname, '..', '..', '..', 'public', 'fonts', 'quicksand', 'Quicksand-Regular.ttf'))
+
     doc
-    .rect(0, 0, 595, 842)
-    .lineWidth(8)
+    .rect(5, 5, 285, 400)
+    .lineWidth(6)
     .stroke('#ed3237')
     .fill('#ffffff')
-    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'icon-aviso.png'), 250, 20, {
-        scale: 0.090
+    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'icon-aviso.png'), 120, 20, {
+        scale: 0.050
     })
     .fill('#0872fc')
     .font('Quicksand-Bold')
-    .fontSize(50)
+    .fontSize(28)
     .fillColor('#0872fc')
-    .moveDown(0.5)
-    .text('Comunicado', {
-        align: 'center'
-    })
+    .moveDown(0.2)
+    .text('Comunicado', 55)
     .fillColor('#ff5757')
-    .text('Escolar', {
-        align: 'center'
-    })
+    .text('Escolar', 90)
     .moveDown(0.5)
     .font('Quicksand')
-    .fontSize(18)
+    .fontSize(14)
     .fillColor('#000000')
-    .text(text)
+    .text(text, 25, 160, {
+        width: 250
+    })
+    .fontSize(12)
     .font('Quicksand-Bold')
-    .text('Atenciosamente, ', 60, 740)
-    .text('Instituto Educacional Josival Penha', 60, 770)
-    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'logo-JP-aviso.png'), 528, 773, {
-        scale: 0.090
+    .text('Atenciosamente, ', 25, 345)
+    .text('Instituto Educacional Josival Penha', 25, 365)
+    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'logo-JP-aviso.png'), 250, 365, {
+        scale: 0.050
+    })
+
+    doc
+    .rect(305, 5, 285, 400)
+    .lineWidth(6)
+    .stroke('#ed3237')
+    .fill('#ffffff')
+    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'icon-aviso.png'), 430, 20, {
+        scale: 0.050
+    })
+    .fill('#0872fc')
+    .font('Quicksand-Bold')
+    .fontSize(28)
+    .fillColor('#0872fc')
+    .moveDown(0.2)
+    .text('Comunicado', 365, 70)
+    .fillColor('#ff5757')
+    .text('Escolar', 400)
+    .moveDown(0.5)
+    .font('Quicksand')
+    .fontSize(14)
+    .fillColor('#000000')
+    .text(text, 325, 160, {
+        width: 250
+    })
+    .fontSize(12)
+    .font('Quicksand-Bold')
+    .text('Atenciosamente, ', 325, 345)
+    .text('Instituto Educacional Josival Penha', 325, 365)
+    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'logo-JP-aviso.png'), 550, 365, {
+        scale: 0.050
+    })
+
+    doc
+    .rect(5, 425, 285, 400)
+    .lineWidth(6)
+    .stroke('#ed3237')
+    .fill('#ffffff')
+    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'icon-aviso.png'), 120, 440, {
+        scale: 0.050
+    })
+    .fill('#0872fc')
+    .font('Quicksand-Bold')
+    .fontSize(28)
+    .fillColor('#0872fc')
+    .moveDown(0.2)
+    .text('Comunicado', 55, 490)
+    .fillColor('#ff5757')
+    .text('Escolar', 90)
+    .moveDown(0.5)
+    .font('Quicksand')
+    .fontSize(14)
+    .fillColor('#000000')
+    .text(text, 25, 585, {
+        width: 250
+    })
+    .fontSize(12)
+    .font('Quicksand-Bold')
+    .text('Atenciosamente, ', 25, 765)
+    .text('Instituto Educacional Josival Penha', 25, 785)
+    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'logo-JP-aviso.png'), 250, 785, {
+        scale: 0.050
+    })
+
+    doc
+    .rect(305, 425, 285, 400)
+    .lineWidth(6)
+    .stroke('#ed3237')
+    .fill('#ffffff')
+    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'icon-aviso.png'), 430, 440, {
+        scale: 0.050
+    })
+    .fill('#0872fc')
+    .font('Quicksand-Bold')
+    .fontSize(28)
+    .fillColor('#0872fc')
+    .moveDown(0.2)
+    .text('Comunicado', 365, 490)
+    .fillColor('#ff5757')
+    .text('Escolar', 400)
+    .moveDown(0.5)
+    .font('Quicksand')
+    .fontSize(14)
+    .fillColor('#000000')
+    .text(text, 325, 585, {
+        width: 250
+    })
+    .fontSize(12)
+    .font('Quicksand-Bold')
+    .text('Atenciosamente, ', 325, 765)
+    .text('Instituto Educacional Josival Penha', 325, 785)
+    .image(path.resolve(__dirname, '..', '..', '..', 'public', 'logo-JP-aviso.png'), 550, 785, {
+        scale: 0.050
     })
     
     doc.on('end', () => {
