@@ -995,10 +995,8 @@ documents.post('/notification', async (req, res) => {
     .fillColor('#000000')
     .text(text)
     .font('Quicksand-Bold')
-    .moveDown(15)
-    .text('Atenciosamente, ')
-    .moveDown(0.5)
-    .text('Instituto Educacional Josival Penha')
+    .text('Atenciosamente, ', 60, 740)
+    .text('Instituto Educacional Josival Penha', 60, 770)
     .image(path.resolve(__dirname, '..', '..', '..', 'public', 'logo-JP-aviso.png'), 528, 773, {
         scale: 0.090
     })
