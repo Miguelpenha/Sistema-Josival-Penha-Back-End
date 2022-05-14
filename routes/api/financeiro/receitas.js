@@ -169,7 +169,7 @@ receitas.post('/', async (req, res) => {
         const data = dataUtil.completa(dataSistema).toLocaleDateString('pt-br')
         const hora = dataUtil.completa(criação).toLocaleTimeString('pt-br').split(':')
         const precoChecked = dinero({ amount: precoBruto, currency: 'BRL' }).toFormat()
-
+        
         receitasModels.create({
             nome,
             preco: precoChecked,
@@ -180,13 +180,13 @@ receitas.post('/', async (req, res) => {
             fixa,
             fixaDay: fixa ? fixaDay : undefined,
             observação,
-            months: {
+            months: fixa ? {
                 '01': {
                     precoBruto: precoBruto,
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/01/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/01/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/01/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '02': {
@@ -194,7 +194,7 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/02/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/02/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/02/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '03': {
@@ -202,7 +202,7 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/03/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/03/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/03/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '04': {
@@ -210,7 +210,7 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/04/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/04/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/04/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '05': {
@@ -218,7 +218,7 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/05/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/05/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/05/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '06': {
@@ -226,7 +226,7 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/06/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/06/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/06/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '07': {
@@ -234,7 +234,7 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/07/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/07/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/07/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '08': {
@@ -242,7 +242,7 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/08/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/08/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/08/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '09': {
@@ -250,7 +250,7 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/09/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/09/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/09/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '10': {
@@ -258,7 +258,7 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/10/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/10/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/10/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '11': {
@@ -266,7 +266,7 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/11/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/11/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/11/${fixaDay}`).toISOString(),
                     observação: ''
                 },
                 '12': {
@@ -274,10 +274,10 @@ receitas.post('/', async (req, res) => {
                     preco: precoChecked,
                     pago: false,
                     vencimento: `${fixaDay}/12/${new Date().toLocaleDateString().split('/')[2]}`,
-                    vencimentoSistema: new Date(`${fixaDay}/12/${new Date().toLocaleDateString().split('/')[2]}`).toISOString(),
+                    vencimentoSistema: new Date(`${new Date().toLocaleDateString().split('/')[2]}/12/${fixaDay}`).toISOString(),
                     observação: ''
                 }
-            },
+            } : undefined,
             criação: {
                 data: dataUtil.completa(criação).toLocaleDateString('pt-br'),
                 hora: `${hora[0]}:${hora[1]}`,
@@ -306,10 +306,11 @@ receitas.delete('/:id', async (req, res) => {
 })
 
 receitas.post('/:id', async (req, res) => {
+    Object.keys(req.body).map(key => req.body[key] = req.body[key] ? req.body[key] : undefined)
     const { id } = req.params
     let { nome, preco, data: dataSistema, investimento, fixa, fixaDay, observação, months } = req.body
     const receita = await receitasModels.findById(id)
-
+    
     if (!receita && nome === 'Mensalidades dos alunos') {
         res.json({exists: false})
     } else {
