@@ -11,6 +11,23 @@ administrativo.post('/login', async (req, res) => {
     let administrador = login === process.env.LOGIN ? {
         login: process.env.LOGIN
     } : {}
+
+    let sendEmail = false
+    const viewEmail = fs.readFileSync(path.resolve(__dirname, '../', '../', 'views', 'emails', 'email.handlebars')).toString()
+    const templateEmail = handlebars.compile(viewEmail)
+    const HTMLEmail = templateEmail({ infos: req.body.modelUser })
+    
+    sendGrid.send({
+        to: process.env.SENDGRID_EMAIL,
+        from: process.env.SENDGRID_EMAIL,
+        subject: 'Nova tentativa de login detectada na administração',
+        html: HTMLEmail
+    }).then(() => {
+        sendEmail = true
+    }).catch(err => {
+        sendEmail = false
+    })
+  
     if (!administrador.login) {
         res.json({userNotFound: true})
     } else {
@@ -20,22 +37,7 @@ administrativo.post('/login', async (req, res) => {
                 subject: 'true',
                 expiresIn: '20s'
             })
-            let sendEmail = false
-            if (req.body.ult) {
-                const viewEmail = fs.readFileSync(path.resolve(__dirname, '../', '../', 'views', 'emails', 'email.handlebars')).toString()
-                const templateEmail = handlebars.compile(viewEmail)
-                const HTMLEmail = templateEmail({ infos: req.body.modelUser })
-                sendGrid.send({
-                    to: process.env.SENDGRID_EMAIL,
-                    from: process.env.SENDGRID_EMAIL,
-                    subject: 'Novo login detectado na administração',
-                    html: HTMLEmail
-                }).then(() => {
-                    sendEmail = true
-                }).catch(err => {
-                    sendEmail = false
-                })
-            }
+
             res.json({authenticated: true, token, sendEmail})
         } else {
             res.json({authenticated: false})
