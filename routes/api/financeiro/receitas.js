@@ -37,18 +37,18 @@ receitas.get('/', async (req, res) => {
                 sistema: criação.toISOString()
             }
         }
-
+        
         if (month === 'full' || !month) {
             alunos.map(aluno => {
                 mesesNumbers.map(mês => {
                     const pagamento = aluno.pagamentos[mês]
-
+                    
                     if (pagamento.pago) {
                         mensalidades+=pagamento.valueBruto
-
+                        
                         months[mês] = {
-                            preco: dinero({ amount: months[mês] ? months[mês].valueBruto+pagamento.valueBruto : pagamento.valueBruto, currency: 'BRL' }).toFormat(),
-                            precoBruto: months[mês] ? months[mês].valueBruto+pagamento.valueBruto : pagamento.valueBruto
+                            preco: dinero({ amount: months[mês] ? months[mês].precoBruto+pagamento.valueBruto : pagamento.valueBruto, currency: 'BRL' }).toFormat(),
+                            precoBruto: months[mês] ? months[mês].precoBruto+pagamento.valueBruto : pagamento.valueBruto
                         }
                     } else {
                         if (!months[mês]) {
@@ -69,8 +69,8 @@ receitas.get('/', async (req, res) => {
 
                     if (pagamento.pago) {
                         months[mês] = {
-                            preco: dinero({ amount: months[mês] ? months[mês].valueBruto+pagamento.valueBruto : pagamento.valueBruto, currency: 'BRL' }).toFormat(),
-                            precoBruto: months[mês] ? months[mês].valueBruto+pagamento.valueBruto : pagamento.valueBruto
+                            preco: dinero({ amount: months[mês] ? months[mês].precoBruto+pagamento.valueBruto : pagamento.valueBruto, currency: 'BRL' }).toFormat(),
+                            precoBruto: months[mês] ? months[mês].precoBruto+pagamento.valueBruto : pagamento.valueBruto
                         }
                     } else {
                         if (!months[mês]) {
