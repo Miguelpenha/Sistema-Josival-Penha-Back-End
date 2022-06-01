@@ -16,7 +16,7 @@ const meses = require('../../../meses')
 dinero.globalLocale = 'pt-br'
 
 documents.post('/declaration', async (req, res) => {
-    const { id, frequencia: frequência } = req.body
+    const { id, frequência } = req.body
     let { bolsista } = req.body
 
     if (mongoose.isValidObjectId(id)) {
@@ -48,7 +48,7 @@ documents.post('/declaration', async (req, res) => {
         if (bolsista) {
             bolsista = true
         }
-
+        
         doc
         .opacity(0.15)
         .image(path.resolve(__dirname, '..', '..', '..', 'public', 'logo-josival-penha.png'), 150, 300, {
