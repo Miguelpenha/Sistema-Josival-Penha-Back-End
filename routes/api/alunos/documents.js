@@ -122,7 +122,7 @@ documents.post('/declaration', async (req, res) => {
             align: 'left'
         })
         .font('Helvetica')
-        .text(`, matriculado neste estabelecimento de Ensino no ${anoLetivo} do Ensino Fundamental.`, {
+        .text(`, matriculado(a) neste estabelecimento de Ensino no ${anoLetivo} do Ensino Fundamental.`, {
             align: 'left'
         })
         .moveDown(1.5)
