@@ -16,8 +16,7 @@ const meses = require('../../../meses')
 dinero.globalLocale = 'pt-br'
 
 documents.post('/declaration', async (req, res) => {
-    const { id, frequência } = req.body
-    let { bolsista } = req.body
+    const { id, frequência, bolsista } = req.body
 
     if (mongoose.isValidObjectId(id)) {
         const aluno = await alunosModels.findById(id)
@@ -37,10 +36,6 @@ documents.post('/declaration', async (req, res) => {
         doc.name = `Declaração de frequência do aluno(a) ${aluno.nome}`
 
         doc.on('data', chunks.push.bind(chunks))
-
-        if (bolsista) {
-            bolsista = true
-        }
         
         doc
         .opacity(0.15)
@@ -127,12 +122,12 @@ documents.post('/declaration', async (req, res) => {
         })
         .moveDown(1.5)
         
-        if (bolsista || bolsista === 'true') {
+        if (bolsista || typeof bolsista === 'string') {
             doc
             .text(`Aluno(a) bolsista`)
             .moveDown(0.5)
         }
-
+        
         doc
         .text(`Tem frequência de ${frequência}% dos dias letivos`)
         .moveDown(6.2)
