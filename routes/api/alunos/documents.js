@@ -130,7 +130,7 @@ documents.post('/declaration', async (req, res) => {
         })
         .font('Helvetica')
         .text(`, matriculado neste estabelecimento de Ensino no ${anoLetivo} do Ensino Fundamental${bolsista ? ' com bolsa de estudos.' : '.'}`, {
-            align: 'justify'
+            align: 'left'
         })
         .moveDown(1.5)
         .text(`Tem frequência de ${frequência}% dos dias letivos`)
