@@ -23,13 +23,6 @@ documents.post('/declaration', async (req, res) => {
         const aluno = await alunosModels.findById(id)
         const anoLetivo = (await turmasModels.findById(aluno.turma)).serie
 
-        try {
-            bolsista.length
-            bolsista = true
-        } catch {
-            
-        }
-
         const doc = new PDFDOCUMENT({size: 'A4', margin: 60, lang: 'pt-br', displayTitle: `Declaração de frequência do aluno(a) ${aluno.nome}`, info: {
             Title: `Declaração de frequência do aluno(a) ${aluno.nome}`,
             CreationDate: new Date(),
@@ -129,10 +122,18 @@ documents.post('/declaration', async (req, res) => {
             align: 'left'
         })
         .font('Helvetica')
-        .text(`, matriculado neste estabelecimento de Ensino no ${anoLetivo} do Ensino Fundamental${bolsista ? ' com bolsa de estudos.' : '.'}`, {
+        .text(`, matriculado neste estabelecimento de Ensino no ${anoLetivo} do Ensino Fundamental.`, {
             align: 'left'
         })
         .moveDown(1.5)
+        
+        if (bolsista || bolsista === 'true') {
+            doc
+            .text(`Aluno(a) bolsista`)
+            .moveDown(0.5)
+        }
+
+        doc
         .text(`Tem frequência de ${frequência}% dos dias letivos`)
         .moveDown(6.2)
         .fontSize(12)
