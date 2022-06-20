@@ -102,7 +102,7 @@ documents.post('/declaration', async (req, res) => {
             align: 'left'
         })
         .font('Helvetica')
-        .text(', filho de ', {
+        .text(', filho(a) de ', {
             continued: true,
             align: 'justify'
         })
