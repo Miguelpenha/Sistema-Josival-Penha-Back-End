@@ -15,7 +15,7 @@ const meses = require('../../../meses')
 
 dinero.globalLocale = 'pt-br'
 
-documents.post('/declaration', async (req, res) => {
+documents.all('/declaration', async (req, res) => {
     const id = req.body.id || req.query.id
     const frequência = req.body.frequência || req.query.frequência
     const bolsista = req.body.bolsista || req.query.bolsista
