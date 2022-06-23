@@ -16,8 +16,10 @@ const meses = require('../../../meses')
 dinero.globalLocale = 'pt-br'
 
 documents.post('/declaration', async (req, res) => {
-    const { id, frequência, bolsista } = req.body
-
+    const id = req.body.id || req.query.id
+    const frequência = req.body.frequência || req.query.frequência
+    const bolsista = req.body.bolsista || req.query.bolsista
+    
     if (mongoose.isValidObjectId(id)) {
         const aluno = await alunosModels.findById(id)
         const anoLetivo = (await turmasModels.findById(aluno.turma)).serie
@@ -123,9 +125,11 @@ documents.post('/declaration', async (req, res) => {
         .moveDown(1.5)
         
         if (bolsista || typeof bolsista === 'string') {
-            doc
-            .text(`Aluno(a) bolsista`)
-            .moveDown(0.5)
+            if (bolsista != 'false') {
+                doc
+                .text(`Aluno(a) bolsista`)
+                .moveDown(0.5)
+            }
         }
         
         doc
@@ -159,7 +163,7 @@ documents.post('/declaration', async (req, res) => {
 
         doc.end()
     } else {
-        res.status('400').json({error: 'Id inválido'})
+        res.status(400).json({error: 'Id inválido'})
     }
 })
 
