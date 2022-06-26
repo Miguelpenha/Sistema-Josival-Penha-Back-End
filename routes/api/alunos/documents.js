@@ -89,7 +89,7 @@ documents.all('/declaration', async (req, res) => {
             align: 'left'
         })
         .font('Helvetica')
-        .text(', nascido em: ', {
+        .text(', nascido(a) em: ', {
             continued: true,
             align: 'justify'
         })
