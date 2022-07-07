@@ -18,7 +18,6 @@ dinero.globalLocale = 'pt-br'
 documents.all('/declaration', async (req, res) => {
     const id = req.body.id || req.query.id
     const frequência = req.body.frequência || req.query.frequência
-    const bolsista = req.body.bolsista || req.query.bolsista
     
     if (mongoose.isValidObjectId(id)) {
         const aluno = await alunosModels.findById(id)
@@ -32,7 +31,7 @@ documents.all('/declaration', async (req, res) => {
             ModDate: new Date(),
             Producer: 'Sistema Josival Penha'
         }})
-
+        
         const chunks = []
 
         doc.name = `Declaração de frequência do aluno(a) ${aluno.nome}`
@@ -124,12 +123,10 @@ documents.all('/declaration', async (req, res) => {
         })
         .moveDown(1.5)
         
-        if (bolsista || typeof bolsista === 'string') {
-            if (bolsista != 'false') {
-                doc
-                .text(`Aluno(a) bolsista`)
-                .moveDown(0.5)
-            }
+        if (req.body.bolsista || typeof req.body.bolsista === 'string' || req.query.bolsista==='true') {
+            doc
+            .text(`Aluno(a) bolsista`)
+            .moveDown(0.5)
         }
         
         doc
